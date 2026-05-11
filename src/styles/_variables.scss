@@ -1,0 +1,23 @@
+$primary: #3ee0b5;
+$secondary: #eeee7a;
+$blanco: #fdfaf1;
+$negro: #373235;
+
+// Variables de UI compartidas
+$glass-bg: rgba(250, 247, 238, 0.35); // Blanco semi-transparente
+$glass-border: rgba(253, 250, 241, 0.6);
+$glass-blur: 12px;
+
+// Placeholder para Glassmorphism reusable
+%glass-pill-style {
+	background: $glass-bg;
+	backdrop-filter: blur($glass-blur);
+	-webkit-backdrop-filter: blur($glass-blur);
+	border: 1px solid $glass-border;
+	border-radius: 50px;
+	box-shadow: 0 4px 15px rgba(55, 50, 53, 0.05);
+	transition:
+		background-color 0.3s ease,
+		border-color 0.3s ease,
+		box-shadow 0.3s ease;
+}

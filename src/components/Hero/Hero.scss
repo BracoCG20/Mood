@@ -1,0 +1,203 @@
+@use "sass:color";
+@use "../../styles/variables" as *;
+
+/* Placeholder compartido para el efecto de luz (Shiny Effect) */
+%shiny-animation {
+	position: relative;
+	overflow: hidden;
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: -50%;
+		left: -120%; // Espacio suficiente para botones anchos
+		width: 60%;
+		height: 200%;
+		background: linear-gradient(
+			100deg,
+			rgba(255, 255, 255, 0) 20%,
+			rgba(255, 255, 255, 0.7) 50%,
+			rgba(255, 255, 255, 0) 80%
+		);
+		transform: skewX(-25deg);
+		transition: transform 0.6s ease-in-out;
+		z-index: 1;
+	}
+
+	&:hover::after {
+		transform: translateX(400%) skewX(-25deg);
+	}
+}
+
+.hero {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	padding: 0 2rem;
+	box-sizing: border-box;
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2.5rem;
+		max-width: 1000px;
+		z-index: 1;
+	}
+
+	&__title {
+		font-size: clamp(3rem, 8vw, 5.5rem);
+		font-weight: 700;
+		color: $negro;
+		text-align: center;
+		line-height: 1.05;
+		margin: 0;
+		letter-spacing: -0.04em;
+		justify-content: center;
+	}
+
+	&__paragraph {
+		font-size: 1.25rem;
+		font-weight: 400;
+		color: rgba($negro, 0.7);
+		text-align: center;
+		line-height: 1.6;
+		max-width: 700px;
+		margin: 0;
+		justify-content: center;
+	}
+
+	&__skills {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+		margin: 1rem 0;
+	}
+
+	&__skill-item {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		background-color: $blanco;
+		padding: 0.75rem 1.25rem;
+		border-radius: 14px; // Consistencia con el navbar y redes
+		border: 1px solid rgba($negro, 0.05);
+		transition: all 0.3s ease;
+		cursor: default;
+
+		&:hover {
+			border-color: $primary;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba($negro, 0.05);
+
+			.hero__skill-icon {
+				color: $primary;
+			}
+		}
+	}
+
+	&__skill-icon {
+		color: rgba($negro, 0.6);
+		transition: color 0.3s ease;
+	}
+
+	&__skill-text {
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: $negro;
+	}
+
+	/* Botones de acción principales */
+	&__actions {
+		display: flex;
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+
+	.btn-hero {
+		@extend %shiny-animation;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		padding: 1rem 2.2rem;
+		border-radius: 14px;
+		font-weight: 700;
+		font-size: 1rem;
+		cursor: pointer;
+		border: none;
+		transition:
+			background-color 0.3s ease,
+			color 0.3s ease,
+			opacity 0.3s ease;
+
+		// Aseguramos que el contenido quede por encima de la luz
+		span,
+		svg {
+			position: relative;
+			z-index: 2;
+		}
+
+		&--primary {
+			background-color: $primary;
+			color: $negro;
+			&:hover {
+				background-color: color.scale($primary, $lightness: -12%);
+			}
+		}
+
+		&--secondary {
+			background-color: $blanco;
+			color: $negro;
+			border: 1px solid rgba($negro, 0.1);
+			&:hover {
+				background-color: color.scale($blanco, $lightness: -6%);
+			}
+		}
+	}
+
+	/* Redes sociales Flotantes a la derecha */
+	&__socials-float {
+		position: absolute;
+		right: 2.5rem;
+		top: 50%;
+		transform: translateY(-50%);
+		display: flex;
+		flex-direction: column; // Colocación en columna
+		gap: 1rem;
+		z-index: 10;
+	}
+
+	&__social-link {
+		@extend %shiny-animation;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 50px;
+		height: 50px;
+		background-color: $blanco;
+		color: $negro;
+		border-radius: 14px;
+		text-decoration: none;
+		box-shadow: 0 4px 15px rgba($negro, 0.03);
+		transition: color 0.3s ease;
+
+		&:hover {
+			color: $primary;
+		}
+	}
+
+	&__social-icon {
+		position: relative;
+		z-index: 2;
+		transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+		.hero__social-link:hover & {
+			transform: scale(1.2); // El agrandado solo para iconos
+		}
+	}
+}

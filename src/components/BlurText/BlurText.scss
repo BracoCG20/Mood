@@ -1,0 +1,16 @@
+@use "../../styles/variables" as *;
+
+.blur-text {
+	&__segment {
+		display: inline-block;
+		will-change: transform, filter, opacity;
+
+		&--highlight {
+			background-color: $primary;
+			color: $negro;
+			padding: 0 0.4rem;
+			border-radius: 8px;
+			margin: 0 -0.1rem; // Pequeño ajuste para que el background no se vea separado
+		}
+	}
+}
