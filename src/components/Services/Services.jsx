@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
-import GradualBlur from '../GradualBlur/GradualBlur';
 import BlurText from '../BlurText/BlurText';
 import FadeContent from '../FadeContent/FadeContent';
 import './Services.scss';
@@ -59,7 +58,9 @@ const Services = () => {
     >
       <div className='services__container'>
         <div className='services__header'>
-          <h2 className='services__title'>Lo que hacemos</h2>
+          <h2 className='services__title'>
+            Potenciamos tu <span className='services__highlight'>marca</span>
+          </h2>
           <p className='services__description'>
             Soluciones creativas estructuradas con lógica cinética para impulsar
             tu marca en el entorno digital.
@@ -67,10 +68,9 @@ const Services = () => {
         </div>
 
         <div className='services__body'>
-          {/* Columna Izquierda animada con React Bits y Framer Motion */}
           <div className='services__info'>
             <BlurText
-              key={`title-${activeService.id}`} // La key resetea la animación al cambiar de servicio
+              key={`title-${activeService.id}`}
               text={activeService.title}
               delay={30}
               animateBy='words'
@@ -102,14 +102,13 @@ const Services = () => {
             </motion.button>
           </div>
 
-          {/* Columna Derecha fluida gracias al "layout" de Framer Motion */}
           <div className='services__gallery'>
             {SERVICES_DATA.map((service) => {
               const isActive = activeService.id === service.id;
 
               return (
                 <motion.div
-                  layout // <- ESTA ES LA MAGIA: Animación de hardware sin lag
+                  layout
                   key={service.id}
                   className={`services__card ${isActive ? 'services__card--active' : ''}`}
                   onClick={() => setActiveService(service)}
@@ -118,36 +117,14 @@ const Services = () => {
                   aria-label={`Ver detalles de ${service.title}`}
                   transition={{
                     layout: { type: 'spring', stiffness: 200, damping: 25 },
-                  }} // Curva de rebote sutil
-                >
-                  <motion.div
-                    layout
-                    className='services__card-overlay'
-                  >
-                    <motion.span
-                      layout
-                      className='services__card-title'
-                    >
-                      {service.title}
-                    </motion.span>
-                  </motion.div>
-                </motion.div>
+                  }}
+                />
+                // Hemos eliminado todo el contenido interno (textos y overlays)
               );
             })}
           </div>
         </div>
       </div>
-
-      <GradualBlur
-        target='parent'
-        position='bottom'
-        height='8rem'
-        strength={3}
-        divCount={6}
-        curve='ease-out'
-        exponential
-        opacity={1}
-      />
     </section>
   );
 };

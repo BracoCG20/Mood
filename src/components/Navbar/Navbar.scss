@@ -1,145 +1,182 @@
-@use "../../styles/variables" as *;
+@use '../../styles/variables' as *;
+
+/* Efecto base de cristal */
+%glass-pill {
+  background: rgba($blanco, 0.7); // Usa tu variable de color claro/blanco aquí
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba($negro, 0.05);
+  border: 1px solid rgba($negro, 0.03);
+}
 
 .header {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	padding: 1.5rem 2rem;
-	z-index: 10;
+  position: fixed; // Fixed para que baje con el usuario
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  z-index: 1000;
+  transition: padding 0.4s ease;
+
+  // --- MAGIA DEL COMPACTADO (SCROLL) ---
+  &--scrolled {
+    padding: 1rem 2rem; // Achicamos márgenes superiores e inferiores
+
+    .navbar {
+      @extend %glass-pill; // El Navbar entero se vuelve cristal
+      padding: 0.5rem 1.5rem;
+      max-width: 900px; // Se reduce el ancho
+    }
+
+    // Quitamos los fondos de las píldoras internas para no duplicar el cristal
+    .navbar__nav,
+    .navbar__actions {
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      box-shadow: none;
+      border-color: transparent;
+    }
+
+    .navbar__actions {
+      padding: 0;
+    }
+  }
 }
 
 .navbar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	max-width: 1200px;
-	margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 0;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 
-	&__logo {
-		height: 45px;
-		width: auto;
-	}
+  &__brand {
+    display: flex;
+    align-items: center;
+    transition: opacity 0.3s ease;
 
-	&__brand {
-		display: flex;
-		align-items: center;
-		transition: opacity 0.3s ease;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 
-		&:hover {
-			opacity: 0.8;
-		}
-	}
-	/* Placeholder para Glassmorphism */
-	%glass-pill {
-		background: rgba($glass-bg, 0.8);
-		backdrop-filter: blur($glass-blur);
-		-webkit-backdrop-filter: blur($glass-blur);
-		border-radius: 14px;
-		box-shadow: 0 4px 15px rgba(55, 50, 53, 0.05);
-	}
+  &__logo {
+    height: 40px; // Ajusta según el tamaño de tu SVG
+    width: auto;
+    display: block;
+  }
 
-	&__nav {
-		@extend %glass-pill;
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		list-style: none;
-		margin: 0;
-		padding: 0.5rem 1rem;
-	}
+  &__nav {
+    @extend %glass-pill;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    transition: all 0.4s ease;
+  }
 
-	&__link {
-		text-decoration: none;
-		color: $negro;
-		font-weight: 500;
-		font-size: 0.9rem;
-		padding: 0.5rem 1.2rem;
-		border-radius: 8px;
-		transition: all 0.3s ease;
-		display: block;
-		&:hover {
-			background-color: rgba($primary, 0.8);
-			color: $negro;
-		}
-	}
+  &__item {
+    margin: 0;
+    padding: 0;
+  }
 
-	&__actions {
-		@extend %glass-pill;
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		padding: 0.35rem; // Padding uniforme para contener los elementos
-		padding-left: 1.2rem;
-	}
+  &__link {
+    text-decoration: none;
+    color: $negro;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: block;
 
-	/* Selector de Idiomas */
-	&__lang-selector {
-		display: flex;
-		gap: 0.5rem;
-	}
+    &:hover {
+      background-color: rgba($primary, 0.8);
+      color: $negro;
+    }
+  }
 
-	&__lang-btn {
-		background: none;
-		border: none;
-		color: rgba($negro, 0.5);
-		font-weight: 700;
-		font-size: 0.85rem;
-		cursor: pointer;
-		transition: color 0.3s ease;
-		padding: 0.2rem 0.4rem;
+  &__actions {
+    @extend %glass-pill;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.35rem;
+    padding-left: 1.2rem;
+    transition: all 0.4s ease;
+  }
 
-		&--active {
-			color: $negro;
-			position: relative;
+  &__lang-selector {
+    display: flex;
+    gap: 0.5rem;
+  }
 
-			// Indicador sutil de selección
-			&::after {
-				content: "";
-				position: absolute;
-				bottom: 0;
-				left: 50%;
-				transform: translateX(-50%);
-				width: 4px;
-				height: 4px;
-				background-color: $primary;
-				border-radius: 50%;
-			}
-		}
+  &__lang-btn {
+    background: none;
+    border: none;
+    color: rgba($negro, 0.5);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    padding: 0.2rem 0.4rem;
 
-		&:hover:not(&--active) {
-			color: rgba($negro, 0.8);
-		}
-	}
+    &--active {
+      color: $negro;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        background-color: $primary;
+        border-radius: 50%;
+      }
+    }
+
+    &:hover:not(&--active) {
+      color: rgba($negro, 0.8);
+    }
+  }
 }
 
-/* Botón Contacto sin efectos de hover agresivos */
 .btn {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	padding: 0.6rem 1.25rem;
-	border-radius: 10px;
-	text-decoration: none;
-	font-weight: 600;
-	font-size: 0.9rem;
-	border: none;
-	transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  transition: all 0.3s ease;
 
-	&--contact {
-		background-color: $primary;
-		color: $negro;
-		cursor: pointer;
+  &--contact {
+    background-color: $primary;
+    color: $negro;
+    cursor: pointer;
 
-		// Eliminamos el transform y el oscurecimiento del hover previo
-		&:hover {
-			transform: none;
-			background-color: $primary;
-			opacity: 0.9; // Solo un cambio de opacidad muy sutil
-		}
-	}
+    &:hover {
+      background-color: darken($primary, 5%);
+      opacity: 0.95;
+    }
+  }
 
-	&__icon {
-		margin-left: 0.25rem;
-	}
+  &__icon {
+    display: flex;
+    align-items: center;
+  }
 }

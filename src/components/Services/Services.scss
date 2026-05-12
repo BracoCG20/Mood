@@ -35,23 +35,24 @@
     color: $negro;
     margin: 0;
     text-align: center;
-    line-height: 1.1;
+    line-height: 1.2;
     letter-spacing: -0.03em;
+    // Subrayado eliminado de aquí
+  }
 
-    // Subrayado elegante
-    position: relative;
-    padding-bottom: 1rem;
+  &__highlight {
+    background-color: $primary; // Color de resalte
+    color: $negro;
+    padding: 0 0.25em; // Espacio a los lados de la palabra
+    border-radius: 12px; // Bordes curvos estilo píldora
+    display: inline-block;
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px; // Tamaño pequeño y sobrio
-      height: 5px;
-      background-color: $primary;
-      border-radius: 10px;
+    // Opcional: Una ligerísima rotación le da un toque muy de agencia creativa moderna
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: rotate(0deg) scale(1.05); // Pequeña micro-interacción al pasar el mouse
     }
   }
 
@@ -94,6 +95,22 @@
     margin: 0;
     line-height: 1.2;
     letter-spacing: -0.02em;
+
+    // Subrayado elegante reubicado aquí
+    position: relative;
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.5rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0; // A la izquierda porque el texto está alineado a la izquierda
+      width: 50px;
+      height: 4px;
+      background-color: $primary;
+      border-radius: 10px;
+    }
   }
 
   &__info-desc {
@@ -149,72 +166,28 @@
       content: '';
       position: absolute;
       top: -50%;
-      left: -150%; // Empieza bien a la izquierda
+      left: -150%;
       width: 80%;
       height: 200%;
       background: linear-gradient(
         100deg,
         rgba(255, 255, 255, 0) 20%,
         rgba(255, 255, 255, 0.4) 50%,
-        // Opacidad sutil para que se vea la foto
         rgba(255, 255, 255, 0) 80%
       );
       transform: skewX(-25deg);
       transition: transform 0.6s ease-in-out;
       z-index: 1;
-      pointer-events: none; // Evita que bloquee los clicks de la tarjeta
-    }
-
-    &-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 1.5rem 1rem;
-      background: linear-gradient(
-        to top,
-        rgba($negro, 0.8) 0%,
-        rgba($negro, 0) 100%
-      );
-      display: flex;
-      align-items: flex-end;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 2; // Para que el texto quede sobre el reflejo
-    }
-
-    &-title {
-      color: $blanco;
-      font-weight: 700;
-      font-size: 1.1rem;
-      white-space: nowrap;
-      transform: rotate(-90deg);
-      transform-origin: left bottom;
-      position: absolute;
-      bottom: 2rem;
-      left: 2rem;
-      transition: all 0.4s ease;
-      z-index: 2;
+      pointer-events: none;
     }
 
     &--active {
       flex: 4;
       filter: grayscale(0%) brightness(1);
       cursor: default;
-
-      .services__card-overlay {
-        opacity: 1;
-      }
-
-      .services__card-title {
-        transform: rotate(0deg);
-        bottom: 1.5rem;
-        left: 1.5rem;
-        font-size: 1.5rem;
-      }
     }
 
-    /* Solucionado: Solo filtro y reflejo al hover, nada de cambios de tamaño */
+    /* Solo filtro y reflejo al hover, nada de textos ni overlays */
     &:not(&--active):hover {
       filter: grayscale(30%) brightness(0.9);
 
