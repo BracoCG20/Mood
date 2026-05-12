@@ -51,27 +51,31 @@ const Testimonials = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % REVIEWS.length);
-    }, 4000);
+    }, 4500);
     return () => clearInterval(timer);
   }, []);
 
-  // CAMBIO: Animación ahora es en el eje X (Horizontal)
+  // --- CORRECCIÓN: Animación en eje X (Horizontal) y sin desenfoque lateral ---
   const cardVariants = {
+    // Tarjeta Central (Activa)
     active: { x: '0%', scale: 1, opacity: 1, filter: 'blur(0px)', zIndex: 3 },
+    // Tarjeta Izquierda (Prev)
     prev: {
-      x: '-55%',
+      x: '-80%',
       scale: 0.85,
       opacity: 0.4,
-      filter: 'blur(4px)',
+      filter: 'blur(3px)', // Sin desenfoque
       zIndex: 2,
-    }, // Se desplaza a la izquierda
+    },
+    // Tarjeta Derecha (Next)
     next: {
-      x: '55%',
+      x: '80%',
       scale: 0.85,
       opacity: 0.4,
-      filter: 'blur(4px)',
+      filter: 'blur(3px)', // Sin desenfoque
       zIndex: 2,
-    }, // Se desplaza a la derecha
+    },
+    // Tarjetas ocultas
     hidden: {
       x: '0%',
       scale: 0.5,
@@ -89,7 +93,6 @@ const Testimonials = () => {
       <div className='testimonials__container'>
         {/* Columna 1: SEO Copywriting */}
         <div className='testimonials__seo-column'>
-          {/* Eliminado el span de "Casos de éxito" */}
           <h2 className='testimonials__title'>
             Resultados que hablan por <span>sí solos.</span>
           </h2>
@@ -101,7 +104,7 @@ const Testimonials = () => {
           </p>
         </div>
 
-        {/* Columna 2: Carrusel Infinito Horizontal */}
+        {/* Columna 2: Carrusel Horizontal */}
         <div className='testimonials__carousel-column'>
           <div className='testimonials__carousel'>
             {REVIEWS.map((review, i) => {
@@ -130,24 +133,27 @@ const Testimonials = () => {
                   variants={cardVariants}
                   initial='hidden'
                   animate={position}
-                  transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
+                  transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
                   onClick={() => setActiveIndex(i)}
                 >
-                  <p className='review-card__text'>{review.text}</p>
+                  {/* Imagen de fondo (Protagonista) */}
+                  <img
+                    src={review.image}
+                    alt={review.name}
+                    className='review-card__background'
+                    loading='lazy'
+                  />
 
-                  <div className='review-card__author'>
-                    <img
-                      src={review.image}
-                      alt={review.name}
-                      className='review-card__avatar'
-                      loading='lazy'
-                    />
+                  {/* Contenedor inferior con el efecto difuminado */}
+                  <div className='review-card__content'>
                     <div className='review-card__meta'>
                       <h4 className='review-card__name'>{review.name}</h4>
                       <span className='review-card__company'>
                         {review.company}
                       </span>
                     </div>
+
+                    <p className='review-card__text'>{review.text}</p>
                   </div>
                 </motion.div>
               );
