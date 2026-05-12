@@ -1,23 +1,227 @@
-@use "../../styles/variables" as *;
+@use '../../styles/variables' as *;
 
 .services {
-	min-height: 100vh;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 4rem 2rem;
-	box-sizing: border-box;
-	background-color: $blanco;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 2rem;
+  box-sizing: border-box;
+  background-color: $blanco;
+  overflow: hidden;
 
-	&__container {
-		width: 100%;
-		max-width: 1200px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+  &__container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    z-index: 1;
+  }
 
-	// Ya no necesitamos la clase __title aquí, la manejará ScrollFloat
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__title {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 900;
+    color: $negro;
+    margin: 0;
+    text-align: center;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+
+    // Subrayado elegante
+    position: relative;
+    padding-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px; // Tamaño pequeño y sobrio
+      height: 5px;
+      background-color: $primary;
+      border-radius: 10px;
+    }
+  }
+
+  &__description {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: rgba($negro, 0.7);
+    text-align: center;
+    max-width: 650px;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  /* --- Layout a 2 Columnas --- */
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: 450px;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  /* Columna Izquierda: Información */
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  &__info-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $negro;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  &__info-desc {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: rgba($negro, 0.7);
+    margin: 0;
+  }
+
+  .btn-service {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    background-color: $negro;
+    color: $blanco;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $primary;
+      color: $negro;
+      transform: translateX(5px);
+    }
+  }
+
+  /* Columna Derecha: Galería Interactiva */
+  &__gallery {
+    display: flex;
+    gap: 1rem;
+    height: 450px;
+    width: 100%;
+  }
+
+  &__card {
+    position: relative;
+    flex: 1;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: filter 0.5s ease;
+    filter: grayscale(80%) brightness(0.7);
+
+    // Efecto de reflejo (Shiny Effect)
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -150%; // Empieza bien a la izquierda
+      width: 80%;
+      height: 200%;
+      background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.4) 50%,
+        // Opacidad sutil para que se vea la foto
+        rgba(255, 255, 255, 0) 80%
+      );
+      transform: skewX(-25deg);
+      transition: transform 0.6s ease-in-out;
+      z-index: 1;
+      pointer-events: none; // Evita que bloquee los clicks de la tarjeta
+    }
+
+    &-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem 1rem;
+      background: linear-gradient(
+        to top,
+        rgba($negro, 0.8) 0%,
+        rgba($negro, 0) 100%
+      );
+      display: flex;
+      align-items: flex-end;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2; // Para que el texto quede sobre el reflejo
+    }
+
+    &-title {
+      color: $blanco;
+      font-weight: 700;
+      font-size: 1.1rem;
+      white-space: nowrap;
+      transform: rotate(-90deg);
+      transform-origin: left bottom;
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      transition: all 0.4s ease;
+      z-index: 2;
+    }
+
+    &--active {
+      flex: 4;
+      filter: grayscale(0%) brightness(1);
+      cursor: default;
+
+      .services__card-overlay {
+        opacity: 1;
+      }
+
+      .services__card-title {
+        transform: rotate(0deg);
+        bottom: 1.5rem;
+        left: 1.5rem;
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Solucionado: Solo filtro y reflejo al hover, nada de cambios de tamaño */
+    &:not(&--active):hover {
+      filter: grayscale(30%) brightness(0.9);
+
+      // Disparamos el destello de luz
+      &::before {
+        transform: translateX(350%) skewX(-25deg);
+      }
+    }
+  }
 }
