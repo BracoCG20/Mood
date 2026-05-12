@@ -1,0 +1,23 @@
+@use "../../styles/variables" as *;
+
+.services {
+	min-height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 4rem 2rem;
+	box-sizing: border-box;
+	background-color: $blanco;
+
+	&__container {
+		width: 100%;
+		max-width: 1200px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	// Ya no necesitamos la clase __title aquí, la manejará ScrollFloat
+}

@@ -1,21 +1,18 @@
 @use "../../styles/variables" as *;
 
 .home {
-	// Fondo exterior (los márgenes) en color blanco
 	background-color: $blanco;
 	min-height: 100vh;
-	// Padding para separar el marco de los bordes de la pantalla
 	padding: 1rem;
 	box-sizing: border-box;
 
 	&__hero-frame {
-		position: relative;
+		position: relative; // Volvemos a relative
 		width: 100%;
 		height: calc(100vh - 2rem);
 		border-radius: 16px;
 		overflow: hidden;
-
-		// Nuevo fondo sólido aplicado directamente al marco
+		border: 1px solid rgba($negro, 0.05);
 		background-color: #ecf0ec;
 	}
 }
