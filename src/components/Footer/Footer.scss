@@ -1,0 +1,193 @@
+@use "../../styles/variables" as *;
+
+.footer {
+	width: 100%;
+	background-color: transparent; // Hereda el gris oscuro del padre
+	color: $blanco;
+	display: flex;
+	justify-content: center;
+	padding: 6rem 2rem 2rem; // Más espacio arriba para respirar después de Testimonials
+	box-sizing: border-box;
+
+	&__container {
+		width: 100%;
+		max-width: 1200px;
+		display: flex;
+		flex-direction: column;
+		gap: 5rem; // Separación entre el contenido principal y los legales
+	}
+
+	&__top {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 4rem;
+
+		@media (max-width: 968px) {
+			flex-direction: column;
+			gap: 3rem;
+		}
+	}
+
+	/* --- SECCIÓN IZQUIERDA (Marca) --- */
+	&__brand-section {
+		max-width: 500px;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	&__logo {
+		font-size: 2rem;
+		font-weight: 900;
+		color: $blanco;
+		letter-spacing: -0.02em;
+	}
+
+	&__slogan {
+		font-size: clamp(1.5rem, 3vw, 2.2rem);
+		font-weight: 500;
+		line-height: 1.2;
+		color: rgba($blanco, 0.9);
+		margin: 0;
+		letter-spacing: -0.01em;
+	}
+
+	&__jobs {
+		margin-top: 1rem;
+	}
+
+	/* --- SECCIÓN DERECHA (Navegación) --- */
+	&__nav-section {
+		display: flex;
+		gap: 3rem;
+		align-items: flex-start;
+
+		@media (max-width: 768px) {
+			flex-wrap: wrap;
+			gap: 2rem;
+			width: 100%;
+			justify-content: space-between;
+		}
+	}
+
+	&__nav-group {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		// La línea vertical elegante de tu referencia
+		border-left: 1px solid rgba($blanco, 0.1);
+		padding-left: 1.5rem;
+	}
+
+	&__nav-title {
+		font-size: 0.75rem;
+		font-weight: 700;
+		color: rgba($blanco, 0.5);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin: 0;
+	}
+
+	&__nav-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.8rem;
+	}
+
+	&__nav-link {
+		color: $blanco;
+		text-decoration: none;
+		font-size: 1rem;
+		font-weight: 500;
+		transition: opacity 0.3s ease;
+
+		&:hover {
+			opacity: 0.6;
+		}
+	}
+
+	/* --- BOTONES ESPECÍFICOS --- */
+	.btn-jobs {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		text-decoration: none;
+
+		// Contenedor principal estilo "píldora"
+		&__text {
+			background-color: rgba($blanco, 0.1);
+			color: $blanco;
+			padding: 0.8rem 1.5rem;
+			border-radius: 50px;
+			font-weight: 600;
+			font-size: 0.9rem;
+			transition: background-color 0.3s ease;
+		}
+
+		// Botón cuadrado con flecha
+		&__icon {
+			background-color: $primary; // Usamos tu turquesa/verde
+			color: $negro;
+			width: 45px;
+			height: 45px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 12px;
+			transition: transform 0.3s ease;
+		}
+
+		&:hover {
+			.btn-jobs__text {
+				background-color: rgba($blanco, 0.15);
+			}
+			.btn-jobs__icon {
+				transform: translateX(4px); // Microinteracción
+			}
+		}
+	}
+
+	&__scroll-top {
+		background: transparent;
+		border: 1px solid rgba($blanco, 0.2);
+		color: $blanco;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		margin-left: 2rem; // Separarlo de los links
+
+		&:hover {
+			background-color: $blanco;
+			color: $negro;
+			transform: translateY(-5px);
+		}
+
+		@media (max-width: 768px) {
+			margin-left: 0;
+		}
+	}
+
+	/* --- LEGALES (Bottom) --- */
+	&__bottom {
+		border-top: 1px solid rgba($blanco, 0.1);
+		padding-top: 2rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		p {
+			margin: 0;
+			font-size: 0.9rem;
+			color: rgba($blanco, 0.5);
+		}
+	}
+}

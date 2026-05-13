@@ -1,181 +1,171 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 .testimonials {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 6rem 2rem;
-  box-sizing: border-box;
-  background-color: $blanco;
-  position: relative;
-  z-index: 2;
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 6rem 2rem;
+	box-sizing: border-box;
+	background-color: $blanco;
 
-  &__container {
-    width: 100%;
-    max-width: 1200px;
-    display: grid;
-    // Mantenemos la asimetría para dar más espacio a los logos
-    grid-template-columns: 1fr 1.1fr;
-    gap: 4rem;
-    align-items: center;
+	border-bottom-left-radius: 48px;
+	border-bottom-right-radius: 48px;
 
-    @media (max-width: 968px) {
-      grid-template-columns: 1fr;
-      gap: 4rem;
-      text-align: center;
-    }
-  }
+	&__container {
+		width: 100%;
+		max-width: 1200px;
+		display: grid;
+		grid-template-columns: 1fr 1.1fr;
+		gap: 4rem;
+		align-items: center;
 
-  /* --- COLUMNA IZQUIERDA: SEO --- */
-  &__seo-column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
+		@media (max-width: 968px) {
+			grid-template-columns: 1fr;
+			gap: 4rem;
+			text-align: center;
+		}
+	}
 
-    @media (max-width: 968px) {
-      align-items: center;
-    }
-  }
+	&__seo-column {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.5rem;
+	}
 
-  &__title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 900;
-    color: $negro;
-    line-height: 1.1;
-    margin: 0;
-    letter-spacing: -0.02em;
+	&__title {
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		font-weight: 900;
+		color: $negro;
+		line-height: 1.1;
+		margin: 0;
+		letter-spacing: -0.02em;
 
-    span {
-      color: $primary;
-    }
-  }
+		span {
+			color: $primary;
+		}
+	}
 
-  &__paragraph {
-    font-size: 1.15rem;
-    line-height: 1.7;
-    color: rgba($negro, 0.7);
-    margin: 0;
+	&__paragraph {
+		font-size: 1.15rem;
+		line-height: 1.7;
+		color: rgba($negro, 0.7);
+		margin: 0;
+	}
 
-    strong {
-      color: $negro;
-      font-weight: 700;
-    }
-  }
+	&__carousel-column {
+		width: 100%;
+		height: 550px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 
-  /* --- CORRECCIÓN: COLUMNA DERECHA PARA CARRUSEL HORIZONTAL --- */
-  &__carousel-column {
-    width: 100%;
-    height: 550px; // Se ajusta al contenido
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__carousel {
-    position: relative;
-    width: 100%;
-    // --- DIMENSIONES PARA TARJETA HORIZONTAL (Cover Flow) ---
-    max-width: 340px; // Ancho base de la tarjeta central
-    height: 500px; // Altura base de la tarjeta central
-
-    display: flex;
-    justify-content: center; // Centramos horizontalmente las tarjetas
-    align-items: center;
-    pointer-events: none;
-  }
+	&__carousel {
+		position: relative;
+		width: 100%;
+		max-width: 300px;
+		height: 400px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		pointer-events: none;
+	}
 }
 
-/* --- ESTILOS DE LA TARJETA (Vertical con imagen de fondo) --- */
 .review-card {
-  position: absolute;
-  width: 100%;
-  height: 100%; // Toma la altura de 400px del contenedor
-  background-color: #000;
-  border-radius: 24px;
-  box-shadow: 0 25px 60px rgba($negro, 0.2);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	border-radius: 18px;
+	box-shadow: 0 25px 60px rgba($negro, 0.2);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	overflow: hidden;
+	cursor: pointer;
+	will-change: transform, opacity, filter;
+	border: none;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+	&__background {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: 1;
+	}
 
-  overflow: hidden;
-  cursor: pointer;
-  will-change: transform, opacity, filter;
-  border: 1px solid rgba($blanco, 0.1);
+	&__content {
+		position: relative;
+		z-index: 2;
+		width: 100%;
+		padding: 4rem 2rem 2rem;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		gap: 0.8rem;
 
-  /* Imagen de fondo (Protagonista absoluta) */
-  &__background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; // Se estira perfectamente
-    z-index: 1;
-  }
+		// CORRECCIÓN: Garantizamos que todos los textos internos siempre estén por encima del desenfoque
+		& > * {
+			position: relative;
+			z-index: 2;
+		}
 
-  /* Contenedor inferior difuminado (Glassmorphism sobre imagen) */
-  &__content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    padding: 2rem; // Padding restaurado para horizontal
-    box-sizing: border-box;
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			// CORRECCIÓN: z-index a 0 para que se quede detrás de los textos (z-index: 2)
+			z-index: 0;
+			background: linear-gradient(
+				to top,
+				rgba(#000, 0.95) 0%,
+				rgba(#000, 0.7) 40%,
+				rgba(#000, 0) 100%
+			);
+			backdrop-filter: blur(12px);
+			-webkit-backdrop-filter: blur(12px);
+			-webkit-mask-image: linear-gradient(to top, black 50%, transparent 100%);
+			mask-image: linear-gradient(to top, black 50%, transparent 100%);
+		}
+	}
 
-    // --- CORRECCIÓN: REVELAR LA CARA Y SUAVIZAR EL DEGRADADO ---
-    // Degradado: menos agresivo arriba, más suave
-    background: linear-gradient(
-      to top,
-      rgba(#000, 0.9) 0%,
-      // Negro profundo abajo
-      rgba(#000, 0.5) 40%,
-      // Suave en el medio
-      rgba(#000, 0) 100% // Transparente arriba para revelar la cara
-    );
+	&__text {
+		font-size: 0.8rem;
+		line-height: 1.5;
+		color: rgba($blanco, 0.8);
+		font-style: italic;
+		font-weight: 400;
+		margin: 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
 
-    // CORRECCIÓN: Desenfoque reducido para legibilidad pero revelando la cara
-    backdrop-filter: blur(5px); // Reducido de 15px
-    -webkit-backdrop-filter: blur(5px);
+	&__meta {
+		display: flex;
+		flex-direction: column;
+	}
 
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
+	&__name {
+		margin: 0;
+		font-size: 1.2rem;
+		font-weight: 700;
+		color: $blanco;
+	}
 
-  &__text {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: rgba($blanco, 0.85);
-    font-style: italic;
-    font-weight: 500;
-    margin: 0;
-
-    // Truncamos texto a 3 líneas para horizontal
-    display: -webkit-box;
-    -webkit-line-clamp: 3; // Reducido de 4
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  &__meta {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__name {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: $blanco;
-    letter-spacing: -0.01em;
-  }
-
-  &__company {
-    font-size: 0.95rem;
-    color: $primary;
-    font-weight: 600;
-  }
+	&__company {
+		font-size: 0.85rem;
+		color: $primary;
+		font-weight: 600;
+	}
 }

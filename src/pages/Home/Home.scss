@@ -3,16 +3,24 @@
 .home {
 	background-color: $blanco;
 	min-height: 100vh;
-	padding: 1rem;
 	box-sizing: border-box;
 
 	&__hero-frame {
-		position: relative; // Volvemos a relative
-		width: 100%;
+		margin: 1rem;
+		// position: relative; // Volvemos a relative
+		width: calc(100% - 2rem);
 		height: calc(100vh - 2rem);
+
+		position: relative;
 		border-radius: 16px;
 		overflow: hidden;
 		border: 1px solid rgba($negro, 0.05);
 		background-color: #ecf0ec;
+	}
+	&__footer-area {
+		width: 100%;
+		background-color: #1c1c1e;
+		display: flex;
+		flex-direction: column;
 	}
 }
