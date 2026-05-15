@@ -9,7 +9,8 @@ import './Home.scss';
 
 const Home = () => {
   return (
-    <div className='home'>
+    // CORRECCIÓN: Cambiamos <div> por <main> para crear el Landmark
+    <main className='home'>
       <div className='home__hero-frame'>
         <Navbar />
         <Hero />
@@ -23,7 +24,6 @@ const Home = () => {
         <Footer />
       </div>
 
-      {/* NUEVO: Contenedor para ocultarlo en móvil */}
       <div className='home__desktop-blur'>
         <GradualBlur
           target='page'
@@ -36,7 +36,7 @@ const Home = () => {
           opacity={1}
         />
       </div>
-    </div>
+    </main>
   );
 };
 

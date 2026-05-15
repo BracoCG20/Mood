@@ -51,6 +51,8 @@ const Navbar = () => {
             src={logoMood}
             alt='Mood Logo'
             className='navbar__logo'
+            width='120'
+            height='40'
           />
         </a>
 

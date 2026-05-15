@@ -12,7 +12,7 @@ const SERVICES_DATA = [
     description:
       'Construimos identidades memorables que conectan profundamente con tu audiencia. No solo creamos logos, diseñamos la esencia y el alma de tu marca para que destaque con autoridad en un mercado saturado.',
     image:
-      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=600&q=80&fm=webp',
   },
   {
     id: 'web',
@@ -20,7 +20,7 @@ const SERVICES_DATA = [
     description:
       'Desarrollamos plataformas digitales ultrarrápidas, intuitivas y centradas en la conversión. Tu sitio web no será solo un escaparate bonito, será tu mejor y más rentable herramienta de ventas 24/7.',
     image:
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80&fm=webp',
   },
   {
     id: 'marketing',
@@ -28,7 +28,7 @@ const SERVICES_DATA = [
     description:
       'Estrategias basadas en datos que multiplican tu ROI. Dominamos el ecosistema digital para posicionar tu mensaje y tus ofertas exactamente donde y cuando están tus clientes potenciales.',
     image:
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80&fm=webp',
   },
   {
     id: 'social',
@@ -36,7 +36,7 @@ const SERVICES_DATA = [
     description:
       'Transformamos simples seguidores en embajadores de marca. Creamos comunidades activas mediante contenido auténtico y estrategias de interacción que generan impacto real y lealtad.',
     image:
-      'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80&fm=webp',
   },
   {
     id: 'audiovisual',
@@ -44,7 +44,7 @@ const SERVICES_DATA = [
     description:
       'Contamos la historia de tu marca a través de narrativas visuales de alto impacto. Producción de video y fotografía cinematográfica que capturan la atención desde el primer segundo.',
     image:
-      'https://images.unsplash.com/photo-1660326269462-b3a6b6743ea6?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1660326269462-b3a6b6743ea6?auto=format&fit=crop&w=600&q=80&fm=webp',
   },
 ];
 

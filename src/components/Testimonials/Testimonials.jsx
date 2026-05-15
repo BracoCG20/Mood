@@ -8,7 +8,7 @@ const REVIEWS = [
     name: 'Carlos Mendoza',
     company: 'Director General, AutoStar',
     image:
-      'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80&fm=webp',
     text: '"El equipo de Mood transformó por completo nuestra estrategia de captación. No solo rediseñaron nuestra identidad, sino que las ventas online crecieron un 45% en el primer trimestre. Son verdaderos estrategas."',
   },
   {
@@ -16,7 +16,7 @@ const REVIEWS = [
     name: 'Lucía Santamarina',
     company: 'CMO, Grupo Bahía',
     image:
-      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80&fm=webp',
     text: '"Buscábamos una agencia que entendiera nuestra visión y la superara. El contenido audiovisual y el diseño web que entregaron están en otro nivel. Entienden perfectamente el lenguaje digital actual."',
   },
   {
@@ -24,7 +24,7 @@ const REVIEWS = [
     name: 'Roberto Vilela',
     company: 'CEO, Marcan',
     image:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=80&fm=webp',
     text: '"La comunicación y la agilidad de esta agencia son destacables. Estructuraron nuestras campañas de pauta publicitaria bajando nuestro costo de adquisición en tiempo récord. Altamente recomendados."',
   },
   {
@@ -32,7 +32,7 @@ const REVIEWS = [
     name: 'Andrea Ruiz',
     company: 'Founder, Santa Ana',
     image:
-      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80&fm=webp',
     text: '"El rebranding que hicieron para nuestra marca superó cualquier expectativa. Desde el logotipo hasta la estrategia en redes sociales, todo respira profesionalismo y creatividad."',
   },
   {
@@ -40,7 +40,7 @@ const REVIEWS = [
     name: 'Martín Torres',
     company: 'Gerente de Marketing, iShop',
     image:
-      'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=1000&q=80',
+      'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80&fm=webp',
     text: '"Una agencia que realmente se compromete con tus resultados. Las métricas de interacción en nuestros canales digitales se multiplicaron gracias a su gestión de comunidades."',
   },
 ];
@@ -145,10 +145,12 @@ const Testimonials = () => {
                     alt={review.name}
                     className='review-card__background'
                     loading='lazy'
+                    width={400}
+                    height={600}
                   />
                   <div className='review-card__content'>
                     <div className='review-card__meta'>
-                      <h4 className='review-card__name'>{review.name}</h4>
+                      <h3 className='review-card__name'>{review.name}</h3>
                       <span className='review-card__company'>
                         {review.company}
                       </span>
