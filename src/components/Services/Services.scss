@@ -13,6 +13,11 @@
   background-color: $blanco;
   overflow: hidden;
 
+  @media (max-width: 900px) {
+    padding: 4rem 1.5rem;
+    min-height: auto; // Quitamos el alto forzado en móvil
+  }
+
   &__container {
     width: 100%;
     max-width: 1200px;
@@ -20,6 +25,10 @@
     flex-direction: column;
     gap: 4rem;
     z-index: 1;
+
+    @media (max-width: 900px) {
+      gap: 3rem;
+    }
   }
 
   &__header {
@@ -37,22 +46,19 @@
     text-align: center;
     line-height: 1.2;
     letter-spacing: -0.03em;
-    // Subrayado eliminado de aquí
   }
 
   &__highlight {
-    background-color: $primary; // Color de resalte
+    background-color: $primary;
     color: $negro;
-    padding: 0 0.25em; // Espacio a los lados de la palabra
-    border-radius: 12px; // Bordes curvos estilo píldora
+    padding: 0 0.25em;
+    border-radius: 12px;
     display: inline-block;
-
-    // Opcional: Una ligerísima rotación le da un toque muy de agencia creativa moderna
     transform: rotate(-2deg);
     transition: transform 0.3s ease;
 
     &:hover {
-      transform: rotate(0deg) scale(1.05); // Pequeña micro-interacción al pasar el mouse
+      transform: rotate(0deg) scale(1.05);
     }
   }
 
@@ -64,9 +70,12 @@
     max-width: 650px;
     margin: 0;
     font-weight: 400;
+
+    @media (max-width: 900px) {
+      font-size: 1.1rem;
+    }
   }
 
-  /* --- Layout a 2 Columnas --- */
   &__body {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
@@ -75,17 +84,22 @@
     min-height: 450px;
 
     @media (max-width: 900px) {
-      grid-template-columns: 1fr;
-      gap: 3rem;
+      grid-template-columns: 1fr; // Se vuelve una sola columna
+      gap: 2rem;
+      min-height: auto;
     }
   }
 
-  /* Columna Izquierda: Información */
   &__info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
+
+    @media (max-width: 900px) {
+      align-items: center;
+      text-align: center;
+    }
   }
 
   &__info-title {
@@ -95,8 +109,6 @@
     margin: 0;
     line-height: 1.2;
     letter-spacing: -0.02em;
-
-    // Subrayado elegante reubicado aquí
     position: relative;
     padding-bottom: 0.8rem;
     margin-bottom: 0.5rem;
@@ -105,11 +117,16 @@
       content: '';
       position: absolute;
       bottom: 0;
-      left: 0; // A la izquierda porque el texto está alineado a la izquierda
+      left: 0;
       width: 50px;
       height: 4px;
       background-color: $primary;
       border-radius: 10px;
+
+      @media (max-width: 900px) {
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
 
@@ -118,6 +135,11 @@
     line-height: 1.7;
     color: rgba($negro, 0.7);
     margin: 0;
+    min-height: 120px; // Evita que los botones salten mucho de altura entre textos largos/cortos
+
+    @media (max-width: 900px) {
+      min-height: 140px;
+    }
   }
 
   .btn-service {
@@ -142,12 +164,78 @@
     }
   }
 
-  /* Columna Derecha: Galería Interactiva */
+  // ==========================================
+  // CONTROLES MÓVILES (Sliders)
+  // ==========================================
+  &__mobile-controls {
+    display: none; // Ocultos por defecto en PC
+
+    @media (max-width: 900px) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 350px;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba($negro, 0.1);
+    }
+  }
+
+  &__control-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba($negro, 0.15);
+    background-color: transparent;
+    color: $negro;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $primary;
+      border-color: $primary;
+    }
+  }
+
+  &__indicators {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba($negro, 0.15);
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0;
+
+    &--active {
+      background-color: $primary;
+      width: 24px;
+      border-radius: 4px;
+    }
+  }
+
+  // ==========================================
+  // GALERÍA (Acordeón Desktop)
+  // ==========================================
   &__gallery {
     display: flex;
     gap: 1rem;
     height: 450px;
     width: 100%;
+
+    // MAGIA: Ocultamos completamente las imágenes en tablet/móvil
+    @media (max-width: 900px) {
+      display: none;
+    }
   }
 
   &__card {
@@ -161,7 +249,6 @@
     transition: filter 0.5s ease;
     filter: grayscale(80%) brightness(0.7);
 
-    // Efecto de reflejo (Shiny Effect)
     &::before {
       content: '';
       position: absolute;
@@ -187,11 +274,8 @@
       cursor: default;
     }
 
-    /* Solo filtro y reflejo al hover, nada de textos ni overlays */
     &:not(&--active):hover {
       filter: grayscale(30%) brightness(0.9);
-
-      // Disparamos el destello de luz
       &::before {
         transform: translateX(350%) skewX(-25deg);
       }

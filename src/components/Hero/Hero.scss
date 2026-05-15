@@ -1,248 +1,266 @@
-@use "sass:color";
-@use "../../styles/variables" as *;
+@use 'sass:color';
+@use '../../styles/variables' as *;
 
 %shiny-animation {
-	position: relative;
-	overflow: hidden;
+  position: relative;
+  overflow: hidden;
 
-	&::after {
-		content: "";
-		position: absolute;
-		top: -50%;
-		left: -120%;
-		width: 60%;
-		height: 200%;
-		background: linear-gradient(
-			100deg,
-			rgba(255, 255, 255, 0) 20%,
-			rgba(255, 255, 255, 0.7) 50%,
-			rgba(255, 255, 255, 0) 80%
-		);
-		transform: skewX(-25deg);
-		transition: transform 0.6s ease-in-out;
-		z-index: 1;
-	}
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -120%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    transform: skewX(-25deg);
+    transition: transform 0.6s ease-in-out;
+    z-index: 1;
+  }
 
-	&:hover::after {
-		transform: translateX(400%) skewX(-25deg);
-	}
+  &:hover::after {
+    transform: translateX(400%) skewX(-25deg);
+  }
 }
 
 .hero {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	padding: 0 2rem;
-	box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box;
 
-	@media (max-width: 768px) {
-		padding: 0 1rem;
-		margin-top: 4rem; // Espacio para el navbar fijo en móvil
-	}
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    margin-top: 4rem;
+  }
 
-	&__container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2.5rem;
-		max-width: 1000px;
-		z-index: 1;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 1000px;
+    z-index: 1;
 
-		@media (max-width: 768px) {
-			gap: 1.5rem;
-		}
-	}
+    @media (max-width: 768px) {
+      gap: 1.5rem;
+    }
+  }
 
-	&__title {
-		// Reducimos un poco el piso mínimo de la tipografía para móviles muy pequeños
-		font-size: clamp(2.5rem, 8vw, 5.5rem);
-		font-weight: 700;
-		color: $negro;
-		text-align: center;
-		line-height: 1.05;
-		margin: 0;
-		letter-spacing: -0.04em;
-		justify-content: center;
-	}
+  &__title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.4em;
+    row-gap: 0.2em;
 
-	&__paragraph {
-		font-size: 1.25rem;
-		font-weight: 400;
-		color: rgba($negro, 0.7);
-		text-align: center;
-		line-height: 1.6;
-		max-width: 700px;
-		margin: 0;
-		justify-content: center;
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    font-weight: 700;
+    color: $negro;
+    text-align: center;
+    line-height: 1.1;
+    margin: 0;
+    letter-spacing: -0.04em;
+  }
 
-		@media (max-width: 768px) {
-			font-size: 1rem;
-		}
-	}
+  &__rotating-text {
+    background-color: $primary;
+    color: $negro;
+    padding: 0 0.3em;
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba($primary, 0.3);
+  }
 
-	&__skills {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 1rem;
-		margin: 1rem 0;
+  &__paragraph {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: rgba($negro, 0.7);
+    text-align: center;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0;
+    justify-content: center;
 
-		@media (max-width: 768px) {
-			gap: 0.5rem;
-		}
-	}
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
 
-	&__skill-item {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		background-color: $blanco;
-		padding: 0.75rem 1.25rem;
-		border-radius: 14px;
-		border: 1px solid rgba($negro, 0.05);
-		transition: all 0.3s ease;
-		cursor: default;
+  &__skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
 
-		@media (max-width: 768px) {
-			padding: 0.5rem 0.8rem;
-		}
+    @media (max-width: 768px) {
+      gap: 0.5rem;
+    }
+  }
 
-		&:hover {
-			border-color: $primary;
-			transform: translateY(-2px);
-			box-shadow: 0 4px 12px rgba($negro, 0.05);
+  &__skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: $blanco;
+    padding: 0.75rem 1.25rem;
+    border-radius: 14px;
+    border: 1px solid rgba($negro, 0.05);
+    transition: all 0.3s ease;
+    cursor: default;
 
-			.hero__skill-icon {
-				color: $primary;
-			}
-		}
-	}
+    @media (max-width: 768px) {
+      padding: 0.5rem 0.8rem;
+    }
 
-	&__skill-icon {
-		color: rgba($negro, 0.6);
-		transition: color 0.3s ease;
-	}
+    &:hover {
+      border-color: $primary;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($negro, 0.05);
 
-	&__skill-text {
-		font-size: 0.9rem;
-		font-weight: 600;
-		color: $negro;
+      .hero__skill-icon {
+        color: $primary;
+      }
+    }
+  }
 
-		@media (max-width: 768px) {
-			font-size: 0.8rem;
-		}
-	}
+  &__skill-icon {
+    color: rgba($negro, 0.6);
+    transition: color 0.3s ease;
+  }
 
-	/* Botones de acción principales */
-	&__actions {
-		display: flex;
-		gap: 1rem;
-		margin-top: 1rem;
+  &__skill-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $negro;
 
-		@media (max-width: 768px) {
-			flex-direction: column; // Apilamos en celular
-			width: 100%;
-			gap: 0.8rem;
-		}
-	}
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+    }
+  }
 
-	.btn-hero {
-		@extend %shiny-animation;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.75rem;
-		padding: 1rem 2.2rem;
-		border-radius: 14px;
-		font-weight: 700;
-		font-size: 1rem;
-		cursor: pointer;
-		border: none;
-		transition:
-			background-color 0.3s ease,
-			color 0.3s ease,
-			opacity 0.3s ease;
+  /* --- CORRECCIÓN: BOTONES --- */
+  &__actions {
+    display: flex;
+    flex-direction: row; // Forzamos que estén lado a lado
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
 
-		@media (max-width: 768px) {
-			width: 100%; // Botones ancho total
-			padding: 1rem;
-		}
+    // Cambiamos el quiebre a 480px (solo móviles pequeños)
+    @media (max-width: 480px) {
+      flex-direction: column;
+      width: 100%;
+      gap: 0.8rem;
+    }
+  }
 
-		span,
-		svg {
-			position: relative;
-			z-index: 2;
-		}
+  .btn-hero {
+    @extend %shiny-animation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 2.2rem;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      opacity 0.3s ease;
 
-		&--primary {
-			background-color: $primary;
-			color: $negro;
-			&:hover {
-				background-color: color.scale($primary, $lightness: -12%);
-			}
-		}
+    // Cambiamos también aquí el quiebre a 480px
+    @media (max-width: 480px) {
+      width: 100%;
+      padding: 1rem;
+    }
 
-		&--secondary {
-			background-color: $blanco;
-			color: $negro;
-			border: 1px solid rgba($negro, 0.1);
-			&:hover {
-				background-color: color.scale($blanco, $lightness: -6%);
-			}
-		}
-	}
+    span,
+    svg {
+      position: relative;
+      z-index: 2;
+    }
 
-	/* Redes sociales - Bajan al fondo en móviles */
-	&__socials-float {
-		position: absolute;
-		right: 2.5rem;
-		top: 50%;
-		transform: translateY(-50%);
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		z-index: 10;
+    &--primary {
+      background-color: $primary;
+      color: $negro;
+      &:hover {
+        background-color: color.scale($primary, $lightness: -12%);
+      }
+    }
 
-		@media (max-width: 1024px) {
-			// Las volvemos horizontales y las ponemos debajo del hero
-			position: relative;
-			right: auto;
-			top: auto;
-			transform: none;
-			flex-direction: row;
-			margin-top: 2.5rem;
-		}
-	}
+    &--secondary {
+      background-color: $blanco;
+      color: $negro;
+      border: 1px solid rgba($negro, 0.1);
+      &:hover {
+        background-color: color.scale($blanco, $lightness: -6%);
+      }
+    }
+  }
 
-	&__social-link {
-		@extend %shiny-animation;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 50px;
-		height: 50px;
-		background-color: $blanco;
-		color: $negro;
-		border-radius: 14px;
-		text-decoration: none;
-		box-shadow: 0 4px 15px rgba($negro, 0.03);
-		transition: color 0.3s ease;
+  &__socials-float {
+    position: absolute;
+    right: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 10;
 
-		&:hover {
-			color: $primary;
-		}
-	}
+    @media (max-width: 1024px) {
+      position: relative;
+      right: auto;
+      top: auto;
+      transform: none;
+      flex-direction: row;
+      margin-top: 2.5rem;
+    }
+  }
 
-	&__social-icon {
-		position: relative;
-		z-index: 2;
-		transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  &__social-link {
+    @extend %shiny-animation;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: $blanco;
+    color: $negro;
+    border-radius: 14px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba($negro, 0.03);
+    transition: color 0.3s ease;
 
-		.hero__social-link:hover & {
-			transform: scale(1.2);
-		}
-	}
+    &:hover {
+      color: $primary;
+    }
+  }
+
+  &__social-icon {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    .hero__social-link:hover & {
+      transform: scale(1.2);
+    }
+  }
 }

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import BlurText from '../BlurText/BlurText';
 import FadeContent from '../FadeContent/FadeContent';
@@ -50,6 +50,43 @@ const SERVICES_DATA = [
 
 const Services = () => {
   const [activeService, setActiveService] = useState(SERVICES_DATA[0]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 1. Detectar si estamos en Tablet/Móvil
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+    checkMobile(); // Check inicial
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const currentIndex = SERVICES_DATA.findIndex(
+    (s) => s.id === activeService.id,
+  );
+
+  // 2. Funciones para navegar los slides
+  const handleNext = useCallback(() => {
+    setActiveService(SERVICES_DATA[(currentIndex + 1) % SERVICES_DATA.length]);
+  }, [currentIndex]);
+
+  const handlePrev = useCallback(() => {
+    setActiveService(
+      SERVICES_DATA[
+        (currentIndex - 1 + SERVICES_DATA.length) % SERVICES_DATA.length
+      ],
+    );
+  }, [currentIndex]);
+
+  // 3. Autoplay: Solo se activa en móvil, cambia cada 6 segundos y se reinicia si el usuario hace clic.
+  useEffect(() => {
+    if (!isMobile) return;
+    const timer = setInterval(() => {
+      handleNext();
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isMobile, handleNext]);
 
   return (
     <section
@@ -88,7 +125,7 @@ const Services = () => {
             </FadeContent>
 
             <motion.button
-              key={`btn-${activeService.id}`}
+              // key={`btn-${activeService.id}`}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
@@ -100,18 +137,48 @@ const Services = () => {
                 strokeWidth={2}
               />
             </motion.button>
+
+            {/* --- CONTROLES MÓVILES (Ocultos en Desktop) --- */}
+            <div className='services__mobile-controls'>
+              <button
+                className='services__control-btn'
+                onClick={handlePrev}
+                aria-label='Servicio anterior'
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              <div className='services__indicators'>
+                {SERVICES_DATA.map((service, index) => (
+                  <button
+                    key={`dot-${service.id}`}
+                    className={`services__dot ${index === currentIndex ? 'services__dot--active' : ''}`}
+                    onClick={() => setActiveService(service)}
+                    aria-label={`Ir al servicio ${service.title}`}
+                  />
+                ))}
+              </div>
+
+              <button
+                className='services__control-btn'
+                onClick={handleNext}
+                aria-label='Siguiente servicio'
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
           </div>
 
+          {/* --- GALERÍA (Se ocultará en móvil mediante CSS) --- */}
           <div className='services__gallery'>
             {SERVICES_DATA.map((service) => {
               const isActive = activeService.id === service.id;
-
               return (
                 <motion.div
                   layout
                   key={service.id}
                   className={`services__card ${isActive ? 'services__card--active' : ''}`}
-                  onClick={() => setActiveService(service)}
+                  onMouseEnter={() => setActiveService(service)}
                   style={{ backgroundImage: `url(${service.image})` }}
                   role='button'
                   aria-label={`Ver detalles de ${service.title}`}
@@ -119,7 +186,6 @@ const Services = () => {
                     layout: { type: 'spring', stiffness: 200, damping: 25 },
                   }}
                 />
-                // Hemos eliminado todo el contenido interno (textos y overlays)
               );
             })}
           </div>
