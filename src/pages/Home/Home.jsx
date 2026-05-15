@@ -21,6 +21,7 @@ const Home = () => {
 			{/* MAGIA: Envolvemos ambos componentes en un solo padre oscuro */}
 			<div className='home__footer-area'>
 				<Testimonials />
+
 				<Footer />
 			</div>
 

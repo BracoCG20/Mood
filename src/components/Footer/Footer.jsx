@@ -1,11 +1,13 @@
 import { ArrowUp, ArrowRight } from "lucide-react";
+import Linkedin from "../Icons/Linkedin";
+import Instagram from "../Icons/Instagram";
+import Facebook from "../Icons/Facebook";
+import logoMood from "../../assets/Logo_Mood.svg";
 import "./Footer.scss";
 
 const Footer = () => {
-	// Lógica para que el año se actualice automáticamente
 	const currentYear = new Date().getFullYear();
 
-	// Función para volver al inicio de forma suave
 	const scrollToTop = () => {
 		window.scrollTo({
 			top: 0,
@@ -17,15 +19,17 @@ const Footer = () => {
 		<footer className='footer'>
 			<div className='footer__container'>
 				<div className='footer__top'>
-					{/* Columna Izquierda: Marca, Lema y CTA */}
+					{/* Columna Izquierda: Marca Oficial, Lema y CTA */}
 					<div className='footer__brand-section'>
-						<span className='footer__logo'>Mood.</span>
+						<img src={logoMood} alt='Mood Logo' className='footer__logo' />
+
 						<h2 className='footer__slogan'>
 							Impulsando marcas con lógica cinética y creatividad pura.
 						</h2>
 
 						<div className='footer__jobs'>
 							<a href='#trabajo' className='btn-jobs'>
+								{/* Estructura perfecta para la animación compleja */}
 								<span className='btn-jobs__text'>Únete al equipo</span>
 								<span className='btn-jobs__icon'>
 									<ArrowRight size={18} />
@@ -36,45 +40,57 @@ const Footer = () => {
 
 					{/* Columna Derecha: Links y Scroll Top */}
 					<div className='footer__nav-section'>
-						{/* Grupo 1: Navegación (Igual al Navbar) */}
+						{/* Grupo 1: Navegación */}
 						<div className='footer__nav-group'>
 							<h4 className='footer__nav-title'>NAVEGAR</h4>
 							<ul className='footer__nav-list'>
 								<li>
-									<a href='#servicios' className='footer__nav-link'>
-										Servicios
+									<a href='#adn' className='footer__nav-link'>
+										ADN Mood
 									</a>
 								</li>
 								<li>
-									<a href='#proyectos' className='footer__nav-link'>
-										Proyectos
+									<a href='#print' className='footer__nav-link'>
+										Mood Print
 									</a>
 								</li>
 								<li>
-									<a href='#agencia' className='footer__nav-link'>
-										Agencia
+									<a href='#what' className='footer__nav-link'>
+										#What'sYourMood
 									</a>
 								</li>
 							</ul>
 						</div>
 
-						{/* Grupo 2: Redes */}
+						{/* Grupo 2: Redes Sociales */}
 						<div className='footer__nav-group'>
 							<h4 className='footer__nav-title'>CONECTAR</h4>
-							<ul className='footer__nav-list'>
+							<ul className='footer__nav-list footer__nav-list--social'>
 								<li>
-									<a href='#linkedin' className='footer__nav-link'>
-										LinkedIn
+									<a
+										href='#linkedin'
+										className='footer__social-link'
+										aria-label='LinkedIn'
+									>
+										<Linkedin size={24} strokeWidth={1.5} />
 									</a>
 								</li>
 								<li>
-									<a href='#instagram' className='footer__nav-link'>
-										Instagram
+									<a
+										href='#instagram'
+										className='footer__social-link'
+										aria-label='Instagram'
+									>
+										<Instagram size={24} strokeWidth={1.5} />
 									</a>
 								</li>
 								<li>
-									<a href='#behance' className='footer__nav-link'>
-										Behance
+									<a
+										href='#facebook'
+										className='footer__social-link'
+										aria-label='Facebook'
+									>
+										<Facebook size={24} strokeWidth={1.5} />
 									</a>
 								</li>
 							</ul>
@@ -91,7 +107,7 @@ const Footer = () => {
 					</div>
 				</div>
 
-				{/* Línea inferior: Copyright dinámico */}
+				{/* Línea inferior: Copyright */}
 				<div className='footer__bottom'>
 					<p>&copy; {currentYear} Mood. Todos los derechos reservados.</p>
 				</div>

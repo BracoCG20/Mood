@@ -1,12 +1,42 @@
 @use "../../styles/variables" as *;
 
+$gris-card: #1c1c1e;
+
+/* --- EL MISMO EFECTO DE REFLEJO DEL HERO --- */
+%shiny-animation {
+	position: relative;
+	overflow: hidden;
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: -50%;
+		left: -120%;
+		width: 60%;
+		height: 200%;
+		background: linear-gradient(
+			100deg,
+			rgba(255, 255, 255, 0) 20%,
+			rgba(255, 255, 255, 0.4) 50%,
+			rgba(255, 255, 255, 0) 80%
+		);
+		transform: skewX(-25deg);
+		transition: transform 0.6s ease-in-out;
+		z-index: 1;
+	}
+
+	&:hover::after {
+		transform: translateX(400%) skewX(-25deg);
+	}
+}
+
 .footer {
 	width: 100%;
-	background-color: transparent; // Hereda el gris oscuro del padre
+	background-color: transparent;
 	color: $blanco;
 	display: flex;
 	justify-content: center;
-	padding: 6rem 2rem 2rem; // Más espacio arriba para respirar después de Testimonials
+	padding: 6rem 2rem 2rem;
 	box-sizing: border-box;
 
 	&__container {
@@ -14,7 +44,7 @@
 		max-width: 1200px;
 		display: flex;
 		flex-direction: column;
-		gap: 5rem; // Separación entre el contenido principal y los legales
+		gap: 5rem;
 	}
 
 	&__top {
@@ -34,14 +64,15 @@
 		max-width: 500px;
 		display: flex;
 		flex-direction: column;
+		align-items: flex-start;
 		gap: 1.5rem;
 	}
 
 	&__logo {
-		font-size: 2rem;
-		font-weight: 900;
-		color: $blanco;
-		letter-spacing: -0.02em;
+		height: 45px;
+		width: auto;
+		object-fit: contain;
+		align-self: flex-start;
 	}
 
 	&__slogan {
@@ -51,6 +82,7 @@
 		color: rgba($blanco, 0.9);
 		margin: 0;
 		letter-spacing: -0.01em;
+		text-align: left;
 	}
 
 	&__jobs {
@@ -75,7 +107,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-		// La línea vertical elegante de tu referencia
 		border-left: 1px solid rgba($blanco, 0.1);
 		padding-left: 1.5rem;
 	}
@@ -96,6 +127,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.8rem;
+
+		&--social {
+			flex-direction: row;
+			gap: 1.25rem;
+		}
 	}
 
 	&__nav-link {
@@ -110,65 +146,123 @@
 		}
 	}
 
-	/* --- BOTONES ESPECÍFICOS --- */
+	/* --- ICONOS DE REDES SOCIALES --- */
+	&__social-link {
+		@extend %shiny-animation;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 45px;
+		height: 45px;
+		background-color: rgba($blanco, 0.05);
+		border: 1px solid rgba($blanco, 0.1);
+		border-radius: 12px;
+		color: $blanco;
+		transition: all 0.3s ease;
+		text-decoration: none;
+
+		svg {
+			position: relative;
+			z-index: 2;
+			transition: transform 0.3s ease;
+		}
+
+		&:hover {
+			background-color: $primary;
+			color: $negro;
+			border-color: $primary;
+
+			svg {
+				transform: scale(1.1);
+			}
+		}
+	}
+
+	&__social-icon {
+		width: 20px;
+		height: 20px;
+		fill: currentColor;
+	}
+
+	/* --- BOTÓN EMPLEOS --- */
 	.btn-jobs {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
 		text-decoration: none;
+		transition: all 0.3s ease;
 
-		// Contenedor principal estilo "píldora"
-		&__text {
-			background-color: rgba($blanco, 0.1);
-			color: $blanco;
-			padding: 0.8rem 1.5rem;
-			border-radius: 50px;
-			font-weight: 600;
-			font-size: 0.9rem;
-			transition: background-color 0.3s ease;
-		}
-
-		// Botón cuadrado con flecha
-		&__icon {
-			background-color: $primary; // Usamos tu turquesa/verde
-			color: $negro;
-			width: 45px;
-			height: 45px;
+		& > span {
+			@extend %shiny-animation;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			box-sizing: border-box;
+			height: 48px;
 			border-radius: 12px;
-			transition: transform 0.3s ease;
+			transition: all 0.4s ease;
+
+			span,
+			svg {
+				position: relative;
+				z-index: 2;
+			}
 		}
 
+		&__text {
+			background-color: rgba($blanco, 0.1);
+			color: $blanco;
+			padding: 0 1.5rem;
+			font-weight: 600;
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+		}
+
+		&__icon {
+			background-color: $primary;
+			color: $negro;
+			width: 48px;
+		}
+
+		/* CORRECCIÓN: Eliminado el transform: scale(1.02) */
 		&:hover {
 			.btn-jobs__text {
-				background-color: rgba($blanco, 0.15);
+				background-color: $primary;
+				color: $negro;
 			}
+
 			.btn-jobs__icon {
-				transform: translateX(4px); // Microinteracción
+				background-color: rgba($blanco, 0.1);
+				color: $blanco;
 			}
 		}
 	}
 
+	/* --- BOTÓN SCROLL TOP --- */
 	&__scroll-top {
-		background: transparent;
+		@extend %shiny-animation;
+		background: rgba($blanco, 0.05);
 		border: 1px solid rgba($blanco, 0.2);
 		color: $blanco;
 		width: 50px;
 		height: 50px;
-		border-radius: 50%;
+		border-radius: 12px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		cursor: pointer;
 		transition: all 0.3s ease;
-		margin-left: 2rem; // Separarlo de los links
+		margin-left: 2rem;
+
+		svg {
+			position: relative;
+			z-index: 2;
+		}
 
 		&:hover {
 			background-color: $blanco;
 			color: $negro;
-			transform: translateY(-5px);
 		}
 
 		@media (max-width: 768px) {

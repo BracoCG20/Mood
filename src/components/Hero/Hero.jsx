@@ -57,7 +57,6 @@ const Hero = () => {
 					))}
 				</div>
 
-				{/* Nuevos botones de acción principal */}
 				<div className='hero__actions'>
 					<button className='btn-hero btn-hero--primary'>
 						<span>Hablemos</span>
@@ -70,7 +69,6 @@ const Hero = () => {
 				</div>
 			</div>
 
-			{/* Redes sociales flotantes a la derecha */}
 			<aside className='hero__socials-float'>
 				<a
 					href='https://facebook.com'
