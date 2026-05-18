@@ -66,13 +66,13 @@ const Navbar = () => {
             </Link>
           </li>
           <li className='navbar__item'>
-            {/* CORRECCIÓN: Agregamos la '/' para que funcione desde cualquier página */}
-            <a
-              href='/#print'
-              className='navbar__link'
+            <Link
+              to='/mood-print'
+              // LÓGICA ACTIVE: Si la ruta es '/adn-mood', agregamos la clase activa
+              className={`navbar__link ${location.pathname === '/mood-print' ? 'navbar__link--active' : ''}`}
             >
               Mood Print
-            </a>
+            </Link>
           </li>
           <li className='navbar__item'>
             <a
@@ -136,13 +136,14 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <a
-              href='/#print'
-              className='mobile-panel__link'
+            <Link
+              to='/mood-print'
+              // LÓGICA ACTIVE PARA MÓVIL
+              className={`mobile-panel__link ${location.pathname === '/mood-print' ? 'mobile-panel__link--active' : ''}`}
               onClick={closeMenu}
             >
               Mood Print
-            </a>
+            </Link>
           </li>
           <li>
             <a
