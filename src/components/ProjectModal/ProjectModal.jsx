@@ -28,6 +28,8 @@ const ProjectModal = ({ project, onClose }) => {
           <img
             src={project.img}
             alt={project.title}
+            crossOrigin='anonymous'
+            referrerPolicy='no-referrer'
           />
         </div>
 
