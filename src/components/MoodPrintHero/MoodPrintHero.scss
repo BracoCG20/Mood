@@ -81,24 +81,34 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    gap: 0.25em; /* Ajustado a espaciado natural */
+    gap: 0.25em;
     width: 100%;
+
+    /* MAGIA RESPONSIVE: Permite que "extraordinarias" baje en móviles */
+    @media (max-width: 576px) {
+      flex-wrap: wrap;
+      gap: 0.5em; /* Un poco más de aire vertical cuando se apilan */
+    }
   }
 
   &__title {
-    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    /* CORRECCIÓN: Bajamos el tamaño mínimo de 2.5rem a 2rem para que quepa la palabra larga */
+    font-size: clamp(2rem, 8vw, 5.5rem);
     font-weight: 900;
     color: $blanco;
     line-height: 1.1;
     letter-spacing: -0.04em;
     margin: 0;
 
-    /* Configuración para el BlurText interno */
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
     text-align: center;
-    gap: 0.25em; /* Separación natural entre palabras */
+    gap: 0.25em;
+
+    @media (max-width: 576px) {
+      flex-wrap: wrap;
+    }
 
     &--light {
       color: rgba($blanco, 0.4);
@@ -106,9 +116,9 @@
     }
   }
 
-  /* --- ESTILO DE LA PALABRA DESTACADA (ROTADA) --- */
   &__highlight {
-    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    /* CORRECCIÓN: Mismo ajuste de tamaño que el título */
+    font-size: clamp(2rem, 8vw, 5.5rem);
     font-weight: 900;
     color: $negro !important;
     background-color: $primary;
@@ -128,7 +138,6 @@
     }
   }
 
-  /* --- SUBTÍTULO GUÍA --- */
   &__subtitle {
     font-size: 1.15rem;
     color: rgba($blanco, 0.7);
@@ -140,11 +149,28 @@
 
     @media (max-width: 768px) {
       font-size: 1rem;
+      padding: 0 1rem; /* Un poco de margen extra a los lados en móvil */
     }
   }
 
   &__categories {
     padding-top: 1rem;
+  }
+
+  /* --- ANIMACIÓN CSS 100% SEGURA --- */
+  &__fade-in {
+    animation: fadeUpOnce 0.8s cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+}
+
+@keyframes fadeUpOnce {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -217,21 +243,4 @@
       }
     }
   }
-}
-
-/* --- ANIMACIÓN ESTÁTICA PARA QUE NO DESAPAREZCAN AL SCROLLEAR --- */
-@keyframes fadeUpOnce {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.mood-print-hero__fade-in {
-  opacity: 0;
-  animation: fadeUpOnce 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }

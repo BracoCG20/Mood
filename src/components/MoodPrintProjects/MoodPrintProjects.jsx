@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react'; // <-- IMPORTAMOS EL ICONO DE CERRAR
 import FadeContent from '../FadeContent/FadeContent';
 import Masonry from '../Masonry/Masonry';
+import ProjectModal from '../ProjectModal/ProjectModal'; // <-- IMPORTAMOS EL MODAL
 import './MoodPrintProjects.scss';
 
-// 1. Datos enriquecidos con cliente, fecha, título y descripción
+// ... (Aquí van tus const PROJECTS_DATA y CATEGORY_INFO intactos) ...
 const PROJECTS_DATA = [
   {
     id: '1',
@@ -16,6 +16,7 @@ const PROJECTS_DATA = [
       'Desarrollamos una nueva identidad visual que transmite innovación y confianza. El proyecto incluyó desde el rediseño del logotipo hasta la implementación del manual de marca en todos los puntos de contacto digitales.',
     img: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=800&q=80',
     height: 700,
+    url: 'https://ejemplo.com',
   },
   {
     id: '2',
@@ -27,6 +28,7 @@ const PROJECTS_DATA = [
       'Diseño y desarrollo de una plataforma e-commerce ultra rápida y optimizada para conversión, reduciendo la tasa de abandono en un 40% durante el primer mes.',
     img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=800&q=80',
     height: 500,
+    url: 'https://ejemplo.com',
   },
   {
     id: '3',
@@ -38,6 +40,7 @@ const PROJECTS_DATA = [
       'Estrategia integral de pauta digital que combinó Google Ads y Meta Ads, logrando un alcance de más de 2 millones de impresiones y un ROI superior al 300%.',
     img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80',
     height: 900,
+    url: 'https://ejemplo.com',
   },
   {
     id: '4',
@@ -49,6 +52,7 @@ const PROJECTS_DATA = [
       'Generación de contenido dinámico y gestión de comunidades durante 3 meses, incrementando el engagement rate orgánico en un asombroso 125%.',
     img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
     height: 600,
+    url: 'https://ejemplo.com',
   },
   {
     id: '5',
@@ -60,6 +64,7 @@ const PROJECTS_DATA = [
       'Producción, dirección y edición de una pieza audiovisual publicitaria de 45 segundos transmitida en televisión abierta y medios digitales.',
     img: 'https://images.unsplash.com/photo-1534670007418-fbb7f6cf32c3?auto=format&fit=crop&w=800&q=80',
     height: 800,
+    url: 'https://ejemplo.com',
   },
   {
     id: '6',
@@ -71,6 +76,7 @@ const PROJECTS_DATA = [
       'Diseño estructural y gráfico de empaques para una línea exclusiva de café de exportación, destacando las texturas y la elegancia minimalista.',
     img: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=800&q=80',
     height: 550,
+    url: 'https://ejemplo.com',
   },
   {
     id: '7',
@@ -82,6 +88,7 @@ const PROJECTS_DATA = [
       'Arquitectura de la información, diseño UX/UI y desarrollo en React para la nueva web corporativa de una startup líder en soluciones financieras.',
     img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80',
     height: 750,
+    url: 'https://ejemplo.com',
   },
 ];
 
@@ -113,7 +120,6 @@ const CATEGORY_INFO = {
 };
 
 const MoodPrintProjects = ({ selectedCategory }) => {
-  // ESTADO PARA EL MODAL
   const [selectedProject, setSelectedProject] = useState(null);
 
   const filteredProjects =
@@ -125,7 +131,6 @@ const MoodPrintProjects = ({ selectedCategory }) => {
 
   const info = CATEGORY_INFO[selectedCategory] || CATEGORY_INFO['Todos'];
 
-  // BLOQUEAR EL SCROLL DEL FONDO CUANDO EL MODAL ESTÁ ABIERTO
   useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
@@ -165,7 +170,7 @@ const MoodPrintProjects = ({ selectedCategory }) => {
               hoverScale={0.96}
               blurToFocus={true}
               colorShiftOnHover={false}
-              onItemClick={(project) => setSelectedProject(project)} // <-- ABRIMOS EL MODAL AL HACER CLICK
+              onItemClick={(project) => setSelectedProject(project)}
             />
           ) : (
             <p
@@ -177,56 +182,11 @@ const MoodPrintProjects = ({ selectedCategory }) => {
         </div>
       </div>
 
-      {/* =========================================
-          MODAL FLOTANTE DEL PROYECTO SELECCIONADO 
-          ========================================= */}
-      {selectedProject && (
-        <div className='project-modal'>
-          {/* Fondo oscuro desenfocado */}
-          <div
-            className='project-modal__overlay'
-            onClick={() => setSelectedProject(null)}
-          ></div>
-
-          {/* Contenedor del Modal */}
-          <div className='project-modal__content'>
-            <button
-              className='project-modal__close'
-              onClick={() => setSelectedProject(null)}
-              aria-label='Cerrar modal'
-            >
-              <X size={24} />
-            </button>
-
-            <div className='project-modal__image-wrapper'>
-              <img
-                src={selectedProject.img}
-                alt={selectedProject.title}
-              />
-            </div>
-
-            <div className='project-modal__info'>
-              <span className='project-modal__badge'>
-                {selectedProject.category}
-              </span>
-              <h3 className='project-modal__title'>{selectedProject.title}</h3>
-
-              <div className='project-modal__meta'>
-                <p>
-                  <strong>Cliente:</strong> {selectedProject.client}
-                </p>
-                <p>
-                  <strong>Fecha:</strong> {selectedProject.date}
-                </p>
-              </div>
-
-              <p className='project-modal__desc'>
-                {selectedProject.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* COMPONENTE SEPARADO Y LIMPIO */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 };

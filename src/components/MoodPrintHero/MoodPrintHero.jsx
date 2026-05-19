@@ -47,10 +47,10 @@ const MoodPrintHero = ({ activeCategory, onCategoryClick }) => {
             </div>
           </div>
 
-          {/* REEMPLAZO DE FADECONTENT POR CLASE CSS SEGURA */}
+          {/* Animación CSS segura que no falla al hacer scroll */}
           <div
             className='mood-print-hero__fade-in'
-            style={{ animationDelay: '0.5s' }}
+            style={{ animationDelay: '0.4s' }}
           >
             <p className='mood-print-hero__subtitle'>
               Explora nuestro portafolio. Selecciona una categoría para
@@ -60,10 +60,10 @@ const MoodPrintHero = ({ activeCategory, onCategoryClick }) => {
           </div>
         </div>
 
-        {/* REEMPLAZO DE FADECONTENT POR CLASE CSS SEGURA */}
+        {/* Animación CSS segura que no falla al hacer scroll */}
         <div
           className='mood-print-hero__categories mood-print-hero__fade-in'
-          style={{ animationDelay: '0.7s' }}
+          style={{ animationDelay: '0.6s' }}
         >
           <ul className='category-list'>
             {CATEGORIES.map((category, index) => (

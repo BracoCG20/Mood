@@ -1,0 +1,222 @@
+@use '../../styles/variables' as *;
+
+/* --- ANIMACIÓN DE REFLEJO DE LUZ --- */
+%shiny-animation {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -120%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0) 20%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    transform: skewX(-25deg);
+    transition: transform 0.5s ease-in-out;
+    z-index: 1;
+  }
+
+  &:hover::after {
+    transform: translateX(400%) skewX(-25deg);
+  }
+}
+
+.project-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($negro, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    background-color: $blanco;
+    width: 100%;
+    max-width: 1100px;
+    max-height: 90vh;
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 0 30px 60px rgba($negro, 0.4);
+    animation: modalPop 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+    @media (max-width: 968px) {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+  }
+
+  /* --- AJUSTE DEL BOTÓN DE CERRAR --- */
+  &__close {
+    @extend %shiny-animation; /* <-- NUEVO: Efecto de luz añadido */
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 20%;
+    background-color: $blanco;
+    border: 1px solid rgba($negro, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    color: $negro;
+    transition: all 0.3s ease;
+
+    svg {
+      position: relative; /* <-- NUEVO: Para que quede sobre el efecto */
+      z-index: 2; /* <-- NUEVO */
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background-color: $negro;
+      color: $blanco;
+      /* ELIMINADO: transform: rotate(90deg); */
+    }
+  }
+
+  &__image-wrapper {
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    background-color: $blanco;
+
+    @media (max-width: 968px) {
+      padding: 3rem 2rem;
+    }
+  }
+
+  &__badge {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 0.5rem 1.2rem;
+    background-color: $primary;
+    color: $negro;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 10px;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 900;
+    color: $negro;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding-top: 0.5rem;
+
+    p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba($negro, 0.7);
+
+      strong {
+        color: $negro;
+        font-weight: 700;
+        margin-right: 0.4rem;
+      }
+    }
+  }
+
+  &__desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba($negro, 0.8);
+    margin: 0;
+  }
+
+  &__btn {
+    @extend %shiny-animation;
+    align-self: flex-start;
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.4rem;
+    background-color: $negro;
+    color: $blanco;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    span,
+    svg {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:hover {
+      background-color: $primary;
+      color: $negro;
+      box-shadow: 0 5px 15px rgba($primary, 0.2);
+    }
+  }
+}
+
+@keyframes modalPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
