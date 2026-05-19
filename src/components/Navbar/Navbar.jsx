@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom'; // <-- IMPORTAMOS useLocation
+import { Link, useLocation } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
 import './Navbar.scss';
 import logoMood from '../../assets/Logo_mood.svg';
@@ -8,9 +8,10 @@ const Navbar = () => {
   const [lang, setLang] = useState('ES');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // NUEVO: Obtenemos la ruta actual
   const location = useLocation();
+
+  // NUEVO: Verificamos si estamos en la página del Portafolio (fondo oscuro)
+  const isDarkMode = location.pathname === '/mood-print';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,7 +28,6 @@ const Navbar = () => {
     } else {
       document.body.style.overflow = '';
     }
-
     return () => {
       document.body.style.overflow = '';
     };
@@ -37,7 +37,12 @@ const Navbar = () => {
 
   return (
     <header
-      className={`header ${isScrolled ? 'header--scrolled' : ''} ${isMenuOpen ? 'header--menu-open' : ''}`}
+      className={
+        `header 
+        ${isScrolled ? 'header--scrolled' : ''} 
+        ${isMenuOpen ? 'header--menu-open' : ''} 
+        ${isDarkMode ? 'header--dark-mode' : ''}` // <-- CLASE AÑADIDA
+      }
     >
       <nav className='navbar'>
         <Link
@@ -59,7 +64,6 @@ const Navbar = () => {
           <li className='navbar__item'>
             <Link
               to='/adn-mood'
-              // LÓGICA ACTIVE: Si la ruta es '/adn-mood', agregamos la clase activa
               className={`navbar__link ${location.pathname === '/adn-mood' ? 'navbar__link--active' : ''}`}
             >
               ADN Mood
@@ -68,7 +72,6 @@ const Navbar = () => {
           <li className='navbar__item'>
             <Link
               to='/mood-print'
-              // LÓGICA ACTIVE: Si la ruta es '/adn-mood', agregamos la clase activa
               className={`navbar__link ${location.pathname === '/mood-print' ? 'navbar__link--active' : ''}`}
             >
               Mood Print
@@ -122,13 +125,12 @@ const Navbar = () => {
         </button>
       </nav>
 
-      {/* PANEL FULLSCREEN MÓVIL */}
+      {/* PANEL FULLSCREEN MÓVIL (Se mantiene igual) */}
       <div className={`mobile-panel ${isMenuOpen ? 'mobile-panel--open' : ''}`}>
         <ul className='mobile-panel__nav'>
           <li>
             <Link
               to='/adn-mood'
-              // LÓGICA ACTIVE PARA MÓVIL
               className={`mobile-panel__link ${location.pathname === '/adn-mood' ? 'mobile-panel__link--active' : ''}`}
               onClick={closeMenu}
             >
@@ -138,7 +140,6 @@ const Navbar = () => {
           <li>
             <Link
               to='/mood-print'
-              // LÓGICA ACTIVE PARA MÓVIL
               className={`mobile-panel__link ${location.pathname === '/mood-print' ? 'mobile-panel__link--active' : ''}`}
               onClick={closeMenu}
             >

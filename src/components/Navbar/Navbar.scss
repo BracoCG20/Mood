@@ -420,3 +420,88 @@ $gris-card: #1c1c1e;
     }
   }
 }
+
+/* ===================================================
+   MODO OSCURO PARA MOOD PRINT (CORREGIDO)
+   =================================================== */
+.header--dark-mode {
+  /* 1. LOGO INTACTO (Sin ningún tipo de filtro) */
+  .navbar__logo {
+    filter: none !important;
+  }
+
+  /* 2. ENLACES Y HOVER (Respetando tu verde original) */
+  .navbar__link {
+    color: $blanco !important;
+
+    &--active,
+    &:hover {
+      color: $negro !important;
+      background-color: rgba($primary, 0.8) !important; /* Tu verde original */
+    }
+  }
+
+  /* 3. SELECTOR DE IDIOMAS */
+  .navbar__lang-selector .navbar__lang-btn {
+    color: rgba($blanco, 0.6) !important;
+
+    &--active,
+    &:hover {
+      color: $blanco !important;
+    }
+  }
+
+  /* 4. BOTÓN HAMBURGUESA (MÓVIL) */
+  .navbar__toggle {
+    border-color: rgba($blanco, 0.2) !important;
+
+    &-line {
+      background-color: $blanco !important;
+    }
+
+    &--open {
+      border-color: rgba($primary, 0.8) !important;
+    }
+  }
+
+  /* 5. ESTADO INICIAL (NO SCROLLED) - Solo las píldoras son oscuras */
+  &:not(.header--scrolled) {
+    .navbar {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    /* Aplicamos el fondo oscuro SÓLO a las píldoras */
+    .navbar__nav,
+    .navbar__actions {
+      background: rgba($gris-card, 0.8) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba($blanco, 0.05) !important;
+    }
+  }
+
+  /* 6. ESTADO SCROLLED - Todo el navbar oscuro */
+  &.header--scrolled {
+    .navbar {
+      background: rgba($gris-card, 0.85) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba($blanco, 0.05) !important;
+    }
+
+    /* Las píldoras interiores se vuelven transparentes para no hacer doble fondo */
+    .navbar__nav,
+    .navbar__actions {
+      @media (min-width: 969px) {
+        background: transparent !important;
+        border: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+      }
+    }
+  }
+}

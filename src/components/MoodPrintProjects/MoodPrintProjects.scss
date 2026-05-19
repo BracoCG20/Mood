@@ -1,0 +1,222 @@
+@use '../../styles/variables' as *;
+
+.mood-projects {
+  width: 100%;
+  padding: 6rem 2rem 8rem;
+  background-color: $blanco; // Fondo crema de la página
+
+  /* BORDES REDONDEADOS ESTILO TESTIMONIALS */
+  border-bottom-left-radius: 48px;
+  border-bottom-right-radius: 48px;
+
+  @media (max-width: 768px) {
+    padding: 4rem 1.5rem 6rem;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
+
+  &__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  &__header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 900;
+    color: $negro;
+    margin: 0;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  &__description {
+    font-size: 1.15rem;
+    color: rgba($negro, 0.7);
+    line-height: 1.6;
+    margin: 0;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+
+  &__grid {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+}
+
+/* =========================================
+   ESTILOS DEL MODAL DE PROYECTOS
+   ========================================= */
+.project-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($negro, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    background-color: $blanco;
+    width: 100%;
+    max-width: 1100px; // Modal ancho y elegante
+    max-height: 90vh;
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr; // Mitad imagen, mitad texto
+    box-shadow: 0 30px 60px rgba($negro, 0.4);
+
+    // Animación de aparición
+    animation: modalPop 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+    @media (max-width: 968px) {
+      grid-template-columns: 1fr; // Se apila en tablet/móvil
+      overflow-y: auto; // Permite scroll dentro del modal
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: $blanco;
+    border: 1px solid rgba($negro, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    color: $negro;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: $negro;
+      color: $blanco;
+      transform: rotate(90deg);
+    }
+  }
+
+  &__image-wrapper {
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    background-color: $blanco;
+
+    @media (max-width: 968px) {
+      padding: 3rem 2rem;
+    }
+  }
+
+  &__badge {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 0.5rem 1.2rem;
+    background-color: rgba($primary, 0.2);
+    color: $negro;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 50px;
+  }
+
+  &__title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 900;
+    color: $negro;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba($negro, 0.1);
+
+    p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba($negro, 0.7);
+
+      strong {
+        color: $negro;
+        font-weight: 700;
+        margin-right: 0.4rem;
+      }
+    }
+  }
+
+  &__desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba($negro, 0.8);
+    margin: 0;
+    padding-top: 1rem;
+  }
+}
+
+@keyframes modalPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
