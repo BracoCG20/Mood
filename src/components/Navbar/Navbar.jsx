@@ -82,7 +82,7 @@ const Navbar = () => {
               href='/#what'
               className='navbar__link'
             >
-              #What'sYourMood
+              #TheMoodEdit
             </a>
           </li>
         </ul>
@@ -152,7 +152,7 @@ const Navbar = () => {
               className='mobile-panel__link'
               onClick={closeMenu}
             >
-              #What'sYourMood
+              #TheMoodEdit
             </a>
           </li>
         </ul>
