@@ -34,12 +34,16 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
+  z-index: 99999; /* Aseguramos un z-index altísimo */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 1rem; /* Menos espacio en los bordes para móviles */
+  }
 
   &__overlay {
     position: absolute;
@@ -69,13 +73,13 @@
 
     @media (max-width: 968px) {
       grid-template-columns: 1fr;
-      overflow-y: auto;
+      overflow-y: auto; // Activa el scroll interno si el contenido es muy alto
+      border-radius: 16px; // Borde más suave en móvil
     }
   }
 
-  /* --- AJUSTE DEL BOTÓN DE CERRAR --- */
   &__close {
-    @extend %shiny-animation; /* <-- NUEVO: Efecto de luz añadido */
+    @extend %shiny-animation;
     position: absolute;
     top: 1.5rem;
     right: 1.5rem;
@@ -91,10 +95,16 @@
     z-index: 10;
     color: $negro;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba($negro, 0.15); /* Sombra para que destaque sobre la imagen en móvil */
+
+    @media (max-width: 768px) {
+      top: 1rem;
+      right: 1rem;
+    }
 
     svg {
-      position: relative; /* <-- NUEVO: Para que quede sobre el efecto */
-      z-index: 2; /* <-- NUEVO */
+      position: relative;
+      z-index: 2;
       width: 18px;
       height: 18px;
     }
@@ -102,7 +112,6 @@
     &:hover {
       background-color: $negro;
       color: $blanco;
-      /* ELIMINADO: transform: rotate(90deg); */
     }
   }
 
@@ -111,6 +120,11 @@
     height: 100%;
     min-height: 350px;
     overflow: hidden;
+
+    @media (max-width: 968px) {
+      min-height: 250px; /* Reducimos la altura mínima en móvil */
+      max-height: 300px; /* Evitamos que ocupe toda la pantalla */
+    }
 
     img {
       width: 100%;
@@ -128,7 +142,8 @@
     background-color: $blanco;
 
     @media (max-width: 968px) {
-      padding: 3rem 2rem;
+      padding: 2rem 1.5rem; /* Menos padding en móviles para ganar espacio */
+      gap: 1rem;
     }
   }
 
@@ -142,11 +157,11 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    border-radius: 10px;
+    border-radius: 50px;
   }
 
   &__title {
-    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
     font-weight: 900;
     color: $negro;
     line-height: 1.1;
@@ -165,6 +180,10 @@
       font-size: 0.95rem;
       color: rgba($negro, 0.7);
 
+      @media (max-width: 768px) {
+        font-size: 0.85rem;
+      }
+
       strong {
         color: $negro;
         font-weight: 700;
@@ -178,12 +197,16 @@
     line-height: 1.6;
     color: rgba($negro, 0.8);
     margin: 0;
+
+    @media (max-width: 768px) {
+      font-size: 0.95rem;
+    }
   }
 
   &__btn {
     @extend %shiny-animation;
     align-self: flex-start;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;

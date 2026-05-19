@@ -1,10 +1,12 @@
 import { X, ExternalLink } from 'lucide-react';
+import { createPortal } from 'react-dom'; // <-- MAGIA PURA: React Portal
 import './ProjectModal.scss';
 
 const ProjectModal = ({ project, onClose }) => {
   if (!project) return null;
 
-  return (
+  // Renderizamos el modal directamente en el body usando un Portal
+  return createPortal(
     <div className='project-modal'>
       {/* Fondo oscuro desenfocado */}
       <div
@@ -30,12 +32,10 @@ const ProjectModal = ({ project, onClose }) => {
         </div>
 
         <div className='project-modal__info'>
-          {/* BADGE: Ahora con el color primary sólido */}
           <span className='project-modal__badge'>{project.category}</span>
 
           <h3 className='project-modal__title'>{project.title}</h3>
 
-          {/* META: Sin la línea fea de separación */}
           <div className='project-modal__meta'>
             <p>
               <strong>Cliente:</strong> {project.client}
@@ -47,18 +47,18 @@ const ProjectModal = ({ project, onClose }) => {
 
           <p className='project-modal__desc'>{project.description}</p>
 
-          {/* NUEVO: BOTÓN DE REDIRECCIÓN */}
           <a
             href={project.url || '#'}
             target='_blank'
             rel='noopener noreferrer'
             className='project-modal__btn'
           >
-            Ver Proyecto <ExternalLink size={18} />
+            <span>Ver Proyecto</span> <ExternalLink size={18} />
           </a>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body, // <-- Destino del Portal
   );
 };
 
