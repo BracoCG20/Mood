@@ -333,6 +333,10 @@ $gris-card: #1c1c1e;
     left: 0.5rem;
     right: 0.5rem;
 
+    background-image: url('/src/assets/Fondo_nav.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     background-color: $gris-card;
     border-radius: 16px;
     z-index: 990;

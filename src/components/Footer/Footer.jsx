@@ -4,6 +4,7 @@ import Instagram from '../Icons/Instagram';
 import Facebook from '../Icons/Facebook';
 import logoMood from '../../assets/Logo_Mood.svg';
 import './Footer.scss';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -51,21 +52,21 @@ const Footer = () => {
             <div className='footer__nav-group'>
               <h3 className='footer__nav-title'>NAVEGAR</h3>
               <ul className='footer__nav-list'>
-                <li>
-                  <a
-                    href='#adn'
+                <li className='navbar__item'>
+                  <Link
+                    to='/adn-mood'
                     className='footer__nav-link'
                   >
                     ADN Mood
-                  </a>
+                  </Link>
                 </li>
-                <li>
-                  <a
-                    href='#print'
+                <li className='navbar__item'>
+                  <Link
+                    to='/mood-print'
                     className='footer__nav-link'
                   >
                     Mood Print
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a
@@ -84,7 +85,7 @@ const Footer = () => {
               <ul className='footer__nav-list footer__nav-list--social'>
                 <li>
                   <a
-                    href='#linkedin'
+                    href='https://www.linkedin.com/company/moodagenciacreativa/'
                     className='footer__social-link'
                     aria-label='LinkedIn'
                   >
@@ -96,7 +97,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href='#instagram'
+                    href='https://www.instagram.com/mood.advertising/'
                     className='footer__social-link'
                     aria-label='Instagram'
                   >
@@ -108,7 +109,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href='#facebook'
+                    href='https://www.facebook.com/moodper'
                     className='footer__social-link'
                     aria-label='Facebook'
                   >

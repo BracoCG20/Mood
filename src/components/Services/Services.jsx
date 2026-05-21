@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom'; // <-- 1. IMPORTAMOS EL HOOK
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import BlurText from '../BlurText/BlurText';
@@ -51,6 +52,7 @@ const SERVICES_DATA = [
 const Services = () => {
   const [activeService, setActiveService] = useState(SERVICES_DATA[0]);
   const [isMobile, setIsMobile] = useState(false);
+  const navigate = useNavigate(); // <-- 2. INICIALIZAMOS EL HOOK
 
   // 1. Detectar si estamos en Tablet/Móvil
   useEffect(() => {
@@ -130,6 +132,7 @@ const Services = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
               className='btn-service'
+              onClick={() => navigate('/mood-print')} // <-- 3. AÑADIMOS LA REDIRECCIÓN
             >
               <span>Ver proyectos</span>
               <ChevronRight

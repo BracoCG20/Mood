@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
-  // NUEVO: Verificamos si estamos en la página del Portafolio (fondo oscuro)
+  // CORRECCIÓN: El Navbar oscuro ahora solo aplica a Mood Print
   const isDarkMode = location.pathname === '/mood-print';
 
   useEffect(() => {
@@ -37,12 +37,10 @@ const Navbar = () => {
 
   return (
     <header
-      className={
-        `header 
+      className={`header 
         ${isScrolled ? 'header--scrolled' : ''} 
         ${isMenuOpen ? 'header--menu-open' : ''} 
-        ${isDarkMode ? 'header--dark-mode' : ''}` // <-- CLASE AÑADIDA
-      }
+        ${isDarkMode ? 'header--dark-mode' : ''}`}
     >
       <nav className='navbar'>
         <Link
@@ -103,8 +101,8 @@ const Navbar = () => {
             </button>
           </div>
 
-          <a
-            href='/#contacto'
+          <Link
+            to='/contacto'
             className='btn btn--contact'
           >
             <span>Contacto</span>
@@ -112,7 +110,7 @@ const Navbar = () => {
               size={18}
               className='btn__icon'
             />
-          </a>
+          </Link>
         </div>
 
         <button
@@ -125,7 +123,7 @@ const Navbar = () => {
         </button>
       </nav>
 
-      {/* PANEL FULLSCREEN MÓVIL (Se mantiene igual) */}
+      {/* PANEL FULLSCREEN MÓVIL */}
       <div className={`mobile-panel ${isMenuOpen ? 'mobile-panel--open' : ''}`}>
         <ul className='mobile-panel__nav'>
           <li>
@@ -179,8 +177,8 @@ const Navbar = () => {
             </button>
           </div>
 
-          <a
-            href='/#contacto'
+          <Link
+            to='/contacto'
             className='btn btn--contact mobile-panel__btn'
             onClick={closeMenu}
           >
@@ -189,7 +187,7 @@ const Navbar = () => {
               size={18}
               className='btn__icon'
             />
-          </a>
+          </Link>
         </div>
       </div>
     </header>

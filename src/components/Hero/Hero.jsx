@@ -12,6 +12,7 @@ import Facebook from '../Icons/Facebook';
 import Instagram from '../Icons/Instagram';
 import Linkedin from '../Icons/Linkedin';
 import './Hero.scss';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   const skills = [
@@ -61,20 +62,28 @@ const Hero = () => {
         </div>
 
         <div className='hero__actions'>
-          <button className='btn-hero btn-hero--primary'>
+          <Link
+            to='/contacto'
+            className='btn-hero btn-hero--primary'
+          >
             <span>Hablemos</span>
+
             <MessageCircle
               size={20}
               strokeWidth={2}
             />
-          </button>
-          <button className='btn-hero btn-hero--secondary'>
+          </Link>
+          <Link
+            to='/mood-print'
+            className='btn-hero btn-hero--secondary'
+          >
             <span>Ver Proyectos</span>
+
             <Briefcase
               size={20}
               strokeWidth={2}
             />
-          </button>
+          </Link>
         </div>
       </div>
 
