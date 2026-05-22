@@ -1,6 +1,5 @@
 @use '../../styles/variables' as *;
 
-/* Animación segura y reutilizable */
 @keyframes fadeUpOnce {
   0% {
     opacity: 0;
@@ -12,38 +11,12 @@
   }
 }
 
-/* Efecto de luz para el botón */
-%shiny-animation {
-  position: relative;
-  overflow: hidden;
-  &::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -120%;
-    width: 60%;
-    height: 200%;
-    background: linear-gradient(
-      100deg,
-      rgba(255, 255, 255, 0) 20%,
-      rgba(255, 255, 255, 0.4) 50%,
-      rgba(255, 255, 255, 0) 80%
-    );
-    transform: skewX(-25deg);
-    transition: transform 0.5s ease-in-out;
-    z-index: 1;
-  }
-  &:hover::after {
-    transform: translateX(400%) skewX(-25deg);
-  }
-}
-
 .contact-hero {
   position: relative;
   margin: 1rem;
   min-height: calc(100vh - 2rem);
   border-radius: 16px;
-  background-color: #ecf0ec; // Fondo claro
+  background-color: #ecf0ec;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,7 +47,6 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-
     @media (max-width: 968px) {
       align-items: center;
       text-align: center;
@@ -92,7 +64,6 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 0.3em;
-
     @media (max-width: 968px) {
       justify-content: center;
     }
@@ -101,7 +72,7 @@
   &__title {
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 900;
-    color: $negro; // Texto oscuro para fondo claro
+    color: $negro;
     line-height: 1.1;
     letter-spacing: -0.04em;
     margin: 0;
@@ -127,7 +98,6 @@
     justify-content: center;
     box-shadow: 0 4px 20px rgba($primary, 0.2);
     transform: rotate(-2deg);
-
     * {
       color: $negro !important;
     }
@@ -135,11 +105,10 @@
 
   &__subtitle {
     font-size: 1.15rem;
-    color: rgba($negro, 0.7); // Subtítulo oscuro
+    color: rgba($negro, 0.7);
     max-width: 500px;
     line-height: 1.6;
     margin: 0;
-
     @media (max-width: 968px) {
       font-size: 1rem;
       max-width: 600px;
@@ -151,243 +120,103 @@
   }
 }
 
-/* --- ESTILOS DEL FORMULARIO --- */
-.contact-form {
-  background-color: $blanco;
-  padding: 3rem;
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1); // Sombra suave
+/* =========================================
+   ESTILOS DE LA GOTA (CENTRADOS EN EL MAESTRO)
+   ========================================= */
+.water-drop-overlay {
+  position: fixed; /* <--- Se clava al navegador completo, por encima de todo */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999; /* Un z-index masivo para tapar Navbar, Footer y todo a su paso */
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  pointer-events: all; /* Bloquea clics accidentales mientras leen el lema */
+  background-color: transparent;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vmax; /* Toma la dimensión máxima de la pantalla como radio base */
+    height: 100vmax;
+    background-color: $primary;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: dropExpandGlobal 1.4s cubic-bezier(0.6, 0, 0.1, 1) forwards;
+  }
+}
+.water-drop-content {
+  position: relative;
+  z-index: 100000;
+  width: 90%;
+  max-width: 850px;
+  text-align: center;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUpTextGlobal 0.9s cubic-bezier(0.25, 1, 0.5, 1) 0.7s forwards;
 
   @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
-    border-radius: 20px;
+    width: 95%;
+    padding: 0 1rem;
   }
-
-  &__header {
-    h3 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: $negro;
-      margin: 0 0 0.5rem 0;
-      letter-spacing: -0.02em;
-    }
-  }
-
-  &__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-
-    @media (max-width: 576px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  &__group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    label {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: rgba($negro, 0.7);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+  h2 {
+    font-size: clamp(
+      2rem,
+      5vw,
+      3.8rem
+    ); /* Un tamaño imponente para pantalla completa */
+    font-weight: 800;
+    color: $negro;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    margin: 0;
+    @media (max-width: 768px) {
+      font-size: 1.9rem; /* Forzamos un tamaño exacto y equilibrado para móviles estándar */
+      line-height: 1.35; /* Damos más aire entre líneas para que los emojis y letras respiren */
+      letter-spacing: -0.02em; /* Suavizamos un poco el ajuste de letra para mejor lectura */
     }
 
-    /* --- ESTILOS DE INPUTS NORMALES Y TEXTAREA --- */
-    input[type='text'],
-    input[type='email'],
-    input[type='tel'],
-    textarea {
-      width: 100%;
-      padding: 0.9rem 1.2rem;
-      font-size: 1rem;
-      font-family: inherit;
-      color: $negro;
-      background-color: rgba($negro, 0.04);
-      border: 1px solid transparent;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      box-sizing: border-box;
-
-      &::placeholder {
-        color: rgba($negro, 0.3);
-      }
-
-      &:focus {
-        outline: none;
-        background-color: $blanco;
-        border-color: $primary;
-        box-shadow: 0 0 0 4px rgba($primary, 0.15);
-      }
-    }
-
-    textarea {
-      resize: none;
-      min-height: 100px;
-    }
-
-    /* =========================================
-       ESTILOS PARA REACT-SELECT (.custom-select)
-       (Se ha eliminado el anidamiento doble de &__group)
-       ========================================= */
-    .custom-select__control {
-      background-color: rgba($negro, 0.04);
-      border: 1px solid transparent;
-      border-radius: 12px;
-      min-height: 52px; // Alinea la altura con los inputs de texto
-      box-shadow: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-
-      &:hover {
-        border-color: transparent;
-      }
-
-      &--is-focused {
-        background-color: $blanco;
-        border-color: $primary;
-        box-shadow: 0 0 0 4px rgba($primary, 0.15);
-
-        &:hover {
-          border-color: $primary;
-        }
-      }
-    }
-
-    .custom-select__value-container {
-      padding: 0 1.2rem;
-    }
-
-    .custom-select__input-container {
-      color: $negro;
-      margin: 0;
-      padding: 0;
-    }
-
-    .custom-select__single-value {
-      color: $negro;
-      font-size: 1rem;
-    }
-
-    .custom-select__placeholder {
-      color: rgba($negro, 0.3);
-      font-size: 1rem;
-    }
-
-    .custom-select__indicator-separator {
-      display: none; // Ocultamos la rayita divisoria
-    }
-
-    .custom-select__dropdown-indicator {
-      color: rgba($negro, 0.4);
-      padding-right: 1rem;
-
-      &:hover {
-        color: $negro;
-      }
-    }
-
-    .custom-select__menu {
-      background-color: $blanco;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      border: 1px solid rgba($negro, 0.05);
-      overflow: hidden;
-      z-index: 100;
-      margin-top: 0.5rem;
-    }
-
-    .custom-select__option {
-      padding: 0.8rem 1.2rem;
-      cursor: pointer;
-      color: rgba($negro, 0.8);
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
-
-      &--is-focused {
-        background-color: rgba($primary, 0.1);
-        color: $negro;
-      }
-
-      &--is-selected {
-        background-color: $primary;
-        color: $negro;
-        font-weight: 700;
-      }
-
-      &:active {
-        background-color: rgba($primary, 0.3);
-      }
-    }
-  }
-
-  &__submit {
-    @extend %shiny-animation;
-    margin-top: 0.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.8rem;
-    width: 100%;
-    padding: 1.2rem;
-    background-color: $negro;
-    color: $blanco;
-    font-weight: 700;
-    font-size: 1.05rem;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    span,
-    svg {
-      position: relative;
-      z-index: 2;
-    }
-
-    &:hover {
-      background-color: $primary;
-      color: $negro;
-      box-shadow: 0 10px 25px rgba($primary, 0.25);
+    @media (max-width: 414px) {
+      font-size: 1.65rem; /* Ajuste milimétrico ultra-seguro para teléfonos compactos (ej. iPhone SE) */
     }
   }
 }
 
-/* --- FEEDBACK MESSAGES & LOADER --- */
-.contact-form__feedback {
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin: -0.5rem 0 0 0;
-  text-align: center;
-  padding: 0.8rem;
-  border-radius: 8px;
+/* --- CLASE DE SALIDA CINEMÁTICA --- */
+.fade-out-sequence {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 
-  &--success {
-    color: #15803d; /* Verde oscuro */
-    background-color: #dcfce7; /* Verde claro */
-  }
-
-  &--error {
-    color: #b91c1c; /* Rojo oscuro */
-    background-color: #fee2e2; /* Rojo claro */
+  .water-drop-content {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.7s ease-in;
   }
 }
 
-.spin-animation {
-  animation: spin 1s linear infinite;
+/* --- KEYFRAMES DE EXPANSIÓN GLOBAL --- */
+@keyframes dropExpandGlobal {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  50% {
+    border-radius: 50%; /* Conserva la forma de gota líquida a mitad de camino */
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.2); /* Inunda completamente los extremos */
+    border-radius: 0; /* Convierte el final en un bloque sólido para evitar fugas visuales */
+  }
 }
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
+@keyframes fadeUpTextGlobal {
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }

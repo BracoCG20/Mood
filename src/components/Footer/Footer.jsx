@@ -33,8 +33,9 @@ const Footer = () => {
             <h2 className='footer__slogan'>{t('footer.slogan')}</h2>
 
             <div className='footer__jobs'>
-              <a
-                href='#trabajo'
+              {/* <-- Reemplazamos <a> por <Link> apuntando a la nueva ruta --> */}
+              <Link
+                to='/trabaja_con_nosotros'
                 className='btn-jobs'
               >
                 {/* Estructura perfecta para la animación compleja */}
@@ -42,7 +43,7 @@ const Footer = () => {
                 <span className='btn-jobs__icon'>
                   <ChevronRight size={18} />
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
 

@@ -7,6 +7,7 @@ import AdnMood from './pages/AdnMood/AdnMood';
 import MoodPrint from './pages/MoodPrint/MoodPrint';
 import Contact from './pages/Contact/Contact';
 import Careers from './pages/Careers/Careers';
+import JobDetail from './pages/Careers/JobDetail';
 
 const App = () => {
   const { t } = useTranslation(); // <-- 2. INICIALIZAMOS LA TRADUCCIÓN
@@ -59,6 +60,10 @@ const App = () => {
         <Route
           path='/trabaja_con_nosotros'
           element={<Careers />}
+        />
+        <Route
+          path='/trabaja-con-nosotros/:jobId'
+          element={<JobDetail />}
         />
       </Routes>
     </>

@@ -1,10 +1,22 @@
 import { useTranslation } from 'react-i18next';
-import { Rocket, Brain, Coffee } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import {
+  Rocket,
+  Brain,
+  Coffee,
+  Briefcase,
+  Calendar,
+  ChevronRight,
+} from 'lucide-react';
 import BlurText from '../../components/BlurText/BlurText';
 import './Careers.scss';
 
 const Careers = () => {
   const { t } = useTranslation();
+
+  // Obtenemos la lista. Si falla, devolvemos un arreglo vacío [] por seguridad.
+  const rawJobs = t('careers.jobs.list', { returnObjects: true });
+  const jobsList = Array.isArray(rawJobs) ? rawJobs : [];
 
   return (
     <main className='careers-page'>
@@ -70,11 +82,40 @@ const Careers = () => {
       <section className='careers-jobs'>
         <div className='careers-jobs__container'>
           <h2>{t('careers.jobs.title')}</h2>
-          <div className='careers-jobs__empty-state'>
-            <p>{t('careers.jobs.empty')}</p>
-            <button className='careers-jobs__cta'>
-              {t('careers.jobs.cta')}
-            </button>
+
+          <div className='careers-jobs__grid'>
+            {jobsList.length > 0 ? (
+              jobsList.map((job) => (
+                <div
+                  className='job-card'
+                  key={job.id}
+                >
+                  <div className='job-card__header'>
+                    <h3 className='job-card__title'>{job.title}</h3>
+                    <div className='job-card__meta'>
+                      <span className='job-card__tag'>
+                        <Briefcase size={16} /> {job.type}
+                      </span>
+                      <span className='job-card__tag'>
+                        <Calendar size={16} /> {job.date}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Botón de redirección a la ruta dinámica */}
+                  <Link
+                    to={`/trabaja-con-nosotros/${job.id}`}
+                    className='job-card__btn'
+                  >
+                    {t('careers.jobs.cta')} <ChevronRight size={18} />
+                  </Link>
+                </div>
+              ))
+            ) : (
+              <div className='careers-jobs__empty-state'>
+                <p>{t('careers.jobs.empty')}</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

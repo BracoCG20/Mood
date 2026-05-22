@@ -85,7 +85,7 @@
         "send": "Enviar mensaje"
       },
       "feedback": {
-        "success": "¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.",
+        "success": "Ideas en movimiento. ⚡ Tu mensaje ha aterrizado con éxito, prepárate para transformar las reglas del juego.",
         "error": "Hubo un error al enviar tu mensaje. Inténtalo de nuevo."
       }
     }
@@ -289,8 +289,58 @@
     },
     "jobs": {
       "title": "Posiciones Abiertas",
-      "empty": "Actualmente no tenemos posiciones abiertas, pero siempre estamos buscando talento. Déjanos tu CV y te contactaremos cuando se abra una oportunidad.",
-      "cta": "Enviar mi CV"
+      "empty": "Actualmente no tenemos posiciones abiertas...",
+      "cta": "Ver detalles",
+      "list": [
+        {
+          "id": "ui-ux-designer-senior",
+          "title": "UI/UX Designer Senior",
+          "type": "Full-time",
+          "date": "Publicado: 20 May 2026",
+          "description": "Buscamos un diseñador excepcional para crear experiencias digitales impactantes y liderar el diseño visual de los proyectos de nuestros clientes clave.",
+          "responsibilities": [
+            "Liderar el diseño de interfaces web y móviles desde la conceptualización hasta la entrega final.",
+            "Crear wireframes, prototipos interactivos y flujos de usuario.",
+            "Colaborar estrechamente con el equipo de desarrollo para asegurar la fidelidad del diseño."
+          ],
+          "requirements": [
+            "5+ años de experiencia comprobable como Diseñador UI/UX.",
+            "Dominio absoluto de Figma y herramientas de prototipado.",
+            "Portafolio sólido con proyectos de nivel empresarial.",
+            "Conocimientos básicos de HTML/CSS (Deseable)."
+          ],
+          "benefits": [
+            "Trabajo 100% remoto.",
+            "Seguro de salud EPS cubierto al 100%.",
+            "Presupuesto anual para cursos y capacitaciones.",
+            "Bono por cumplimiento de objetivos trimestrales."
+          ]
+        },
+        {
+          "id": "frontend-developer-react",
+          "title": "Frontend Developer (React)",
+          "type": "Full-time",
+          "date": "Publicado: 18 May 2026",
+          "description": "Únete a nuestro equipo técnico para construir aplicaciones web ultrarrápidas, escalables y con un nivel de animaciones top en el mercado.",
+          "responsibilities": [
+            "Desarrollo de interfaces utilizando React y Vite.",
+            "Integración de APIs y manejo de estado global.",
+            "Implementación de animaciones complejas (Framer Motion, GSAP)."
+          ],
+          "requirements": [
+            "3+ años de experiencia trabajando con React.",
+            "Conocimiento profundo de JavaScript moderno (ES6+) y SCSS.",
+            "Experiencia consumiendo APIs REST y GraphQL.",
+            "Fuerte atención al detalle visual y UX."
+          ],
+          "benefits": [
+            "Horario flexible orientado a objetivos.",
+            "Equipo de cómputo de última generación (MacBook Pro).",
+            "Días libres adicionales por cumpleaños.",
+            "Cultura horizontal y sin micromanagement."
+          ]
+        }
+      ]
     }
   }
 }

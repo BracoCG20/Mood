@@ -2,7 +2,8 @@
 
 .careers-page {
   width: 100%;
-  padding-top: 100px; // Ajusta según la altura de tu Navbar
+  padding-top: 100px;
+  background-color: $blanco;
 }
 
 .careers-hero {
@@ -17,14 +18,14 @@
   &__title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    color: $negro; // Asumiendo que tienes esta variable
+    color: $negro;
     display: inline-block;
   }
 
   &__highlight {
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    color: $primary; // Asumiendo que tienes esta variable
+    color: $primary;
     display: inline-block;
     margin-left: 10px;
   }
@@ -32,7 +33,7 @@
   &__subtitle {
     margin-top: 20px;
     font-size: 1.2rem;
-    color: #666;
+    color: rgba($negro, 0.7);
     line-height: 1.6;
   }
 
@@ -44,7 +45,7 @@
 
 .careers-culture {
   padding: 80px 5%;
-  background-color: #f9f9f9; // O el color de fondo secundario que uses
+  background-color: rgba($secondary, 0.1);
 
   &__container {
     max-width: 1200px;
@@ -55,6 +56,7 @@
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 50px;
+    color: $negro;
   }
 
   &__grid {
@@ -65,15 +67,14 @@
 }
 
 .culture-card {
-  background: white;
+  @extend %glass-pill-style;
+  border-radius: 16px; // Sobrescribimos el radius de la píldora para que sea tarjeta
   padding: 40px 30px;
-  border-radius: 12px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
+    border-color: $primary;
   }
 
   &__icon {
@@ -86,36 +87,46 @@
   h3 {
     font-size: 1.5rem;
     margin-bottom: 15px;
+    color: $negro;
   }
 
   p {
-    color: #666;
+    color: rgba($negro, 0.7);
     line-height: 1.6;
   }
 }
 
 .careers-jobs {
   padding: 80px 5%;
-  text-align: center;
+  background-color: $blanco;
 
   &__container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
   }
 
   h2 {
     font-size: 2.5rem;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: $negro;
+  }
+
+  &__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   &__empty-state {
-    background: white;
-    border: 1px dashed #ccc;
+    @extend %glass-pill-style;
+    border-radius: 16px;
+    border: 1px dashed rgba($negro, 0.2);
     padding: 50px 30px;
-    border-radius: 12px;
+    text-align: center;
 
     p {
-      color: #666;
+      color: rgba($negro, 0.7);
       margin-bottom: 30px;
       font-size: 1.1rem;
     }
@@ -123,17 +134,81 @@
 
   &__cta {
     background-color: $primary;
-    color: white;
+    color: $negro;
     border: none;
     padding: 15px 30px;
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition:
+      background-color 0.3s,
+      transform 0.2s;
 
     &:hover {
       background-color: darken($primary, 10%);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.job-card {
+  @extend %glass-pill-style;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  &:hover {
+    border-color: $primary;
+    box-shadow: 0 10px 30px rgba($negro, 0.08);
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: $negro;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    @extend %glass-pill-style;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: rgba($negro, 0.8);
+    padding: 6px 14px;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: $negro;
+    color: $blanco;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $primary;
+      color: $negro;
     }
   }
 }

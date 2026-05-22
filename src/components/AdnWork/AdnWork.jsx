@@ -53,7 +53,7 @@ const AdnWork = () => {
           >
             <div className='adn-work__actions'>
               <Link
-                to='/contacto' // <-- Actualizado a la nueva ruta de contacto
+                to='/trabaja_con_nosotros' // <-- Actualizado a la página de careers
                 className='btn-jobs'
               >
                 <span className='btn-jobs__text'>{t('adnWork.btn')}</span>{' '}

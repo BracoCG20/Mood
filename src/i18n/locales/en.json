@@ -85,7 +85,7 @@
         "send": "Send message"
       },
       "feedback": {
-        "success": "Message sent successfully! We will get in touch shortly.",
+        "success": "Ideas in motion. ⚡ Your message has successfully landed, get ready to rewrite the rules of the game.",
         "error": "There was an error sending your message. Please try again."
       }
     }
@@ -289,8 +289,58 @@
     },
     "jobs": {
       "title": "Open Positions",
-      "empty": "We don't have open positions right now, but we are always looking for talent. Send us your CV and we will contact you when an opportunity arises.",
-      "cta": "Send my CV"
+      "empty": "We don't have open positions right now...",
+      "cta": "View details",
+      "list": [
+        {
+          "id": "ui-ux-designer-senior",
+          "title": "Senior UI/UX Designer",
+          "type": "Full-time",
+          "date": "Posted: May 20, 2026",
+          "description": "We are looking for an exceptional designer to create impactful digital experiences and lead the visual design of our key clients' projects.",
+          "responsibilities": [
+            "Lead web and mobile interface design from conceptualization to final delivery.",
+            "Create wireframes, interactive prototypes, and user flows.",
+            "Collaborate closely with the development team to ensure design fidelity."
+          ],
+          "requirements": [
+            "5+ years of proven experience as a UI/UX Designer.",
+            "Absolute mastery of Figma and prototyping tools.",
+            "Solid portfolio with enterprise-level projects.",
+            "Basic knowledge of HTML/CSS (Desirable)."
+          ],
+          "benefits": [
+            "100% remote work.",
+            "Health insurance fully covered.",
+            "Annual budget for courses and training.",
+            "Quarterly performance bonuses."
+          ]
+        },
+        {
+          "id": "frontend-developer-react",
+          "title": "Frontend Developer (React)",
+          "type": "Full-time",
+          "date": "Posted: May 18, 2026",
+          "description": "Join our technical team to build ultra-fast, scalable web applications with top-tier market animations.",
+          "responsibilities": [
+            "Interface development using React and Vite.",
+            "API integration and global state management.",
+            "Implementation of complex animations (Framer Motion, GSAP)."
+          ],
+          "requirements": [
+            "3+ years of experience working with React.",
+            "Deep knowledge of modern JavaScript (ES6+) and SCSS.",
+            "Experience consuming REST APIs and GraphQL.",
+            "Strong attention to visual detail and UX."
+          ],
+          "benefits": [
+            "Flexible schedule oriented to objectives.",
+            "Latest generation computer equipment (MacBook Pro).",
+            "Additional days off for birthdays.",
+            "Horizontal culture with no micromanagement."
+          ]
+        }
+      ]
     }
   }
 }
