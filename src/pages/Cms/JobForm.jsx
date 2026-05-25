@@ -1,6 +1,64 @@
 import { useState } from 'react';
+import Select from 'react-select';
 import { List, ListOrdered } from 'lucide-react';
 import './JobForm.scss';
+
+// Opciones para React-Select
+const typeOptions = [
+  { value: 'Full-time', label: 'Full-time' },
+  { value: 'Part-time', label: 'Part-time' },
+  { value: 'Freelance', label: 'Freelance' },
+  { value: 'Híbrido', label: 'Híbrido' },
+];
+
+const countryOptions = [
+  { value: 'Peru', label: 'Perú' },
+  { value: 'Colombia', label: 'Colombia' },
+];
+
+// Estilos personalizados para que React-Select coincida con el diseño Shadcn
+const customSelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: '#ffffff',
+    borderColor: state.isFocused ? '#000000' : 'rgba(0, 0, 0, 0.15)',
+    boxShadow: state.isFocused ? '0 0 0 1px #000000' : 'none',
+    borderRadius: '6px',
+    padding: '0 2px',
+    minHeight: '38px',
+    fontSize: '0.875rem',
+    cursor: 'pointer',
+    '&:hover': {
+      borderColor: state.isFocused ? '#000000' : 'rgba(0, 0, 0, 0.25)',
+    },
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    fontSize: '0.875rem',
+    backgroundColor: state.isSelected
+      ? '#000000'
+      : state.isFocused
+        ? 'rgba(0,0,0,0.05)'
+        : '#ffffff',
+    color: state.isSelected ? '#ffffff' : '#000000',
+    cursor: 'pointer',
+    '&:active': {
+      backgroundColor: 'rgba(0,0,0,0.1)',
+    },
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: '6px',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+    border: '1px solid rgba(0,0,0,0.1)',
+    overflow: 'hidden',
+    zIndex: 5,
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#000000',
+  }),
+};
 
 const JobForm = ({ onSubmitSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -18,7 +76,11 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Función mágica: Toma el texto del textarea y le pone viñetas o números a cada línea
+  // Manejador especial para react-select
+  const handleSelectChange = (selectedOption, actionMeta) => {
+    setFormData({ ...formData, [actionMeta.name]: selectedOption.value });
+  };
+
   const handleFormatText = (field, formatType) => {
     const text = formData[field];
     if (!text.trim()) return;
@@ -45,13 +107,11 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
     e.preventDefault();
     const token = localStorage.getItem('cms_token');
 
-    // 🌟 AUTOMATIZACIÓN DE FECHA: Generamos "Mes Año" en tiempo real (Ej: Mayo 2026)
     const currentDate = new Date();
     const month = currentDate.toLocaleString('es-ES', { month: 'long' });
     const year = currentDate.getFullYear();
     const formattedDate = `${month.charAt(0).toUpperCase() + month.slice(1)} ${year}`;
 
-    // Función para convertir el bloque de texto en un Array limpio para PostgreSQL
     const convertToArray = (text) => {
       return text
         .split('\n')
@@ -59,11 +119,10 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
         .filter((line) => line !== '');
     };
 
-    // Preparamos los datos con la fecha automática
     const dataToSend = {
       ...formData,
       category: 'General',
-      date: formattedDate, // <--- Aquí inyectamos la fecha actual automáticamente
+      date: formattedDate,
       responsibilities: convertToArray(formData.responsibilities),
       requirements: convertToArray(formData.requirements),
       benefits: convertToArray(formData.benefits),
@@ -100,7 +159,6 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
       </div>
 
       <div className='cms-job-form__scroll-area'>
-        {/* BÁSICOS */}
         <div className='cms-job-form__section'>
           <div className='cms-job-form__group'>
             <label>Título del Puesto</label>
@@ -117,27 +175,27 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
           <div className='cms-job-form__group-row'>
             <div className='cms-job-form__group'>
               <label>Modalidad</label>
-              <select
+              <Select
                 name='type'
-                value={formData.type}
-                onChange={handleInputChange}
-              >
-                <option value='Full-time'>Full-time</option>
-                <option value='Part-time'>Part-time</option>
-                <option value='Freelance'>Freelance</option>
-                <option value='Híbrido'>Híbrido</option>
-              </select>
+                options={typeOptions}
+                value={typeOptions.find((opt) => opt.value === formData.type)}
+                onChange={handleSelectChange}
+                styles={customSelectStyles}
+                isSearchable={false}
+              />
             </div>
             <div className='cms-job-form__group'>
               <label>Sede</label>
-              <select
+              <Select
                 name='country'
-                value={formData.country}
-                onChange={handleInputChange}
-              >
-                <option value='Peru'>Perú</option>
-                <option value='Colombia'>Colombia</option>
-              </select>
+                options={countryOptions}
+                value={countryOptions.find(
+                  (opt) => opt.value === formData.country,
+                )}
+                onChange={handleSelectChange}
+                styles={customSelectStyles}
+                isSearchable={false}
+              />
             </div>
           </div>
 
@@ -156,9 +214,7 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
 
         <hr className='cms-job-form__divider' />
 
-        {/* DETALLES CON FORMATO */}
         <div className='cms-job-form__section'>
-          {/* Responsabilidades */}
           <div className='cms-job-form__group'>
             <div className='cms-job-form__label-bar'>
               <label>Responsabilidades</label>
@@ -188,7 +244,6 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
             ></textarea>
           </div>
 
-          {/* Requisitos */}
           <div className='cms-job-form__group'>
             <div className='cms-job-form__label-bar'>
               <label>Requisitos</label>
@@ -218,7 +273,6 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
             ></textarea>
           </div>
 
-          {/* Beneficios */}
           <div className='cms-job-form__group'>
             <div className='cms-job-form__label-bar'>
               <label>Beneficios</label>
