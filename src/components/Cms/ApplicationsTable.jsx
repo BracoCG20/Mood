@@ -1,30 +1,136 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import Select from 'react-select';
 import {
   Download,
-  ExternalLink,
   Mail,
-  Phone,
   FileText,
   Eye,
   X,
   Loader2,
+  MessageCircle,
+  FilterX,
+  Globe, // De lucide
+  ExternalLink, // De lucide
 } from 'lucide-react';
+import LinkedinIcon from '../Icons/Linkedin'; // Tu SVG personalizado
+import GithubIcon from '../Icons/Github'; // Tu SVG personalizado
 import './ApplicationsTable.scss';
+
+const customSelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: '#ffffff',
+    borderColor: state.isFocused ? '#0f172a' : '#cbd5e1',
+    boxShadow: state.isFocused ? '0 0 0 1px #0f172a' : 'none',
+    '&:hover': {
+      borderColor: state.isFocused ? '#0f172a' : '#94a3b8',
+    },
+    borderRadius: '6px',
+    padding: '0 4px',
+    minHeight: '38px',
+    fontSize: '0.85rem',
+    minWidth: '220px',
+    cursor: 'pointer',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected
+      ? '#f1f5f9'
+      : state.isFocused
+        ? '#f8fafc'
+        : '#ffffff',
+    color: '#0f172a',
+    fontSize: '0.85rem',
+    cursor: 'pointer',
+    '&:active': {
+      backgroundColor: '#e2e8f0',
+    },
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: '6px',
+    boxShadow:
+      '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+    border: '1px solid #e2e8f0',
+    overflow: 'hidden',
+    zIndex: 9999, // 🌟 Importante para que el dropdown se vea bien
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#0f172a',
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: '#64748b',
+  }),
+};
 
 const ApplicationsTable = ({ applications }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Estados para los modales
   const [cvModalApp, setCvModalApp] = useState(null);
   const [answersModalApp, setAnswersModalApp] = useState(null);
   const [jobQuestions, setJobQuestions] = useState([]);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
 
+  const [jobFilter, setJobFilter] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  const uniqueJobs = useMemo(() => {
+    const jobs = applications.map((app) => app.job_title);
+    return [...new Set(jobs)];
+  }, [applications]);
+
+  const jobOptions = useMemo(() => {
+    return [
+      { value: '', label: 'Todas las vacantes' },
+      ...uniqueJobs.map((job) => ({ value: job, label: job })),
+    ];
+  }, [uniqueJobs]);
+
+  const selectedJobOption =
+    jobOptions.find((opt) => opt.value === jobFilter) || jobOptions[0];
+
+  const filteredApps = useMemo(() => {
+    return applications.filter((app) => {
+      let matchesJob = true;
+      let matchesStart = true;
+      let matchesEnd = true;
+
+      if (jobFilter) {
+        matchesJob = app.job_title === jobFilter;
+      }
+
+      if (startDate) {
+        matchesStart =
+          new Date(app.created_at) >= new Date(startDate + 'T00:00:00');
+      }
+
+      if (endDate) {
+        matchesEnd =
+          new Date(app.created_at) <= new Date(endDate + 'T23:59:59');
+      }
+
+      return matchesJob && matchesStart && matchesEnd;
+    });
+  }, [applications, jobFilter, startDate, endDate]);
+
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [jobFilter, startDate, endDate]);
+
+  const clearFilters = () => {
+    setJobFilter('');
+    setStartDate('');
+    setEndDate('');
+  };
+
   const indexOfLastApp = currentPage * itemsPerPage;
   const indexOfFirstApp = indexOfLastApp - itemsPerPage;
-  const currentApps = applications.slice(indexOfFirstApp, indexOfLastApp);
-  const totalPages = Math.ceil(applications.length / itemsPerPage);
+  const currentApps = filteredApps.slice(indexOfFirstApp, indexOfLastApp);
+  const totalPages = Math.ceil(filteredApps.length / itemsPerPage);
 
   const formatDate = (dateString) => {
     if (!dateString) return '---';
@@ -43,7 +149,6 @@ const ApplicationsTable = ({ applications }) => {
       : answersData;
   };
 
-  // --- Funciones para abrir/cerrar Modales ---
   const openCvModal = (app) => setCvModalApp(app);
   const closeCvModal = () => setCvModalApp(null);
 
@@ -51,7 +156,6 @@ const ApplicationsTable = ({ applications }) => {
     setAnswersModalApp(app);
     setIsLoadingQuestions(true);
     try {
-      // Hacemos un fetch rápido para traer las preguntas originales del Job
       const response = await fetch(
         `http://localhost:5000/api/jobs/${app.job_id}`,
       );
@@ -64,7 +168,7 @@ const ApplicationsTable = ({ applications }) => {
         setJobQuestions(parsedQs);
       }
     } catch (error) {
-      console.error('Error al cargar preguntas de la vacante:', error);
+      console.error('Error al cargar preguntas:', error);
     } finally {
       setIsLoadingQuestions(false);
     }
@@ -76,135 +180,208 @@ const ApplicationsTable = ({ applications }) => {
   };
 
   return (
-    <div className='cms-table-wrapper'>
-      <table className='cms-table'>
-        <thead>
-          <tr>
-            <th>Candidato</th>
-            <th>Vacante</th>
-            <th>Contacto</th>
-            <th>Enlaces</th>
-            <th>CV / Respuestas</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentApps.length > 0 ? (
-            currentApps.map((app) => (
-              <tr key={app.id}>
-                <td>
-                  <div className='app-candidate'>
-                    <span className='font-medium'>{app.name}</span>
-                    <span className='app-date'>
-                      Postuló: {formatDate(app.created_at)}
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <span className='badge badge--inactive'>{app.job_title}</span>
-                </td>
-                <td>
-                  <div className='app-contact'>
-                    <a href={`mailto:${app.email}`}>
-                      <Mail size={14} /> {app.email}
-                    </a>
-                    <a
-                      href={`https://wa.me/${app.phone?.replace(/\D/g, '')}`}
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
-                      <Phone size={14} /> {app.phone}
-                    </a>
-                  </div>
-                </td>
-                <td>
-                  <div className='app-links'>
-                    {app.linkedin && (
-                      <a
-                        href={app.linkedin}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        <ExternalLink size={14} /> LinkedIn
-                      </a>
-                    )}
-                    {app.behance && (
-                      <a
-                        href={app.behance}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        <ExternalLink size={14} /> Portfolio
-                      </a>
-                    )}
-                    {app.github && (
-                      <a
-                        href={app.github}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        <ExternalLink size={14} /> GitHub
-                      </a>
-                    )}
-                  </div>
-                </td>
-                <td>
-                  <div className='app-actions'>
-                    <button
-                      className='btn-action btn--activate'
-                      onClick={() => openCvModal(app)}
-                      title='Ver CV'
-                    >
-                      <Eye size={16} /> Ver CV
-                    </button>
+    // 🌟 ENVOLTORIO PRINCIPAL QUE SEPARA FILTROS Y TABLA
+    <div className='applications-view'>
+      {/* 🌟 BARRA DE FILTROS TOTALMENTE INDEPENDIENTE */}
+      <div className='app-filters-bar'>
+        <div className='filter-group'>
+          <label>Puesto postulado</label>
+          <Select
+            options={jobOptions}
+            value={selectedJobOption}
+            onChange={(selected) =>
+              setJobFilter(selected ? selected.value : '')
+            }
+            styles={customSelectStyles}
+            placeholder='Seleccionar vacante...'
+            isSearchable={false}
+          />
+        </div>
 
-                    {Object.keys(parseAnswers(app.answers)).length > 0 && (
-                      <button
-                        className='btn-action btn--edit'
-                        onClick={() => openAnswersModal(app)}
-                        title='Ver respuestas del candidato'
+        <div className='filter-group'>
+          <label>Desde (Fecha)</label>
+          <input
+            type='date'
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+
+        <div className='filter-group'>
+          <label>Hasta (Fecha)</label>
+          <input
+            type='date'
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+
+        {(jobFilter || startDate || endDate) && (
+          <button
+            className='btn-clear-filters'
+            onClick={clearFilters}
+            title='Limpiar filtros'
+          >
+            <FilterX size={16} /> <span>Limpiar</span>
+          </button>
+        )}
+      </div>
+
+      {/* 🌟 CONTENEDOR DE LA TABLA */}
+      <div className='cms-table-wrapper'>
+        <table className='cms-table'>
+          <thead>
+            <tr>
+              <th>Candidato</th>
+              <th>Vacante</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th style={{ textAlign: 'center' }}>Enlaces</th>
+              <th style={{ textAlign: 'center' }}>CV</th>
+              <th style={{ textAlign: 'center' }}>Respuestas</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentApps.length > 0 ? (
+              currentApps.map((app) => (
+                <tr key={app.id}>
+                  <td>
+                    <div className='app-candidate'>
+                      <span className='font-medium'>{app.name}</span>
+                      <span className='app-date'>
+                        Postuló: {formatDate(app.created_at)}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <span className='badge badge--job'>{app.job_title}</span>
+                  </td>
+                  <td>
+                    <div className='app-contact'>
+                      <a
+                        href={`mailto:${app.email}`}
+                        className='contact-link'
                       >
-                        <FileText size={16} /> Respuestas
+                        <Mail size={14} /> {app.email}
+                      </a>
+                    </div>
+                  </td>
+                  <td>
+                    <div className='app-contact'>
+                      <a
+                        href={`https://wa.me/${app.phone?.replace(/\D/g, '')}`}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='btn-whatsapp'
+                      >
+                        <MessageCircle size={14} /> {app.phone}
+                      </a>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div className='app-links-row'>
+                      {app.linkedin && (
+                        <a
+                          href={app.linkedin}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='icon-link-chip linkedin'
+                          title='Ver LinkedIn'
+                        >
+                          <LinkedinIcon size={16} /> {/* Usando tu SVG */}
+                        </a>
+                      )}
+                      {app.behance && (
+                        <a
+                          href={app.behance}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='icon-link-chip portfolio'
+                          title='Ver Portafolio Web / Behance'
+                        >
+                          <Globe size={16} />
+                        </a>
+                      )}
+                      {app.github && (
+                        <a
+                          href={app.github}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='icon-link-chip github'
+                          title='Ver GitHub'
+                        >
+                          <GithubIcon size={16} />
+                        </a>
+                      )}
+                      {!app.linkedin && !app.behance && !app.github && (
+                        <span className='no-data'>-</span>
+                      )}
+                    </div>
+                  </td>
+
+                  <td style={{ textAlign: 'center' }}>
+                    <button
+                      className='btn-action btn--icon-only btn--view-cv'
+                      onClick={() => openCvModal(app)}
+                      title='Ver CV del candidato'
+                    >
+                      <Eye size={16} />
+                    </button>
+                  </td>
+                  <td style={{ textAlign: 'center' }}>
+                    {Object.keys(parseAnswers(app.answers)).length > 0 ? (
+                      <button
+                        className='btn-action btn--icon-only btn--view-answers'
+                        onClick={() => openAnswersModal(app)}
+                        title='Ver respuestas del formulario'
+                      >
+                        <FileText size={16} />
                       </button>
+                    ) : (
+                      <span className='no-data'>-</span>
                     )}
-                  </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan='7'
+                  className='cms-table__empty'
+                >
+                  {filteredApps.length === 0 && applications.length > 0
+                    ? 'No hay postulantes que coincidan con estos filtros.'
+                    : 'Aún no hay postulantes registrados en el sistema.'}
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan='5'
-                className='cms-table__empty'
-              >
-                Aún no hay postulantes registrados en el sistema.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
 
-      {totalPages > 1 && (
-        <div className='cms-pagination'>
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((prev) => prev - 1)}
-          >
-            Anterior
-          </button>
-          <span>
-            Página {currentPage} de {totalPages}
-          </span>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((prev) => prev + 1)}
-          >
-            Siguiente
-          </button>
-        </div>
-      )}
+        {totalPages > 1 && (
+          <div className='cms-pagination'>
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
+            >
+              Anterior
+            </button>
+            <span>
+              Página {currentPage} de {totalPages}
+            </span>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+            >
+              Siguiente
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* =========================================
-          MODAL: VER CV
+          MODALES
           ========================================= */}
       {cvModalApp && (
         <div
@@ -240,7 +417,6 @@ const ApplicationsTable = ({ applications }) => {
               </div>
             </header>
             <div className='cms-modal-body'>
-              {/* Renderizamos el PDF directamente mediante un iframe */}
               <iframe
                 src={cvModalApp.cv_url}
                 className='cv-iframe'
@@ -251,9 +427,6 @@ const ApplicationsTable = ({ applications }) => {
         </div>
       )}
 
-      {/* =========================================
-          MODAL: VER RESPUESTAS
-          ========================================= */}
       {answersModalApp && (
         <div
           className='cms-modal-overlay'
@@ -275,7 +448,6 @@ const ApplicationsTable = ({ applications }) => {
                 <X size={24} />
               </button>
             </header>
-
             <div className='cms-modal-body'>
               {isLoadingQuestions ? (
                 <div className='loading-answers'>
@@ -291,12 +463,9 @@ const ApplicationsTable = ({ applications }) => {
                     const candidateAnswer = parseAnswers(
                       answersModalApp.answers,
                     )[q.id];
-
-                    // Formatear si es array (múltiple) o texto
                     const formattedAnswer = Array.isArray(candidateAnswer)
                       ? candidateAnswer.join(' • ')
                       : candidateAnswer || 'No respondió';
-
                     return (
                       <div
                         key={q.id}

@@ -54,28 +54,28 @@ export const submitApplication = async (req, res) => {
     const jobTitle =
       jobResult.rows.length > 0 ? jobResult.rows[0].title : 'la vacante';
 
-    // 3. Enviar Correo Automático al Postulante (Con Logo Dinámico)
+    // 3. Enviar Correo Automático al Postulante (Con tono fresco y creativo)
     const mailOptions = {
       from: `"Equipo de Talento - GTH Mood" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: `Postulación recibida: ${jobTitle}`,
+      subject: `¡Recibimos tu postulación! 🚀 / Tu perfil ya está en nuestro radar`, // 🌟 Asunto fresco actualizado
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; padding: 40px 20px;">
           
           <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             
             <div style="padding: 24px 32px; border-bottom: 1px solid #e2e8f0; text-align: left; background-color: #1a1a1a;">
-              <img src="https://res.cloudinary.com/djsfjv4wf/image/upload/v1779822485/Logo_Mood_bwngjg.svg" alt="GTH Mood Logo" style="height: 45px; display: block;margin: auto;" />
+              <img src="https://res.cloudinary.com/djsfjv4wf/image/upload/v1779822485/Logo_Mood_bwngjg.svg" alt="GTH Mood Logo" style="height: 45px; display: block; margin: auto;" />
             </div>
             
             <div style="padding: 32px; color: #334155; font-size: 16px; line-height: 1.6;">
               <p style="margin-top: 0;">Hola <strong>${name}</strong>,</p>
               
-              <p>Queríamos confirmarte que hemos recibido exitosamente tu postulación para la posición de <strong>${jobTitle}</strong>. Tu perfil y tu CV ya están en nuestra base de datos.</p>
+              <p>¡Qué buena vibra! Queríamos confirmarte que tu postulación para la posición de <strong>${jobTitle}</strong> ha llegado correctamente a nuestros servidores. Tu perfil y tu CV ya forman parte de nuestra base de talentos.</p>
               
-              <p>Nuestro equipo de talento revisará tu información con detenimiento y nos pondremos en contacto contigo si tu perfil hace <em>match</em> con lo que estamos buscando.</p>
+              <p>En Mood nos encanta conectar con mentes creativas. Nuestro equipo de talento va a revisar tu propuesta con el ojo clínico que nos caracteriza. Nos tomamos el diseño y la estrategia muy en serio, por lo que solemos tomarnos un plazo de 7 a 10 días hábiles para evaluar cada portafolio y perfil. Si entramos en el mismo mood y tu perfil hace match con lo que buscamos, te escribiremos muy pronto.</p>
               
-              <p style="margin-bottom: 0;">¡Te deseamos mucha suerte en el proceso!</p>
+              <p style="margin-bottom: 0;">¡Te deseamos la mejor de las suertes en el proceso!</p>
             </div>
             
             <div style="background-color: #f8fafc; padding: 24px 32px; border-top: 1px solid #e2e8f0; text-align: center;">

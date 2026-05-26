@@ -58,15 +58,15 @@ const JobsTable = ({ jobs, onToggleStatus, onEdit }) => {
                 <td>
                   <div className='table-actions'>
                     <button
-                      className='btn-action btn--edit'
+                      className='btn-action btn--icon-only btn--edit'
                       onClick={() => onEdit(job)}
                       title='Editar vacante'
                     >
-                      <Edit size={16} /> Editar
+                      <Edit size={16} />
                     </button>
 
                     <button
-                      className={`btn-action ${job.is_active ? 'btn--deactivate' : 'btn--activate'}`}
+                      className={`btn-action btn--icon-only ${job.is_active ? 'btn--deactivate' : 'btn--activate'}`}
                       onClick={() => onToggleStatus(job.id)}
                       title={
                         job.is_active
@@ -79,7 +79,6 @@ const JobsTable = ({ jobs, onToggleStatus, onEdit }) => {
                       ) : (
                         <Power size={16} />
                       )}
-                      {job.is_active ? 'Baja' : 'Activar'}
                     </button>
                   </div>
                 </td>

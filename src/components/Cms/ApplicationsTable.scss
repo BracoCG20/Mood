@@ -1,54 +1,352 @@
 @use '../../styles/variables' as *;
 
+/* 🌟 Contenedor principal que envuelve todo (filtros + tabla) */
+.applications-view {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Separación entre la barra de filtros y la tabla */
+  width: 100%;
+}
+
+/* =========================================
+   BARRA DE FILTROS (Independiente)
+   ========================================= */
+.app-filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input[type='date'] {
+    padding: 0.4rem 0.75rem;
+    height: 38px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #0f172a;
+    background-color: #ffffff;
+    outline: none;
+    min-width: 150px;
+    font-family: inherit;
+    cursor: pointer;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+
+    &:focus {
+      border-color: #0f172a;
+      box-shadow: 0 0 0 1px #0f172a;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s ease;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+.btn-clear-filters {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+  background-color: #f1f5f9;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  height: 38px;
+
+  &:hover {
+    background-color: #fef2f2;
+    color: #ef4444;
+  }
+}
+
+/* =========================================
+   TABLA DE POSTULANTES
+   ========================================= */
+.cms-table-wrapper {
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Esto ahora solo recorta el interior de la tabla */
+  width: 100%;
+}
+
+.cms-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.875rem;
+
+  th,
+  td {
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  th {
+    background-color: #ffffff;
+    font-weight: 500;
+    color: #64748b;
+    font-size: 0.85rem;
+  }
+
+  td {
+    color: #334155;
+  }
+  .font-medium {
+    font-weight: 500;
+    color: #0f172a;
+  }
+  &__empty {
+    text-align: center;
+    padding: 4rem;
+    color: #64748b;
+  }
+
+  tbody tr {
+    transition: background-color 0.2s ease;
+    &:hover {
+      background-color: #f8fafc;
+    }
+  }
+}
+
+.badge--job {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #334155;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.4);
+  }
+}
+
 .app-candidate {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-
   .app-date {
     font-size: 0.75rem;
     color: #64748b;
   }
 }
 
-.app-contact,
-.app-links {
+.app-contact {
   display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  align-items: center;
+}
 
-  a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.85rem;
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #475569;
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover {
     color: #0f172a;
-    text-decoration: none;
-    transition: color 0.2s;
+  }
+}
 
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #10b981;
+  background-color: #ecfdf5;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  &:hover {
+    background-color: #d1fae5;
+    color: #059669;
+  }
+}
+
+/* =========================================
+   ENLACES (Nuevos Icon Chips)
+   ========================================= */
+.app-links-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.icon-link-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #f1f5f9;
+  color: #64748b;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+    transform: translateY(-1px);
+  }
+
+  &.linkedin:hover {
+    color: #0a66c2;
+    background-color: #e0f2fe;
+    border-color: #bae6fd;
+  }
+
+  &.github:hover {
+    color: #181717;
+    background-color: #e2e8f0;
+    border-color: #cbd5e1;
+  }
+
+  &.portfolio:hover {
+    color: #db2777;
+    background-color: #fce7f3;
+    border-color: #fbcfe8;
+  }
+}
+
+.no-data {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+/* =========================================
+   ACCIONES (Icon Buttons Estilo Shadcn)
+   ========================================= */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  transition: all 0.2s ease-in-out;
+
+  &.btn--icon-only {
+    padding: 0.4rem;
+  }
+
+  &.btn--view-cv {
+    color: #3b82f6;
     &:hover {
-      color: $primary;
+      background-color: #eff6ff;
+      color: #2563eb;
+    }
+  }
+
+  &.btn--view-answers {
+    color: #8b5cf6;
+    &:hover {
+      background-color: #f5f3ff;
+      color: #7c3aed;
     }
   }
 }
 
-.app-actions {
+/* =========================================
+   CONTROLES DE PAGINACIÓN Y MODALES
+   ========================================= */
+.cms-pagination {
   display: flex;
-  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid #e2e8f0;
+  background: #ffffff;
+
+  button {
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #0f172a;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover:not(:disabled) {
+      background: #f8fafc;
+    }
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+  span {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+  }
 }
 
-/* =========================================
-   ESTILOS PARA LOS MODALES CENTRADOS
-   ========================================= */
 .cms-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(3px);
-  z-index: 2000; /* Por encima de todo */
+  background-color: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,13 +361,13 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  max-height: 90vh; /* No crecerá más allá del alto de la pantalla */
+  max-height: 90vh;
   overflow: hidden;
   transform: translateY(20px);
   animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   &.modal-cv {
-    max-width: 900px; /* Modal más ancho para leer el PDF cómodo */
+    max-width: 900px;
     height: 85vh;
   }
 }
@@ -80,35 +378,25 @@
   align-items: center;
   padding: 1.5rem 2rem;
   border-bottom: 1px solid #e2e8f0;
-  background-color: #f8fafc;
+  background-color: #ffffff;
 
   h3 {
     margin: 0 0 0.25rem 0;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: #0f172a;
-    font-weight: 700;
+    font-weight: 600;
   }
-
   p {
     margin: 0;
     font-size: 0.85rem;
     color: #64748b;
   }
-
   .modal-header-actions {
     display: flex;
     align-items: center;
     gap: 1rem;
   }
-
-  .btn-download-icon {
-    color: #64748b;
-    transition: color 0.2s;
-    &:hover {
-      color: #0f172a;
-    }
-  }
-
+  .btn-download-icon,
   .btn-close {
     background: transparent;
     border: none;
@@ -120,11 +408,12 @@
     transition:
       color 0.2s,
       transform 0.2s;
-
     &:hover {
-      color: #dc2626; /* Rojo */
-      transform: scale(1.1);
+      color: #0f172a;
     }
+  }
+  .btn-close:hover {
+    color: #dc2626;
   }
 }
 
@@ -132,33 +421,28 @@
   padding: 2rem;
   overflow-y: auto;
   flex: 1;
-
-  /* Scrollbar personalizado */
   &::-webkit-scrollbar {
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(#000, 0.15);
+    background-color: rgba(0, 0, 0, 0.15);
     border-radius: 10px;
   }
 }
 
-/* Modal específico para CV */
 .modal-cv .cms-modal-body {
-  padding: 0; /* Quitamos padding para que el PDF ocupe el 100% */
+  padding: 0;
   display: flex;
   flex-direction: column;
 }
-
 .cv-iframe {
   width: 100%;
   height: 100%;
   flex: 1;
   border: none;
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
 }
 
-/* Modal específico para Respuestas */
 .loading-answers {
   display: flex;
   flex-direction: column;
@@ -166,7 +450,6 @@
   justify-content: center;
   padding: 4rem 0;
   color: #64748b;
-
   .spinner-icon {
     animation: spin 1s linear infinite;
     margin-bottom: 1rem;
@@ -179,24 +462,20 @@
   flex-direction: column;
   gap: 1.5rem;
 }
-
 .qa-block {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
   .q-label {
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 500;
     color: #0f172a;
     line-height: 1.4;
-
     .q-number {
       color: #64748b;
       margin-right: 0.25rem;
     }
   }
-
   .a-text {
     background-color: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -205,10 +484,9 @@
     font-size: 0.9rem;
     color: #334155;
     line-height: 1.6;
-    white-space: pre-wrap; /* Respeta los saltos de línea */
+    white-space: pre-wrap;
   }
 }
-
 .no-questions-msg {
   text-align: center;
   color: #64748b;
@@ -223,7 +501,6 @@
     opacity: 1;
   }
 }
-
 @keyframes slideUpModal {
   from {
     transform: translateY(20px);
@@ -234,7 +511,6 @@
     opacity: 1;
   }
 }
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
