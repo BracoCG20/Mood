@@ -88,7 +88,7 @@ const JobDetail = () => {
                 <MapPin size={14} /> {job.country}
               </span>
               <span className='job-badge job-badge--secondary'>
-                <Calendar size={14} /> Ingreso: {job.date}
+                <Calendar size={14} /> Fecha Publicación: {job.date}
               </span>
             </div>
           </header>

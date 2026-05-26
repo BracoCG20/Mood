@@ -1,0 +1,242 @@
+@use '../../styles/variables' as *;
+
+.app-candidate {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  .app-date {
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+}
+
+.app-contact,
+.app-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: #0f172a;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}
+
+.app-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* =========================================
+   ESTILOS PARA LOS MODALES CENTRADOS
+   ========================================= */
+.cms-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 2000; /* Por encima de todo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInModal 0.2s ease-out forwards;
+}
+
+.cms-modal-content {
+  background-color: #ffffff;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh; /* No crecerá más allá del alto de la pantalla */
+  overflow: hidden;
+  transform: translateY(20px);
+  animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  &.modal-cv {
+    max-width: 900px; /* Modal más ancho para leer el PDF cómodo */
+    height: 85vh;
+  }
+}
+
+.cms-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+
+  h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.25rem;
+    color: #0f172a;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn-download-icon {
+    color: #64748b;
+    transition: color 0.2s;
+    &:hover {
+      color: #0f172a;
+    }
+  }
+
+  .btn-close {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition:
+      color 0.2s,
+      transform 0.2s;
+
+    &:hover {
+      color: #dc2626; /* Rojo */
+      transform: scale(1.1);
+    }
+  }
+}
+
+.cms-modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  flex: 1;
+
+  /* Scrollbar personalizado */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(#000, 0.15);
+    border-radius: 10px;
+  }
+}
+
+/* Modal específico para CV */
+.modal-cv .cms-modal-body {
+  padding: 0; /* Quitamos padding para que el PDF ocupe el 100% */
+  display: flex;
+  flex-direction: column;
+}
+
+.cv-iframe {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  border: none;
+  background-color: #f1f5f9;
+}
+
+/* Modal específico para Respuestas */
+.loading-answers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+  color: #64748b;
+
+  .spinner-icon {
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+    color: #0f172a;
+  }
+}
+
+.qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.qa-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .q-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.4;
+
+    .q-number {
+      color: #64748b;
+      margin-right: 0.25rem;
+    }
+  }
+
+  .a-text {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.6;
+    white-space: pre-wrap; /* Respeta los saltos de línea */
+  }
+}
+
+.no-questions-msg {
+  text-align: center;
+  color: #64748b;
+  padding: 2rem 0;
+}
+
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpModal {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

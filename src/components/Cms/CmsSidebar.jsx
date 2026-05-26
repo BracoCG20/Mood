@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Briefcase, LogOut } from 'lucide-react';
-import logoMood from '../../assets/Logo_Mood.svg'; // 🌟 Importamos tu Logo
+import { Briefcase, LogOut, Users } from 'lucide-react'; // 🌟 Importamos Users
+import logoMood from '../../assets/Logo_Mood.svg';
 import './CmsSidebar.scss';
 
-const CmsSidebar = () => {
+// 🌟 Recibimos las props para controlar la pestaña activa
+const CmsSidebar = ({ activeTab, setActiveTab }) => {
   const { logout } = useContext(AuthContext);
 
   return (
@@ -18,9 +19,21 @@ const CmsSidebar = () => {
       </div>
 
       <nav className='cms-sidebar-nav__menu'>
-        <button className='cms-sidebar-nav__link active'>
+        <button
+          className={`cms-sidebar-nav__link ${activeTab === 'vacantes' ? 'active' : ''}`}
+          onClick={() => setActiveTab('vacantes')}
+        >
           <Briefcase size={18} />
           Vacantes
+        </button>
+
+        {/* 🌟 NUEVA PESTAÑA */}
+        <button
+          className={`cms-sidebar-nav__link ${activeTab === 'postulantes' ? 'active' : ''}`}
+          onClick={() => setActiveTab('postulantes')}
+        >
+          <Users size={18} />
+          Postulantes
         </button>
       </nav>
 

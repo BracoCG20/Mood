@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Send, UploadCloud, FileText } from 'lucide-react';
+import { ArrowLeft, Send, UploadCloud, FileText, Loader2 } from 'lucide-react';
 import './JobApplication.scss';
 
 const JobApplication = () => {
@@ -8,15 +8,16 @@ const JobApplication = () => {
   const navigate = useNavigate();
   const [job, setJob] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Estados del postulante actualizados
   const [personalData, setPersonalData] = useState({
     name: '',
     email: '',
+    phone: '',
     linkedin: '',
     github: '',
     behance: '',
-    cv: null, // Guardará el archivo físico
+    cv: null,
   });
   const [answers, setAnswers] = useState({});
 
@@ -41,7 +42,6 @@ const JobApplication = () => {
     setPersonalData({ ...personalData, [e.target.name]: e.target.value });
   };
 
-  // Manejador específico para el archivo CV
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -68,22 +68,44 @@ const JobApplication = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🚧 SIMULACIÓN: Aquí luego usaremos FormData para poder enviar el archivo físico al backend
-    const applicationPayload = {
-      jobId,
-      name: personalData.name,
-      email: personalData.email,
-      linkedin: personalData.linkedin,
-      github: personalData.github,
-      behance: personalData.behance,
-      cvName: personalData.cv ? personalData.cv.name : 'Ninguno',
-      answers,
-    };
+    if (!personalData.cv) {
+      alert('Por favor, adjunta tu Curriculum Vitae (CV) antes de continuar.');
+      return;
+    }
 
-    console.log('Enviando postulación (Simulación):', applicationPayload);
-    alert('¡Tu postulación ha sido enviada con éxito! (Modo Simulación)');
+    setIsSubmitting(true);
 
-    navigate('/trabaja_con_nosotros');
+    try {
+      const formData = new FormData();
+      formData.append('jobId', jobId);
+      formData.append('name', personalData.name);
+      formData.append('email', personalData.email);
+      formData.append('phone', personalData.phone);
+      formData.append('linkedin', personalData.linkedin);
+      formData.append('github', personalData.github);
+      formData.append('behance', personalData.behance);
+      formData.append('cv', personalData.cv);
+      formData.append('answers', JSON.stringify(answers));
+
+      const response = await fetch('http://localhost:5000/api/applications', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert(
+          '¡Tu postulación ha sido enviada con éxito! Revisa tu bandeja de correo.',
+        );
+        navigate('/trabaja_con_nosotros');
+      } else {
+        alert('Hubo un problema al enviar tu postulación. Intenta nuevamente.');
+      }
+    } catch (error) {
+      console.error('Error al enviar postulación:', error);
+      alert('Error de conexión con el servidor.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isLoading) {
@@ -150,6 +172,20 @@ const JobApplication = () => {
                     required
                   />
                 </div>
+                <div className='app-group'>
+                  <label>
+                    Número de celular{' '}
+                    <span className='required-asterisk'>*</span>
+                  </label>
+                  <input
+                    type='tel'
+                    name='phone'
+                    value={personalData.phone}
+                    onChange={handlePersonalChange}
+                    placeholder='+51 987 654 321'
+                    required
+                  />
+                </div>
               </div>
             </section>
 
@@ -158,7 +194,6 @@ const JobApplication = () => {
             {/* --- ENLACES Y CV --- */}
             <section className='app-section'>
               <h2>Perfil Profesional</h2>
-
               <div className='app-grid'>
                 <div className='app-group'>
                   <label>Perfil de LinkedIn</label>
@@ -201,7 +236,7 @@ const JobApplication = () => {
                     <input
                       type='file'
                       id='cv-upload'
-                      accept='.pdf,.doc,.docx'
+                      accept='.pdf,application/pdf'
                       onChange={handleFileChange}
                       required
                       className='cv-upload-input'
@@ -239,7 +274,7 @@ const JobApplication = () => {
                             Haz clic para subir tu CV o arrástralo aquí
                           </span>
                           <span className='upload-hint'>
-                            Formatos soportados: PDF, DOCX (Máx. 5MB)
+                            Formatos soportados: PDF (Máx. 5MB)
                           </span>
                         </>
                       )}
@@ -263,18 +298,24 @@ const JobApplication = () => {
                     >
                       <label>
                         {index + 1}. {q.label}{' '}
-                        <span className='required-asterisk'>*</span>
+                        {q.isRequired && (
+                          <span className='required-asterisk'>*</span>
+                        )}
                       </label>
 
-                      {q.type === 'text' && (
+                      {(q.type === 'text' || q.type === 'number') && (
                         <textarea
-                          rows='3'
-                          required
+                          rows={q.type === 'number' ? '1' : '3'}
+                          required={q.isRequired}
                           value={answers[q.id] || ''}
                           onChange={(e) =>
                             handleTextAnswer(q.id, e.target.value)
                           }
-                          placeholder='Tu respuesta...'
+                          placeholder={
+                            q.type === 'number'
+                              ? 'Ingresa un número...'
+                              : 'Tu respuesta...'
+                          }
                         />
                       )}
 
@@ -313,8 +354,21 @@ const JobApplication = () => {
             <button
               type='submit'
               className='btn-submit-app'
+              disabled={isSubmitting}
             >
-              Enviar Postulación <Send size={16} />
+              {isSubmitting ? (
+                <>
+                  Enviando...{' '}
+                  <Loader2
+                    size={16}
+                    className='spinner-icon'
+                  />
+                </>
+              ) : (
+                <>
+                  Enviar Postulación <Send size={16} />
+                </>
+              )}
             </button>
           </footer>
         </form>

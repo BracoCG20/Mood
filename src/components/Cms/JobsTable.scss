@@ -85,18 +85,32 @@
   }
 }
 
-/* Botones de acción en la tabla */
-.btn-toggle-status {
+/* 🌟 ACCIONES DE LA TABLA (Editar, Apagar) */
+.table-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.6rem;
   border-radius: 6px;
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
   border: 1px solid transparent;
   transition: all 0.2s;
+
+  &.btn--edit {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    color: #0f172a;
+    &:hover {
+      background-color: #f1f5f9;
+    }
+  }
 
   &.btn--deactivate {
     background-color: #ffffff;
@@ -116,5 +130,40 @@
       background-color: #f0fdf4;
       border-color: #4ade80;
     }
+  }
+}
+
+/* 🌟 CONTROLES DE PAGINACIÓN */
+.cms-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: white;
+
+  button {
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover:not(:disabled) {
+      background: #f1f5f9;
+    }
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
   }
 }

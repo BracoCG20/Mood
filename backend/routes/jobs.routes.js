@@ -4,6 +4,7 @@ import {
   getJobById,
   createJob,
   toggleJobStatus, // <--- NUEVA IMPORTACIÓN
+  updateJob, // <--- NUEVA IMPORTACIÓN
 } from '../controllers/jobs.controller.js';
 
 const router = Router();
@@ -19,5 +20,8 @@ router.post('/', createJob);
 
 // PATCH: /api/jobs/:id/status -> Cambia el estado (Activa / Inactiva) de una vacante
 router.patch('/:id/status', toggleJobStatus); // <--- NUEVA RUTA
+
+// PUT: /api/jobs/:id -> Actualiza una vacante existente (CMS)
+router.put('/:id', updateJob);
 
 export default router;

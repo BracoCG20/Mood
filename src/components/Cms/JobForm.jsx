@@ -65,18 +65,26 @@ const customSelectStyles = {
   }),
 };
 
-const JobForm = ({ onSubmitSuccess, onCancel }) => {
+const JobForm = ({ onSubmitSuccess, onCancel, jobToEdit }) => {
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState({
-    title: '',
-    type: 'Full-time',
-    country: 'Peru',
-    description: '',
-    responsibilities: '',
-    requirements: '',
-    benefits: '',
-    filterQuestions: [],
+    title: jobToEdit?.title || '',
+    type: jobToEdit?.type || 'Full-time',
+    country: jobToEdit?.country || 'Peru',
+    description: jobToEdit?.description || '',
+    responsibilities: jobToEdit?.responsibilities
+      ? jobToEdit.responsibilities.join('\n• ')
+      : '',
+    requirements: jobToEdit?.requirements
+      ? jobToEdit.requirements.join('\n• ')
+      : '',
+    benefits: jobToEdit?.benefits ? jobToEdit.benefits.join('\n• ') : '',
+    filterQuestions: jobToEdit?.questions
+      ? typeof jobToEdit.questions === 'string'
+        ? JSON.parse(jobToEdit.questions)
+        : jobToEdit.questions
+      : [],
   });
 
   const handleInputChange = (e) => {
@@ -119,9 +127,9 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
     setStep(1);
   };
 
-  // 🌟 ACTUALIZADO: Manejo del submit final con confirmación
+  // 🌟 ACTUALIZADO: Manejo del submit final con confirmación (Crear o Editar)
   const handleFinalSubmit = async (e) => {
-    e.preventDefault(); // Previene recargas indeseadas al enviar el formulario
+    e.preventDefault();
 
     // Validación extra: Verificar si hay preguntas múltiples sin opciones
     const hasEmptyMultipleChoice = formData.filterQuestions.some(
@@ -135,12 +143,14 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
       return;
     }
 
-    // Modal nativo de confirmación
-    const confirmPublish = window.confirm(
-      '¿Estás seguro de publicar esta vacante? \n\nAsegúrate de que las preguntas de filtrado estén correctas.',
-    );
+    // Modal nativo de confirmación dinámico
+    const confirmMessage = jobToEdit
+      ? '¿Estás seguro de guardar los cambios en esta vacante?'
+      : '¿Estás seguro de publicar esta vacante? \n\nAsegúrate de que las preguntas de filtrado estén correctas.';
 
-    if (!confirmPublish) return; // Si el usuario cancela, detenemos el proceso
+    const confirmPublish = window.confirm(confirmMessage);
+
+    if (!confirmPublish) return;
 
     const token = localStorage.getItem('cms_token');
     const currentDate = new Date();
@@ -166,8 +176,15 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/jobs', {
-        method: 'POST',
+      // 🌟 SOLUCIÓN AL BUG: Si existe jobToEdit hacemos PUT a la URL con ID, sino POST a la general
+      const url = jobToEdit
+        ? `http://localhost:5000/api/jobs/${jobToEdit.id}`
+        : 'http://localhost:5000/api/jobs';
+
+      const method = jobToEdit ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method: method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -176,13 +193,17 @@ const JobForm = ({ onSubmitSuccess, onCancel }) => {
       });
 
       if (response.ok) {
-        alert('✅ ¡Vacante y preguntas publicadas con éxito!');
+        alert(
+          jobToEdit
+            ? '✅ ¡Vacante actualizada con éxito!'
+            : '✅ ¡Vacante publicada con éxito!',
+        );
         onSubmitSuccess();
       } else {
-        alert('❌ Hubo un error al publicar la vacante.');
+        alert('❌ Hubo un error al procesar la vacante.');
       }
     } catch (error) {
-      console.error('Error al publicar:', error);
+      console.error('Error al guardar:', error);
     }
   };
 

@@ -16,7 +16,7 @@ const CareersJobs = () => {
         const response = await fetch('http://localhost:5000/api/jobs');
         if (response.ok) {
           const data = await response.json();
-          // Filtramos primero para asegurarnos de mostrar SOLO las vacantes que estén "Activas"
+          // Filtramos primero para asegurarnos de mostrar SOLO las vacantes "Activas"
           const activeJobs = data.filter((job) => job.is_active === true);
           setJobsList(activeJobs);
         }
@@ -31,7 +31,6 @@ const CareersJobs = () => {
   }, []);
 
   /* 🔥 EL FILTRO SECRETO MULTI-PAÍS: 
-     Ahora lee directamente el país de la base de datos.
      Por el momento, filtramos para que en pantalla SOLO aparezca Perú. */
   const visibleJobs = jobsList.filter(
     (job) => job.country === 'Peru' || job.country === 'Perú',

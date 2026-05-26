@@ -8,6 +8,7 @@ import contactRoutes from './routes/contact.routes.js';
 import countryRoutes from './routes/country.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import jobsRoutes from './routes/jobs.routes.js';
+import applicationsRoutes from './routes/applications.routes.js'; // 🌟 NUEVA RUTA IMPORTADA
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use('/api/contacto', contactRoutes);
 app.use('/api/countries', countryRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobsRoutes);
+app.use('/api/applications', applicationsRoutes); // 🌟 NUEVA RUTA MONTADA
 
 // Iniciamos el servidor
 app.listen(PORT, () => {

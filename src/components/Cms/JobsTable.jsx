@@ -1,17 +1,26 @@
-import { Power, PowerOff } from 'lucide-react'; // Íconos
+import { useState } from 'react';
+import { Power, PowerOff, Edit } from 'lucide-react';
 import './JobsTable.scss';
 
-const JobsTable = ({ jobs, onToggleStatus }) => {
+const JobsTable = ({ jobs, onToggleStatus, onEdit }) => {
+  // Paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  // Lógica de cálculo de páginas
+  const indexOfLastJob = currentPage * itemsPerPage;
+  const indexOfFirstJob = indexOfLastJob - itemsPerPage;
+  const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
+  const totalPages = Math.ceil(jobs.length / itemsPerPage);
+
   const formatExactDate = (dateString) => {
     if (!dateString) return '---';
     const date = new Date(dateString);
-
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = String(date.getFullYear()).slice(-2);
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
-
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   };
 
@@ -25,17 +34,15 @@ const JobsTable = ({ jobs, onToggleStatus }) => {
             <th>País</th>
             <th>Fecha</th>
             <th>Estado</th>
-            <th>Acciones</th> {/* 🌟 Nueva Columna */}
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {jobs.length > 0 ? (
-            jobs.map((job) => (
+          {currentJobs.length > 0 ? (
+            currentJobs.map((job) => (
               <tr
                 key={job.id}
-                className={
-                  !job.is_active ? 'row--inactive' : ''
-                } /* 🌟 Clase condicional */
+                className={!job.is_active ? 'row--inactive' : ''}
               >
                 <td className='font-medium'>{job.title}</td>
                 <td>{job.type}</td>
@@ -49,21 +56,32 @@ const JobsTable = ({ jobs, onToggleStatus }) => {
                   </span>
                 </td>
                 <td>
-                  {/* 🌟 Botón de acción */}
-                  <button
-                    className={`btn-toggle-status ${job.is_active ? 'btn--deactivate' : 'btn--activate'}`}
-                    onClick={() => onToggleStatus(job.id)}
-                    title={
-                      job.is_active ? 'Dar de baja vacante' : 'Activar vacante'
-                    }
-                  >
-                    {job.is_active ? (
-                      <PowerOff size={16} />
-                    ) : (
-                      <Power size={16} />
-                    )}
-                    <span>{job.is_active ? 'Dar de baja' : 'Activar'}</span>
-                  </button>
+                  <div className='table-actions'>
+                    <button
+                      className='btn-action btn--edit'
+                      onClick={() => onEdit(job)}
+                      title='Editar vacante'
+                    >
+                      <Edit size={16} /> Editar
+                    </button>
+
+                    <button
+                      className={`btn-action ${job.is_active ? 'btn--deactivate' : 'btn--activate'}`}
+                      onClick={() => onToggleStatus(job.id)}
+                      title={
+                        job.is_active
+                          ? 'Dar de baja vacante'
+                          : 'Activar vacante'
+                      }
+                    >
+                      {job.is_active ? (
+                        <PowerOff size={16} />
+                      ) : (
+                        <Power size={16} />
+                      )}
+                      {job.is_active ? 'Baja' : 'Activar'}
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))
@@ -79,6 +97,27 @@ const JobsTable = ({ jobs, onToggleStatus }) => {
           )}
         </tbody>
       </table>
+
+      {/* CONTROLES DE PAGINACIÓN */}
+      {totalPages > 1 && (
+        <div className='cms-pagination'>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+          >
+            Anterior
+          </button>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
     </div>
   );
 };
