@@ -35,12 +35,41 @@ const CmsDashboard = () => {
     fetchJobs();
   };
 
+  // 🌟 NUEVO: Función para cambiar el estado llamando al Backend
+  const handleToggleStatus = async (jobId) => {
+    const token = localStorage.getItem('cms_token');
+
+    // Preguntar confirmación si es dar de baja (opcional pero buena UX)
+    const isConfirmed = window.confirm(
+      '¿Seguro que deseas cambiar el estado de esta vacante?',
+    );
+    if (!isConfirmed) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/jobs/${jobId}/status`,
+        {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (response.ok) {
+        fetchJobs(); // Recargamos la lista para ver el cambio de color
+      } else {
+        alert('Error al intentar cambiar el estado de la vacante.');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+    }
+  };
+
   return (
     <div className='cms-layout'>
-      {/* SIDEBAR MODULARIZADO */}
       <CmsSidebar />
 
-      {/* CONTENIDO PRINCIPAL */}
       <main className='cms-main-content'>
         <header className='cms-main-content__header'>
           <div>
@@ -59,11 +88,13 @@ const CmsDashboard = () => {
           </button>
         </header>
 
-        {/* TABLA MODULARIZADA */}
-        <JobsTable jobs={jobs} />
+        {/* 🌟 Le pasamos la función a la tabla como Prop */}
+        <JobsTable
+          jobs={jobs}
+          onToggleStatus={handleToggleStatus}
+        />
       </main>
 
-      {/* PANEL DEL FORMULARIO (Sheet Modal) */}
       {isFormOpen && (
         <div
           className='cms-sheet-overlay'

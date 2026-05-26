@@ -51,16 +51,14 @@ export const createJob = async (req, res) => {
     responsibilities,
     requirements,
     benefits,
-    questions, // <--- Recibimos el arreglo de preguntas filtro del Paso 2
+    questions,
   } = req.body;
 
-  // Iniciamos una transacción para guardar en las 2 tablas al mismo tiempo
   const client = await pool.connect();
 
   try {
     await client.query('BEGIN');
 
-    // 1. Insertar en jobs (Tabla principal)
     const jobResult = await client.query(
       `INSERT INTO jobs (title, category, type, country, date) 
        VALUES ($1, $2, $3, $4, $5) RETURNING id`,
@@ -69,7 +67,6 @@ export const createJob = async (req, res) => {
 
     const newJobId = jobResult.rows[0].id;
 
-    // 2. Insertar en job_details (Incluyendo la columna de preguntas en formato JSON stringificado)
     await client.query(
       `INSERT INTO job_details (job_id, description, responsibilities, requirements, benefits, questions) 
        VALUES ($1, $2, $3, $4, $5, $6)`,
@@ -79,7 +76,7 @@ export const createJob = async (req, res) => {
         responsibilities,
         requirements,
         benefits,
-        JSON.stringify(questions || []), // Convertimos el arreglo de React a JSON de PostgreSQL
+        JSON.stringify(questions || []),
       ],
     );
 
@@ -96,5 +93,38 @@ export const createJob = async (req, res) => {
       .json({ message: 'Error al guardar la vacante y sus componentes' });
   } finally {
     client.release();
+  }
+};
+
+// 🌟 NUEVO: CAMBIAR ESTADO DE LA VACANTE (Activar / Dar de baja) ---
+export const toggleJobStatus = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // 1. Obtener el estado actual
+    const job = await pool.query('SELECT is_active FROM jobs WHERE id = $1', [
+      id,
+    ]);
+
+    if (job.rows.length === 0) {
+      return res.status(404).json({ message: 'Vacante no encontrada' });
+    }
+
+    const currentStatus = job.rows[0].is_active;
+    const newStatus = !currentStatus; // Invierte el estado
+
+    // 2. Actualizar en la base de datos
+    await pool.query('UPDATE jobs SET is_active = $1 WHERE id = $2', [
+      newStatus,
+      id,
+    ]);
+
+    res.json({
+      message: newStatus ? 'Vacante activada' : 'Vacante dada de baja',
+      is_active: newStatus,
+    });
+  } catch (error) {
+    console.error('Error al actualizar estado de la vacante:', error);
+    res.status(500).json({ message: 'Error al cambiar el estado' });
   }
 };

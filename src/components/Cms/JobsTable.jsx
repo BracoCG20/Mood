@@ -1,17 +1,14 @@
+import { Power, PowerOff } from 'lucide-react'; // Íconos
 import './JobsTable.scss';
 
-const JobsTable = ({ jobs }) => {
-  // Función para formatear la marca de tiempo a DD/MM/YY HH:MM
+const JobsTable = ({ jobs, onToggleStatus }) => {
   const formatExactDate = (dateString) => {
     if (!dateString) return '---';
     const date = new Date(dateString);
 
-    // Fecha
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = String(date.getFullYear()).slice(-2);
-
-    // Hora
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
 
@@ -26,18 +23,23 @@ const JobsTable = ({ jobs }) => {
             <th>Puesto</th>
             <th>Modalidad</th>
             <th>País</th>
-            <th>Fecha de Publicación</th>
+            <th>Fecha</th>
             <th>Estado</th>
+            <th>Acciones</th> {/* 🌟 Nueva Columna */}
           </tr>
         </thead>
         <tbody>
           {jobs.length > 0 ? (
             jobs.map((job) => (
-              <tr key={job.id}>
+              <tr
+                key={job.id}
+                className={
+                  !job.is_active ? 'row--inactive' : ''
+                } /* 🌟 Clase condicional */
+              >
                 <td className='font-medium'>{job.title}</td>
                 <td>{job.type}</td>
                 <td>{job.country}</td>
-                {/* Renderizamos la fecha y hora exacta */}
                 <td>{formatExactDate(job.created_at)}</td>
                 <td>
                   <span
@@ -46,12 +48,29 @@ const JobsTable = ({ jobs }) => {
                     {job.is_active ? 'Activa' : 'Inactiva'}
                   </span>
                 </td>
+                <td>
+                  {/* 🌟 Botón de acción */}
+                  <button
+                    className={`btn-toggle-status ${job.is_active ? 'btn--deactivate' : 'btn--activate'}`}
+                    onClick={() => onToggleStatus(job.id)}
+                    title={
+                      job.is_active ? 'Dar de baja vacante' : 'Activar vacante'
+                    }
+                  >
+                    {job.is_active ? (
+                      <PowerOff size={16} />
+                    ) : (
+                      <Power size={16} />
+                    )}
+                    <span>{job.is_active ? 'Dar de baja' : 'Activar'}</span>
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
               <td
-                colSpan='5'
+                colSpan='6'
                 className='cms-table__empty'
               >
                 No hay vacantes publicadas en este momento.

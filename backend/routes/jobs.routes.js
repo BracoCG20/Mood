@@ -3,6 +3,7 @@ import {
   getJobs,
   getJobById,
   createJob,
+  toggleJobStatus, // <--- NUEVA IMPORTACIÓN
 } from '../controllers/jobs.controller.js';
 
 const router = Router();
@@ -14,7 +15,9 @@ router.get('/', getJobs);
 router.get('/:id', getJobById);
 
 // POST: /api/jobs -> Crea una nueva vacante completa con detalles (CMS)
-// ⚠️ Nota: En el próximo paso protegeremos esta ruta mediante un middleware para asegurar que solo RRHH publique
 router.post('/', createJob);
+
+// PATCH: /api/jobs/:id/status -> Cambia el estado (Activa / Inactiva) de una vacante
+router.patch('/:id/status', toggleJobStatus); // <--- NUEVA RUTA
 
 export default router;

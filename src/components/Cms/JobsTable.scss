@@ -70,3 +70,51 @@
     background-color: rgba($negro, 0.015);
   }
 }
+
+/* Fila Inactiva (Apagada) */
+.row--inactive {
+  background-color: #f8fafc;
+  opacity: 0.6;
+
+  td {
+    color: #94a3b8;
+  }
+  .font-medium {
+    color: #64748b;
+    text-decoration: line-through; /* Opcional, pero deja claro que está de baja */
+  }
+}
+
+/* Botones de acción en la tabla */
+.btn-toggle-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+
+  &.btn--deactivate {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    color: #ef4444; /* Rojo */
+    &:hover {
+      background-color: #fef2f2;
+      border-color: #f87171;
+    }
+  }
+
+  &.btn--activate {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    color: #166534; /* Verde */
+    &:hover {
+      background-color: #f0fdf4;
+      border-color: #4ade80;
+    }
+  }
+}
