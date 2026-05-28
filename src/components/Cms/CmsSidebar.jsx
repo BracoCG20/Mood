@@ -1,12 +1,16 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Briefcase, LogOut, Users } from 'lucide-react'; // 🌟 Importamos Users
+import { Briefcase, LogOut, Users, Settings } from 'lucide-react';
 import logoMood from '../../assets/Logo_Mood.svg';
 import './CmsSidebar.scss';
 
-// 🌟 Recibimos las props para controlar la pestaña activa
 const CmsSidebar = ({ activeTab, setActiveTab }) => {
-  const { logout } = useContext(AuthContext);
+  // 🌟 Extraemos también el 'user' (o como lo hayas nombrado en tu contexto)
+  const { logout, user } = useContext(AuthContext);
+
+  // 🌟 Verificamos si es SuperAdmin.
+  // Dependiendo de cómo guardes el usuario al hacer login, verifica si es role_id o role_name
+  const isSuperAdmin = user?.role_name === 'SuperAdmin' || user?.role_id === 1;
 
   return (
     <aside className='cms-sidebar-nav'>
@@ -27,7 +31,6 @@ const CmsSidebar = ({ activeTab, setActiveTab }) => {
           Vacantes
         </button>
 
-        {/* 🌟 NUEVA PESTAÑA */}
         <button
           className={`cms-sidebar-nav__link ${activeTab === 'postulantes' ? 'active' : ''}`}
           onClick={() => setActiveTab('postulantes')}
@@ -35,6 +38,17 @@ const CmsSidebar = ({ activeTab, setActiveTab }) => {
           <Users size={18} />
           Postulantes
         </button>
+
+        {/* 🌟 RENDERIZADO CONDICIONAL: Solo aparece si isSuperAdmin es true */}
+        {isSuperAdmin && (
+          <button
+            className={`cms-sidebar-nav__link ${activeTab === 'configuracion' ? 'active' : ''}`}
+            onClick={() => setActiveTab('configuracion')}
+          >
+            <Settings size={18} />
+            Configuración
+          </button>
+        )}
       </nav>
 
       <div className='cms-sidebar-nav__footer'>
