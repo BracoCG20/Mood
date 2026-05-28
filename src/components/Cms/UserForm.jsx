@@ -3,9 +3,6 @@ import Select from 'react-select';
 import { X, Loader2, Save } from 'lucide-react';
 import './UserForm.scss';
 
-// 🌟 Variable dinámica: Usa Render en producción y localhost en tu PC
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-
 const roleOptions = [
   { value: 1, label: 'SuperAdmin' },
   { value: 2, label: 'GTH' },
@@ -63,8 +60,7 @@ const UserForm = ({ userToEdit, onSubmitSuccess, onCancel }) => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        // 🌟 Usando la variable dinámica
-        const response = await fetch(`${API_URL}/api/countries`);
+        const response = await fetch('http://localhost:5000/api/countries');
         if (response.ok) {
           const result = await response.json();
           if (result.success && result.data) {
@@ -87,7 +83,7 @@ const UserForm = ({ userToEdit, onSubmitSuccess, onCancel }) => {
         first_name: userToEdit.first_name || '',
         last_name: userToEdit.last_name || '',
         email: userToEdit.email || '',
-        password: '', // Siempre iniciamos la contraseña en blanco por seguridad
+        password: '', // 🌟 Siempre iniciamos la contraseña en blanco por seguridad
         country: userToEdit.country || '',
         role_id: userToEdit.role_id || 2,
       });
@@ -132,10 +128,9 @@ const UserForm = ({ userToEdit, onSubmitSuccess, onCancel }) => {
     }
 
     try {
-      // 🌟 Usando la variable dinámica para crear o editar
       const url = userToEdit
-        ? `${API_URL}/api/users/${userToEdit.id}`
-        : `${API_URL}/api/users`;
+        ? `http://localhost:5000/api/users/${userToEdit.id}`
+        : 'http://localhost:5000/api/users';
 
       const method = userToEdit ? 'PUT' : 'POST';
 
@@ -220,6 +215,7 @@ const UserForm = ({ userToEdit, onSubmitSuccess, onCancel }) => {
             />
           </div>
 
+          {/* 🌟 CAMPO DE CONTRASEÑA MODIFICADO */}
           <div className='cms-user-form__group'>
             <label>
               {userToEdit

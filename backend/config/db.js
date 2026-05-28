@@ -1,23 +1,3 @@
-// import pg from 'pg';
-// import dotenv from 'dotenv';
-
-// dotenv.config();
-
-// const { Pool } = pg;
-
-// export const pool = new Pool({
-//   user: process.env.DB_USER,
-//   host: process.env.DB_HOST,
-//   database: process.env.DB_NAME,
-//   password: process.env.DB_PASSWORD,
-//   port: process.env.DB_PORT,
-// });
-
-// pool.connect((err) => {
-//   if (err) console.error('Error conectando a PostgreSQL:', err.stack);
-//   else console.log('✅ Conexión exitosa a PostgreSQL');
-// });
-
 import pg from 'pg';
 import dotenv from 'dotenv';
 
@@ -26,15 +6,35 @@ dotenv.config();
 const { Pool } = pg;
 
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  // 🌟 REGLA SSL OBLIGATORIA PARA SUPABASE Y RENDER
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 pool.connect((err) => {
-  if (err)
-    console.error('❌ Error conectando a PostgreSQL (Supabase):', err.stack);
-  else console.log('✅ Conexión exitosa a Supabase PostgreSQL en la nube');
+  if (err) console.error('Error conectando a PostgreSQL:', err.stack);
+  else console.log('✅ Conexión exitosa a PostgreSQL');
 });
+
+// import pg from 'pg';
+// import dotenv from 'dotenv';
+
+// dotenv.config();
+
+// const { Pool } = pg;
+
+// export const pool = new Pool({
+//   connectionString: process.env.DATABASE_URL,
+//   // 🌟 REGLA SSL OBLIGATORIA PARA SUPABASE Y RENDER
+//   ssl: {
+//     rejectUnauthorized: false,
+//   },
+// });
+
+// pool.connect((err) => {
+//   if (err)
+//     console.error('❌ Error conectando a PostgreSQL (Supabase):', err.stack);
+//   else console.log('✅ Conexión exitosa a Supabase PostgreSQL en la nube');
+// });

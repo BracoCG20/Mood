@@ -4,8 +4,6 @@ import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 import './ContactForm.scss';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-
 const ContactForm = ({ onSuccess }) => {
   const { t, i18n } = useTranslation();
 
@@ -26,7 +24,7 @@ const ContactForm = ({ onSuccess }) => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/countries`);
+        const response = await fetch('http://localhost:5000/api/countries');
         const data = await response.json();
 
         if (data.success) {
@@ -129,7 +127,7 @@ const ContactForm = ({ onSuccess }) => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/api/contacto`, {
+      const response = await fetch('http://localhost:5000/api/contacto', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
