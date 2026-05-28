@@ -4,7 +4,6 @@ import {
   ShieldAlert,
   ShieldCheck,
   UserPlus,
-  Power,
   PowerOff,
 } from 'lucide-react';
 import './UsersTable.scss';
@@ -52,7 +51,9 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
         <table className='cms-table'>
           <thead>
             <tr>
-              <th>Usuario</th>
+              {/* Separamos Nombre y Correo */}
+              <th>Nombre</th>
+              <th>Correo</th>
               <th>Rol</th>
               <th>País</th>
               <th>Última Modificación</th>
@@ -63,14 +64,19 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
             {currentUsers.length > 0 ? (
               currentUsers.map((user) => (
                 <tr key={user.id}>
+                  {/* Columna Nombre */}
                   <td>
-                    <div className='user-info'>
-                      <span className='font-medium'>
-                        {user.first_name} {user.last_name}
-                      </span>
-                      <span className='user-email'>{user.email}</span>
-                    </div>
+                    <span className='font-medium'>
+                      {user.first_name} {user.last_name}
+                    </span>
                   </td>
+
+                  {/* Columna Correo */}
+                  <td>
+                    <span className='user-email'>{user.email}</span>
+                  </td>
+
+                  {/* Columna Rol */}
                   <td>
                     <span
                       className={`badge badge--role ${user.role_name === 'SuperAdmin' ? 'superadmin' : 'gth'}`}
@@ -83,7 +89,9 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
                       {user.role_name || 'Sin Rol'}
                     </span>
                   </td>
+
                   <td>{user.country || '---'}</td>
+
                   <td>
                     <div className='audit-info'>
                       <span>{formatDate(user.updated_at)}</span>
@@ -92,6 +100,7 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
                       </span>
                     </div>
                   </td>
+
                   <td style={{ textAlign: 'center' }}>
                     <div className='table-actions'>
                       <button
@@ -102,7 +111,7 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
                         <Edit size={16} />
                       </button>
 
-                      {/* Simulación de botón de desactivar cuenta (opcional para el futuro) */}
+                      {/* Simulación de botón de desactivar cuenta */}
                       <button
                         className='btn-action btn--icon-only btn--deactivate'
                         onClick={() =>
@@ -119,7 +128,7 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
             ) : (
               <tr>
                 <td
-                  colSpan='5'
+                  colSpan='6'
                   className='cms-table__empty'
                 >
                   No hay usuarios registrados en el sistema.

@@ -29,7 +29,7 @@ const CmsLogin = () => {
 
       if (response.ok) {
         // Si PostgreSQL y Node dicen que todo está bien, guardamos el token real
-        login(data.token);
+        login(data.token, data.user);
       } else {
         // Si la contraseña es incorrecta, mostramos el error del backend
         alert(data.message || 'Credenciales inválidas');

@@ -1,13 +1,21 @@
 /* global process */
 import { pool } from '../config/db.js';
 import bcrypt from 'bcryptjs';
+import { v2 as cloudinary } from 'cloudinary';
+
+// 🌟 CONFIGURACIÓN DE CLOUDINARY
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // --- OBTENER TODOS LOS USUARIOS ---
 export const getUsers = async (req, res) => {
   try {
     const query = `
       SELECT 
-        u.id, u.email, u.first_name, u.last_name, u.country, u.created_at, u.updated_at,
+        u.id, u.email, u.first_name, u.last_name, u.country, u.created_at, u.updated_at, u.avatar_url,
         r.name as role_name,
         r.id as role_id,
         c.first_name as creator_name
@@ -52,7 +60,7 @@ export const createUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // 3. Insertar el nuevo usuario (🌟 CORREGIDO: password_hash)
+    // 3. Insertar el nuevo usuario
     const insertQuery = `
       INSERT INTO users (email, password_hash, first_name, last_name, country, role_id, created_by)
       VALUES ($1, $2, $3, $4, $5, $6, $7) 
@@ -91,7 +99,7 @@ export const getRoles = async (req, res) => {
   }
 };
 
-// --- ACTUALIZAR UN USUARIO EXISTENTE ---
+// --- ACTUALIZAR UN USUARIO EXISTENTE (ADMIN) ---
 export const updateUser = async (req, res) => {
   const { id } = req.params;
   const { first_name, last_name, country, role_id, password, updated_by } =
@@ -129,5 +137,64 @@ export const updateUser = async (req, res) => {
     res
       .status(500)
       .json({ message: 'Error interno al actualizar el usuario.' });
+  }
+};
+
+// --- ACTUALIZAR PERFIL PROPIO (CON FOTO) ---
+export const updateProfile = async (req, res) => {
+  const { id } = req.params;
+  // 🌟 Añadimos "country" aquí
+  const { first_name, last_name, country, password } = req.body;
+
+  try {
+    let avatarUrl = null;
+
+    if (req.file) {
+      const b64 = Buffer.from(req.file.buffer).toString('base64');
+      const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+
+      const uploadResult = await cloudinary.uploader.upload(dataURI, {
+        folder: 'mood_avatars',
+      });
+      avatarUrl = uploadResult.secure_url;
+    }
+
+    // 🌟 Añadimos country al UPDATE
+    let query = `UPDATE users SET first_name = $1, last_name = $2, country = $3, updated_at = CURRENT_TIMESTAMP`;
+    let values = [first_name, last_name, country];
+    let queryIndex = 4;
+
+    if (avatarUrl) {
+      query += `, avatar_url = $${queryIndex}`;
+      values.push(avatarUrl);
+      queryIndex++;
+    }
+
+    if (password && password.trim() !== '') {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      query += `, password_hash = $${queryIndex}`;
+      values.push(hashedPassword);
+      queryIndex++;
+    }
+
+    // 🌟 Añadimos country al RETURNING para que el frontend lo reciba actualizado
+    query += ` WHERE id = $${queryIndex} RETURNING id, first_name, last_name, email, country, role_id, avatar_url`;
+    values.push(id);
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.json({
+      success: true,
+      message: 'Perfil actualizado correctamente',
+      user: result.rows[0],
+    });
+  } catch (error) {
+    console.error('Error actualizando perfil:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
   }
 };

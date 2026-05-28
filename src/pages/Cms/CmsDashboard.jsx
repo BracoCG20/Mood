@@ -4,7 +4,8 @@ import JobsTable from '../../components/Cms/JobsTable';
 import JobForm from '../../components/Cms/JobForm';
 import ApplicationsTable from '../../components/Cms/ApplicationsTable';
 import UsersTable from '../../components/Cms/UsersTable';
-import UserForm from '../../components/Cms/UserForm'; // 🌟 Importamos el nuevo formulario lateral
+import UserForm from '../../components/Cms/UserForm';
+import Profile from '../../components/Cms/Profile'; // 🌟 Importamos el nuevo componente de Perfil
 import { Plus } from 'lucide-react';
 import './CmsDashboard.scss';
 
@@ -12,12 +13,11 @@ const CmsDashboard = () => {
   const [activeTab, setActiveTab] = useState('vacantes');
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);
-  const [users, setUsers] = useState([]); // 🌟 Almacenará los usuarios reales de la BD
+  const [users, setUsers] = useState([]);
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [jobToEdit, setJobToEdit] = useState(null);
 
-  // 🌟 Estados para el formulario lateral de Usuarios
   const [isUserFormOpen, setIsUserFormOpen] = useState(false);
   const [userToEdit, setUserToEdit] = useState(null);
 
@@ -41,7 +41,6 @@ const CmsDashboard = () => {
     }
   };
 
-  // 🌟 FUNCIÓN REAL PARA TRAER LOS USUARIOS DESDE TU BACKEND
   const fetchUsers = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/users');
@@ -54,14 +53,13 @@ const CmsDashboard = () => {
     }
   };
 
-  // 🌟 Cargar datos dependiendo de la pestaña activa
   useEffect(() => {
     if (activeTab === 'vacantes') fetchJobs();
     if (activeTab === 'postulantes') fetchApplications();
-    if (activeTab === 'configuracion') fetchUsers(); // 🌟 Llamada real a la BD
+    if (activeTab === 'configuracion') fetchUsers();
+    // 🌟 No necesitamos hacer fetch si activeTab es 'perfil', porque usa el AuthContext
   }, [activeTab]);
 
-  // Bloquear scroll si algún panel lateral está abierto
   useEffect(() => {
     document.body.style.overflow = isFormOpen || isUserFormOpen ? 'hidden' : '';
     return () => {
@@ -74,10 +72,9 @@ const CmsDashboard = () => {
     fetchJobs();
   };
 
-  // 🌟 Callback de éxito al guardar un usuario
   const handleUserSuccess = () => {
     setIsUserFormOpen(false);
-    fetchUsers(); // Recarga la tabla de usuarios al instante
+    fetchUsers();
   };
 
   const handleToggleStatus = async (jobId) => {
@@ -119,7 +116,6 @@ const CmsDashboard = () => {
     }
   };
 
-  // 🌟 Abrir el formulario lateral para un nuevo usuario
   const openCreateUserForm = () => {
     setUserToEdit(null);
     setIsUserFormOpen(true);
@@ -133,7 +129,8 @@ const CmsDashboard = () => {
       />
 
       <main className='cms-main-content'>
-        {activeTab !== 'configuracion' && (
+        {/* 🌟 Ocultamos el header genérico si estamos en configuración O en perfil */}
+        {activeTab !== 'configuracion' && activeTab !== 'perfil' && (
           <header className='cms-main-content__header'>
             <div>
               <h1>
@@ -163,7 +160,7 @@ const CmsDashboard = () => {
           </header>
         )}
 
-        {/* RENDERIZADO CONDICIONAL DE TABLAS */}
+        {/* RENDERIZADO CONDICIONAL DE TABLAS Y VISTAS */}
         {activeTab === 'vacantes' && (
           <JobsTable
             jobs={jobs}
@@ -179,13 +176,16 @@ const CmsDashboard = () => {
         {activeTab === 'configuracion' && (
           <UsersTable
             users={users}
-            onAddUser={openCreateUserForm} // 🌟 Conectamos la apertura del modal lateral
+            onAddUser={openCreateUserForm}
             onEdit={(user) => {
               setUserToEdit(user);
               setIsUserFormOpen(true);
             }}
           />
         )}
+
+        {/* 🌟 RENDERIZAMOS EL COMPONENTE DE PERFIL */}
+        {activeTab === 'perfil' && <Profile />}
       </main>
 
       {/* FORMULARIO LATERAL: VACANTES */}
@@ -207,7 +207,7 @@ const CmsDashboard = () => {
         </div>
       )}
 
-      {/* 🌟 FORMULARIO LATERAL: NUEVO USUARIO (Alineado a tus estilos de overlays existentes) */}
+      {/* FORMULARIO LATERAL: NUEVO USUARIO */}
       {isUserFormOpen && activeTab === 'configuracion' && (
         <div
           className='cms-sheet-overlay'

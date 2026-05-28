@@ -1,15 +1,12 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Briefcase, LogOut, Users, Settings } from 'lucide-react';
+import { Briefcase, LogOut, Users, Settings, User } from 'lucide-react'; // 🌟 Agregamos el ícono 'User'
 import logoMood from '../../assets/Logo_Mood.svg';
 import './CmsSidebar.scss';
 
 const CmsSidebar = ({ activeTab, setActiveTab }) => {
-  // 🌟 Extraemos también el 'user' (o como lo hayas nombrado en tu contexto)
   const { logout, user } = useContext(AuthContext);
 
-  // 🌟 Verificamos si es SuperAdmin.
-  // Dependiendo de cómo guardes el usuario al hacer login, verifica si es role_id o role_name
   const isSuperAdmin = user?.role_name === 'SuperAdmin' || user?.role_id === 1;
 
   return (
@@ -39,7 +36,6 @@ const CmsSidebar = ({ activeTab, setActiveTab }) => {
           Postulantes
         </button>
 
-        {/* 🌟 RENDERIZADO CONDICIONAL: Solo aparece si isSuperAdmin es true */}
         {isSuperAdmin && (
           <button
             className={`cms-sidebar-nav__link ${activeTab === 'configuracion' ? 'active' : ''}`}
@@ -51,7 +47,18 @@ const CmsSidebar = ({ activeTab, setActiveTab }) => {
         )}
       </nav>
 
+      {/* 🌟 FOOTER CON EL BOTÓN DE PERFIL Y CERRAR SESIÓN */}
       <div className='cms-sidebar-nav__footer'>
+        {/* Nuevo botón para Mi Perfil */}
+        <button
+          className={`cms-sidebar-nav__link ${activeTab === 'perfil' ? 'active' : ''}`}
+          onClick={() => setActiveTab('perfil')}
+          style={{ marginBottom: '0.5rem' }}
+        >
+          <User size={18} />
+          Mi Perfil
+        </button>
+
         <button
           onClick={logout}
           className='cms-sidebar-nav__logout'

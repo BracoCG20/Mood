@@ -94,10 +94,17 @@
   td {
     color: #334155;
   }
+
   .font-medium {
     font-weight: 500;
     color: #0f172a;
   }
+
+  /* Nuevo estilo para el correo ahora que está en su propia columna */
+  .user-email {
+    color: #64748b;
+  }
+
   &__empty {
     text-align: center;
     padding: 4rem;
@@ -115,17 +122,6 @@
 /* =========================================
    CELDAS ESPECÍFICAS
    ========================================= */
-.user-info {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-
-  .user-email {
-    font-size: 0.8rem;
-    color: #64748b;
-  }
-}
-
 .audit-info {
   display: flex;
   flex-direction: column;
@@ -138,15 +134,23 @@
   }
 }
 
+/* 🌟 Etiqueta de Rol Corregida */
 .badge--role {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 9999px;
+  padding: 0.35rem 0.75rem; /* Ligeramente más relleno */
+  border-radius: 100px;
   font-size: 0.75rem;
   font-weight: 600;
   border: 1px solid transparent;
+  min-width: 95px; /* Asegura que ambas etiquetas tengan un tamaño base similar */
+
+  &::before,
+  &::after {
+    content: none !important;
+    display: none !important;
+  }
 
   &.superadmin {
     background-color: #fef2f2;
