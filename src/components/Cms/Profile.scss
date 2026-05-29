@@ -1,296 +1,305 @@
-@use '../../styles/variables' as *;
+@use "../../styles/variables" as *;
 
 .profile-view {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 100%;
-  max-width: 1100px; /* Ancho máximo para que no se estire demasiado */
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	width: 100%;
+	max-width: 1100px; /* Ancho máximo para que no se estire demasiado */
 }
 
 .profile-header {
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #0f172a;
-    margin-bottom: 0.35rem;
-  }
-  p {
-    color: #64748b;
-    font-size: 0.875rem;
-    margin: 0;
-  }
+	h2 {
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: #0f172a;
+		margin-bottom: 0.35rem;
+	}
+	p {
+		color: #64748b;
+		font-size: 0.875rem;
+		margin: 0;
+	}
 }
 
 /* 🌟 GRID DE 2 COLUMNAS */
 .profile-grid {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 1.5rem;
-  align-items: start;
+	display: grid;
+	grid-template-columns: 320px 1fr;
+	gap: 1.5rem;
+	align-items: start;
 
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-  }
+	@media (max-width: 900px) {
+		grid-template-columns: 1fr;
+	}
 }
 
 .profile-card {
-  background: #ffffff;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
+	background: #ffffff;
+	border-radius: 8px;
+	border: 1px solid #e2e8f0;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+	padding: 2rem;
 
-  h3 {
-    margin: 0 0 1rem 0;
-    font-size: 1.1rem;
-    color: #0f172a;
-  }
+	h3 {
+		margin: 0 0 1rem 0;
+		font-size: 1.1rem;
+		color: #0f172a;
+	}
 }
 
 /* 🌟 COLUMNA IZQUIERDA: IDENTIDAD */
 .identity-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
 
-  .avatar-wrapper {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    background-color: #f1f5f9;
-    border: 3px solid #ffffff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
+	.avatar-wrapper {
+		position: relative;
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		overflow: hidden;
+		cursor: pointer;
+		background-color: #f1f5f9;
+		border: 3px solid #ffffff;
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 1.5rem;
 
-    .avatar-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+		.avatar-img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 
-    .avatar-placeholder {
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: #64748b;
-      text-transform: uppercase;
-    }
+		.avatar-placeholder {
+			font-size: 2.5rem;
+			font-weight: 600;
+			color: #64748b;
+			text-transform: uppercase;
+		}
 
-    .avatar-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(15, 23, 42, 0.6); /* Fondo oscuro semitransparente */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
+		.avatar-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(15, 23, 42, 0.6); /* Fondo oscuro semitransparente */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
 
-    &:hover .avatar-overlay {
-      opacity: 1;
-    }
-  }
+		&:hover .avatar-overlay {
+			opacity: 1;
+		}
+	}
 
-  .user-fullname {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #0f172a;
-    margin: 0 0 0.25rem 0;
-  }
+	.user-fullname {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: #0f172a;
+		margin: 0 0 0.25rem 0;
+	}
 
-  .user-email {
-    font-size: 0.875rem;
-    color: #64748b;
-    margin: 0 0 1rem 0;
-  }
+	.user-email {
+		font-size: 0.875rem;
+		color: #64748b;
+		margin: 0 0 1rem 0;
+	}
 
-  .user-rolebadge {
-    background: #f1f5f9;
-    color: #475569;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 0.35rem 0.8rem;
-    border-radius: 9999px;
-  }
+	.user-rolebadge {
+		background: #f1f5f9;
+		color: #475569;
+		font-size: 0.75rem;
+		font-weight: 600;
+		padding: 0.35rem 0.8rem;
+		border-radius: 9999px;
+	}
 }
 
 /* 🌟 COLUMNA DERECHA: FORMULARIO */
 .minimal-divider {
-  border: none;
-  border-top: 1px solid #e2e8f0;
-  margin: 1rem 0 1.5rem 0;
+	border: none;
+	border-top: 1px solid #e2e8f0;
+	margin: 1rem 0 1.5rem 0;
 }
 
 .profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
 }
 
 .form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.25rem;
 
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
+	@media (max-width: 600px) {
+		grid-template-columns: 1fr;
+	}
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
 
-  label {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: #334155;
+	label {
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: #334155;
 
-    .hint {
-      color: #94a3b8;
-      font-weight: normal;
-      font-size: 0.75rem;
-      margin-left: 0.25rem;
-    }
-  }
+		.hint {
+			color: #94a3b8;
+			font-weight: normal;
+			font-size: 0.75rem;
+			margin-left: 0.25rem;
+		}
+	}
 
-  input {
-    padding: 0.6rem 0.8rem;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    color: #0f172a;
-    transition: all 0.2s;
-    background-color: #ffffff;
+	input {
+		padding: 0.6rem 0.8rem;
+		border: 1px solid #cbd5e1;
+		border-radius: 6px;
+		font-size: 0.875rem;
+		color: #0f172a;
+		transition: all 0.2s;
+		background-color: #ffffff;
 
-    &:focus {
-      outline: none;
-      border-color: #0f172a;
-      box-shadow: 0 0 0 1px #0f172a;
-    }
-    &::placeholder {
-      color: #94a3b8;
-    }
-  }
+		&:focus {
+			outline: none;
+			border-color: #0f172a;
+			box-shadow: 0 0 0 1px #0f172a;
+		}
+		&::placeholder {
+			color: #94a3b8;
+		}
+	}
 }
 
 .form-actions {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: flex-end;
+	margin-top: 1.5rem;
+	display: flex;
+	justify-content: flex-end;
 
-  .btn-save {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center; /* Centramos todo el contenido siempre */
-    gap: 0.5rem;
-    background: #0f172a;
-    color: white;
-    height: 40px; /* 🌟 Fijamos altura exacta para que no se estire */
-    min-width: 160px; /* 🌟 Fijamos ancho mínimo para que no baile el texto */
-    padding: 0 1.5rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap; /* 🌟 Evita que el texto baje de línea */
+	.btn-save {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center; /* Centramos todo el contenido siempre */
+		gap: 0.5rem;
+		background: #0f172a;
+		color: white;
+		height: 40px; /* 🌟 Fijamos altura exacta para que no se estire */
+		min-width: 160px; /* 🌟 Fijamos ancho mínimo para que no baile el texto */
+		padding: 0 1.5rem;
+		border: none;
+		border-radius: 6px;
+		font-size: 0.875rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: background 0.2s;
+		white-space: nowrap; /* 🌟 Evita que el texto baje de línea */
 
-    &:hover:not(:disabled) {
-      background: #1e293b;
-    }
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-    .spinner {
-      animation: spin 1s linear infinite;
-    }
-  }
+		&:hover:not(:disabled) {
+			background: #1e293b;
+		}
+		&:disabled {
+			opacity: 0.7;
+			cursor: not-allowed;
+		}
+		.lucide-spinner {
+			animation: spin-lucide 1s linear infinite;
+		}
+
+		@keyframes spin-lucide {
+			from {
+				transform: rotate(0deg);
+			}
+			to {
+				transform: rotate(360deg);
+			}
+		}
+	}
 }
 
 /* 🌟 SISTEMA DE NOTIFICACIONES TOAST (POPUP) */
 .minimalist-toast {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow:
-    0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  z-index: 9999;
-  animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	box-shadow:
+		0 10px 25px -5px rgba(0, 0, 0, 0.1),
+		0 8px 10px -6px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	padding: 1rem 1.25rem;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	z-index: 9999;
+	animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
-  .toast-icon {
-    display: flex;
-  }
+	.toast-icon {
+		display: flex;
+	}
 
-  p {
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #0f172a;
-    padding-right: 1.5rem; /* Espacio para el botón de cerrar */
-  }
+	p {
+		margin: 0;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: #0f172a;
+		padding-right: 1.5rem; /* Espacio para el botón de cerrar */
+	}
 
-  button {
-    background: transparent;
-    border: none;
-    color: #94a3b8;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    transition: color 0.2s;
-    &:hover {
-      color: #0f172a;
-    }
-  }
+	button {
+		background: transparent;
+		border: none;
+		color: #94a3b8;
+		cursor: pointer;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		transition: color 0.2s;
+		&:hover {
+			color: #0f172a;
+		}
+	}
 
-  &.toast-success .toast-icon {
-    color: #10b981; /* Verde esmeralda minimalista */
-  }
+	&.toast-success .toast-icon {
+		color: #10b981; /* Verde esmeralda minimalista */
+	}
 
-  &.toast-error .toast-icon {
-    color: #ef4444; /* Rojo suave */
-  }
+	&.toast-error .toast-icon {
+		color: #ef4444; /* Rojo suave */
+	}
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(20px) scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
 }

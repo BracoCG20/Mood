@@ -1,50 +1,48 @@
-import { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // 🌟 Nuevo estado para guardar la información del usuario
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+	// 🌟 INICIALIZACIÓN SÍNCRONA (Lazy Initializer)
+	// React lee el localStorage ANTES del primer render para saber si hay sesión activa.
+	const [isAuthenticated, setIsAuthenticated] = useState(() => {
+		return localStorage.getItem("cms_token") !== null;
+	});
 
-  // Al cargar la app, revisamos si ya hay un token y un usuario guardado
-  useEffect(() => {
-    const token = localStorage.getItem('cms_token');
-    const savedUser = localStorage.getItem('cms_user');
+	// Hacemos lo mismo con los datos del usuario
+	const [user, setUser] = useState(() => {
+		const savedUser = localStorage.getItem("cms_user");
+		return savedUser ? JSON.parse(savedUser) : null;
+	});
 
-    if (token && savedUser) {
-      setIsAuthenticated(true);
-      setUser(JSON.parse(savedUser)); // Restauramos los datos del usuario
-    }
-  }, []);
+	const navigate = useNavigate();
 
-  // 🌟 Ahora recibimos token y userData desde el login
-  const login = (token, userData) => {
-    localStorage.setItem('cms_token', token);
-    localStorage.setItem('cms_user', JSON.stringify(userData)); // Guardamos el usuario en local
+	// 🌟 Como leímos los datos directo en los useState, ya no necesitamos el useEffect inicial.
 
-    setIsAuthenticated(true);
-    setUser(userData); // Guardamos el usuario en el estado
+	const login = (token, userData) => {
+		localStorage.setItem("cms_token", token);
+		localStorage.setItem("cms_user", JSON.stringify(userData)); // Guardamos el usuario en local
 
-    navigate('/cms/dashboard');
-  };
+		setIsAuthenticated(true);
+		setUser(userData); // Guardamos el usuario en el estado
 
-  const logout = () => {
-    localStorage.removeItem('cms_token');
-    localStorage.removeItem('cms_user'); // Limpiamos el usuario
+		navigate("/cms/dashboard");
+	};
 
-    setIsAuthenticated(false);
-    setUser(null); // Limpiamos el estado
+	const logout = () => {
+		localStorage.removeItem("cms_token");
+		localStorage.removeItem("cms_user"); // Limpiamos el usuario
 
-    navigate('/cms/login');
-  };
+		setIsAuthenticated(false);
+		setUser(null); // Limpiamos el estado
 
-  return (
-    // 🌟 Exponemos 'user' para que otros componentes lo lean
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+		navigate("/cms/login");
+	};
+
+	return (
+		<AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+			{children}
+		</AuthContext.Provider>
+	);
 };

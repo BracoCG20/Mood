@@ -1,54 +1,56 @@
-import { pool } from '../config/db.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import process from 'process';
+import { pool } from "../config/db.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import process from "process";
 
 // --- INICIO DE SESIÓN ---
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+	const { email, password } = req.body;
 
-  try {
-    // 1. Buscamos si el usuario existe
-    const result = await pool.query('SELECT * FROM users WHERE email = $1', [
-      email,
-    ]);
+	try {
+		// 1. Buscamos si el usuario existe
+		const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+			email,
+		]);
 
-    if (result.rows.length === 0) {
-      return res.status(401).json({ message: 'Credenciales inválidas' });
-    }
+		if (result.rows.length === 0) {
+			return res.status(401).json({ message: "Credenciales inválidas" });
+		}
 
-    const user = result.rows[0];
+		const user = result.rows[0];
 
-    // 2. Comparamos la contraseña enviada con el hash de la base de datos
-    const isValidPassword = await bcrypt.compare(password, user.password_hash);
+		// 2. Comparamos la contraseña enviada con el hash de la base de datos
+		const isValidPassword = await bcrypt.compare(password, user.password_hash);
 
-    if (!isValidPassword) {
-      return res.status(401).json({ message: 'Credenciales inválidas' });
-    }
+		if (!isValidPassword) {
+			return res.status(401).json({ message: "Credenciales inválidas" });
+		}
 
-    // 3. Si todo es correcto, generamos el Token (incluyendo el rol)
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role_id: user.role_id }, // 🌟 Incluimos el role_id
-      process.env.JWT_SECRET || 'mood_secreto_super_seguro_2026',
-      { expiresIn: '8h' },
-    );
+		// 3. Si todo es correcto, generamos el Token (incluyendo el rol)
+		const token = jwt.sign(
+			{ id: user.id, email: user.email, role_id: user.role_id },
+			process.env.JWT_SECRET || "mood_secreto_super_seguro_2026",
+			{ expiresIn: "8h" },
+		);
 
-    res.json({
-      message: 'Autenticación exitosa',
-      token,
-      // 🌟 Devolvemos los datos del usuario incluyendo su rol
-      user: {
-        id: user.id,
-        email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        role_id: user.role_id,
-      },
-    });
-  } catch (error) {
-    console.error('Error en login:', error);
-    res.status(500).json({ message: 'Error interno del servidor' });
-  }
+		res.json({
+			message: "Autenticación exitosa",
+			token,
+			// 🌟 AHORA SÍ ENVIAMOS TODOS LOS DATOS AL FRONTEND
+			user: {
+				id: user.id,
+				email: user.email,
+				first_name: user.first_name,
+				last_name: user.last_name,
+				role_id: user.role_id,
+				country: user.country, // Soluciona el borrado del país
+				avatar_url: user.avatar_url, // Permite que la foto cargue desde el inicio
+			},
+		});
+	} catch (error) {
+		console.error("Error en login:", error);
+		res.status(500).json({ message: "Error interno del servidor" });
+	}
 };
 
 // --- RUTA TEMPORAL PARA CREAR AL PRIMER ADMIN ---
