@@ -1,6 +1,13 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Briefcase, LogOut, Users, Settings, User } from 'lucide-react'; // 🌟 Agregamos el ícono 'User'
+import {
+  Briefcase,
+  LogOut,
+  Users,
+  Settings,
+  User,
+  FolderGit2,
+} from 'lucide-react'; // 🌟 Agregamos FolderGit2 para Proyectos
 import logoMood from '../../assets/Logo_Mood.svg';
 import './CmsSidebar.scss';
 
@@ -36,6 +43,15 @@ const CmsSidebar = ({ activeTab, setActiveTab }) => {
           Postulantes
         </button>
 
+        {/* 🌟 NUEVO BOTÓN PARA PROYECTOS */}
+        <button
+          className={`cms-sidebar-nav__link ${activeTab === 'proyectos' ? 'active' : ''}`}
+          onClick={() => setActiveTab('proyectos')}
+        >
+          <FolderGit2 size={18} />
+          Proyectos
+        </button>
+
         {isSuperAdmin && (
           <button
             className={`cms-sidebar-nav__link ${activeTab === 'configuracion' ? 'active' : ''}`}
@@ -49,7 +65,6 @@ const CmsSidebar = ({ activeTab, setActiveTab }) => {
 
       {/* 🌟 FOOTER CON EL BOTÓN DE PERFIL Y CERRAR SESIÓN */}
       <div className='cms-sidebar-nav__footer'>
-        {/* Nuevo botón para Mi Perfil */}
         <button
           className={`cms-sidebar-nav__link ${activeTab === 'perfil' ? 'active' : ''}`}
           onClick={() => setActiveTab('perfil')}

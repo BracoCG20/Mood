@@ -3,92 +3,68 @@ import { useTranslation } from 'react-i18next';
 import FadeContent from '../FadeContent/FadeContent';
 import Masonry from '../Masonry/Masonry';
 import ProjectModal from '../ProjectModal/ProjectModal';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './MoodPrintProjects.scss';
 
-const PROJECTS_DATA = [
-  {
-    id: '1',
-    category: 'Branding',
-    client: 'AutoStar Motors',
-    date: 'Octubre 2023',
-    img: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=800&q=80',
-    height: 700,
-    url: 'https://ejemplo.com',
-  },
-  {
-    id: '2',
-    category: 'Diseño Web',
-    client: 'Grupo Bahía',
-    date: 'Enero 2024',
-    img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=800&q=80',
-    height: 500,
-    url: 'https://ejemplo.com',
-  },
-  {
-    id: '3',
-    category: 'Marketing Digital',
-    client: 'Marcan',
-    date: 'Marzo 2024',
-    img: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80',
-    height: 900,
-    url: 'https://ejemplo.com',
-  },
-  {
-    id: '4',
-    category: 'Social Media',
-    client: 'Santa Ana',
-    date: 'Diciembre 2023',
-    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-    height: 600,
-    url: 'https://ejemplo.com',
-  },
-  {
-    id: '5',
-    category: 'Contenido Audiovisual',
-    client: 'iShop',
-    date: 'Noviembre 2023',
-    img: 'https://images.unsplash.com/photo-1534670007418-fbb7f6cf32c3?auto=format&fit=crop&w=800&q=80',
-    height: 800,
-    url: 'https://ejemplo.com',
-  },
-  {
-    id: '6',
-    category: 'Branding',
-    client: 'Café Orígenes',
-    date: 'Julio 2023',
-    img: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=800&q=80',
-    height: 550,
-    url: 'https://ejemplo.com',
-  },
-  {
-    id: '7',
-    category: 'Diseño Web',
-    client: 'Fintech Solutions',
-    date: 'Mayo 2024',
-    img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80',
-    height: 750,
-    url: 'https://ejemplo.com',
-  },
-];
+gsap.registerPlugin(ScrollTrigger);
 
 const MoodPrintProjects = ({ selectedCategory }) => {
   const { t } = useTranslation();
   const [selectedProject, setSelectedProject] = useState(null);
 
+  // 🌟 NUEVO: Estados para manejar los datos dinámicos
+  const [projectsData, setProjectsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 🌟 NUEVO: Hacemos Fetch a la Base de Datos
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/projects');
+        const data = await response.json();
+
+        // Filtramos solo los que están activos (para no mostrar los ocultos por el Admin)
+        // y adaptamos las claves de la BD ('img_url') a lo que espera Masonry ('img' y 'height')
+        const activeProjects = data
+          .filter((project) => project.is_active)
+          .map((project) => ({
+            ...project,
+            img: project.img_url, // Masonry necesita la prop 'img'
+            // Asignamos alturas aleatorias entre 500 y 800 para el estilo Masonry
+            // (Si en el futuro guardas el ancho/alto real de la imagen en BD, puedes usarlo aquí)
+            height: Math.floor(Math.random() * (800 - 500 + 1)) + 500,
+            url: project.project_url || '#',
+          }));
+
+        setProjectsData(activeProjects);
+      } catch (error) {
+        console.error('Error al cargar proyectos desde la BD:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Lógica de Filtrado Dinámico
   const baseFilteredProjects =
     selectedCategory === 'Todos'
-      ? PROJECTS_DATA
-      : PROJECTS_DATA.filter(
-          (project) => project.category === selectedCategory,
-        );
+      ? projectsData
+      : projectsData.filter((project) => project.category === selectedCategory);
 
+  // Traducción y adaptación de los datos filtrados
   const filteredProjects = baseFilteredProjects.map((project) => ({
     ...project,
-    title: t(`moodPrintProjects.projects.${project.id}.title`),
-    description: t(`moodPrintProjects.projects.${project.id}.description`),
-    categoryTranslated: t(`moodPrintHero.categories.${project.category}`),
+    // Usamos el título y descripción reales de la BD, o un fallback si está vacío
+    title: project.title,
+    description: project.description || 'Sin descripción detallada.',
+    categoryTranslated:
+      t(`moodPrintHero.categories.${project.category}`) || project.category,
   }));
 
+  // Bloqueo de scroll cuando el modal está abierto
   useEffect(() => {
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
@@ -99,6 +75,33 @@ const MoodPrintProjects = ({ selectedCategory }) => {
       document.body.style.overflow = '';
     };
   }, [selectedProject]);
+
+  // Observer para recalcular dimensiones de GSAP ScrollTrigger
+  useEffect(() => {
+    let resizeObserver;
+
+    const safeRefresh = () => {
+      setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+    };
+
+    const gridContainer = document.querySelector('.mood-projects__grid');
+
+    if (gridContainer && !isLoading) {
+      resizeObserver = new ResizeObserver(() => {
+        safeRefresh();
+      });
+      resizeObserver.observe(gridContainer);
+    }
+
+    safeRefresh();
+
+    return () => {
+      if (resizeObserver) resizeObserver.disconnect();
+      ScrollTrigger.refresh();
+    };
+  }, [selectedCategory, isLoading]);
 
   return (
     <section className='mood-projects'>
@@ -119,9 +122,16 @@ const MoodPrintProjects = ({ selectedCategory }) => {
           </FadeContent>
         </div>
 
-        {/* Mantenemos el contenedor limpio de flags, dejando que Masonry gestione sus opacidades de forma nativa */}
         <div className='mood-projects__grid'>
-          {filteredProjects.length > 0 ? (
+          {isLoading ? (
+            // 🌟 Estado de Carga
+            <p
+              style={{ textAlign: 'center', marginTop: '4rem', color: 'gray' }}
+            >
+              Cargando proyectos espectaculares...
+            </p>
+          ) : filteredProjects.length > 0 ? (
+            // 🌟 Renderizado de Masonry con datos reales
             <Masonry
               key={selectedCategory}
               items={filteredProjects}
@@ -136,6 +146,7 @@ const MoodPrintProjects = ({ selectedCategory }) => {
               onItemClick={(project) => setSelectedProject(project)}
             />
           ) : (
+            // 🌟 Estado Vacío
             <p
               style={{ textAlign: 'center', marginTop: '4rem', color: 'gray' }}
             >
@@ -145,6 +156,7 @@ const MoodPrintProjects = ({ selectedCategory }) => {
         </div>
       </div>
 
+      {/* MODAL DEL PROYECTO */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}

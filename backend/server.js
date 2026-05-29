@@ -9,8 +9,9 @@ import contactRoutes from './routes/contact.routes.js';
 import countryRoutes from './routes/country.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import jobsRoutes from './routes/jobs.routes.js';
-import applicationsRoutes from './routes/applications.routes.js'; // 🌟 NUEVA RUTA IMPORTADA
-import usersRoutes from './routes/users.routes.js'; // 🌟 NUEVA RUTA IMPORTADA
+import applicationsRoutes from './routes/applications.routes.js';
+import usersRoutes from './routes/users.routes.js';
+import projectsRoutes from './routes/projects.routes.js'; // 🌟 NUEVA RUTA IMPORTADA
 
 dotenv.config();
 
@@ -32,8 +33,10 @@ app.use('/api/contacto', contactRoutes);
 app.use('/api/countries', countryRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobsRoutes);
-app.use('/api/applications', applicationsRoutes); // 🌟 NUEVA RUTA MONTADA
-app.use('/api/users', usersRoutes); // 🌟 NUEVA RUTA MONTADA
+app.use('/api/applications', applicationsRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/projects', projectsRoutes); // 🌟 NUEVA RUTA MONTADA
+
 // Iniciamos el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor Backend corriendo en http://localhost:${PORT}`);

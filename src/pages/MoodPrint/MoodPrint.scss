@@ -12,8 +12,6 @@
 
   &__footer-area {
     width: 100%;
-    /* 🌟 Forzamos a que el área oscura mida AL MENOS el tamaño de la pantalla (100vh) */
-    min-height: 100vh;
     flex-grow: 1;
     background-color: #1c1c1e;
 
