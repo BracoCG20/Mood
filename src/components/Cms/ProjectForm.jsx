@@ -1,6 +1,11 @@
 import { useState, useRef } from 'react';
 import Select from 'react-select';
-import { ArrowRight, Image as ImageIcon } from 'lucide-react';
+import {
+  ArrowRight,
+  Image as ImageIcon,
+  Video as VideoIcon,
+  Trash2,
+} from 'lucide-react';
 import './ProjectForm.scss';
 
 const categoryOptions = [
@@ -41,7 +46,9 @@ const customSelectStyles = {
 };
 
 const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
-  const fileInputRef = useRef(null);
+  const imageInputRef = useRef(null);
+  const videoInputRef = useRef(null);
+
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(
     projectToEdit?.img_url || '',
@@ -57,36 +64,51 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
     project_url: projectToEdit?.project_url || '',
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSelectChange = (selectedOption) => {
+  const handleSelectChange = (selectedOption) =>
     setFormData({ ...formData, category: selectedOption.value });
+
+  const handleFileChange = (e, type) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const sizeInMB = file.size / (1024 * 1024);
+    if (type === 'image' && sizeInMB > 2) {
+      alert('⚠️ La imagen no debe superar los 2MB.');
+      e.target.value = '';
+      return;
+    }
+    if (type === 'video' && sizeInMB > 15) {
+      alert('⚠️ El video no debe superar los 15MB.');
+      e.target.value = '';
+      return;
+    }
+
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
+  const clearMedia = () => {
+    setImageFile(null);
+    setImagePreview('');
+    if (imageInputRef.current) imageInputRef.current.value = '';
+    if (videoInputRef.current) videoInputRef.current.value = '';
   };
 
   const handleFinalSubmit = async (e) => {
     e.preventDefault();
 
-    if (!projectToEdit && !imageFile) {
-      alert('⚠️ La imagen principal del proyecto es obligatoria.');
+    if (!imageFile && !imagePreview) {
+      alert('⚠️ El archivo del proyecto (Imagen o Video) es obligatorio.');
       return;
     }
 
     const confirmPublish = window.confirm(
       projectToEdit
-        ? '¿Estás seguro de guardar los cambios en este proyecto?'
-        : '¿Estás seguro de publicar este proyecto en el portafolio?',
+        ? '¿Guardar cambios?'
+        : '¿Publicar proyecto en el portafolio?',
     );
-
     if (!confirmPublish) return;
 
     setIsSubmitting(true);
@@ -114,21 +136,21 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
       });
 
       if (response.ok) {
-        alert(
-          projectToEdit
-            ? '✅ ¡Proyecto actualizado!'
-            : '✅ ¡Proyecto publicado con éxito!',
-        );
+        alert('✅ ¡Proyecto guardado con éxito!');
         onSubmitSuccess();
       } else {
-        alert('❌ Hubo un error al guardar el proyecto.');
+        alert('❌ Error al guardar el proyecto.');
       }
     } catch (error) {
-      console.error('Error al guardar:', error);
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const isVideoMedia =
+    imagePreview.match(/\.(mp4|webm|mov|ogg)$/i) ||
+    (imageFile && imageFile.type.startsWith('video/'));
 
   return (
     <div className='cms-project-form'>
@@ -141,59 +163,162 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
         onSubmit={handleFinalSubmit}
       >
         <div className='cms-project-form__scroll-area'>
-          <div
-            className='cms-project-form__section'
-            style={{ alignItems: 'center' }}
-          >
-            <label
-              style={{
-                alignSelf: 'flex-start',
-                fontWeight: 500,
-                fontSize: '0.875rem',
-              }}
-            >
-              Imagen Principal (Obligatoria)
+          {/* 🌟 ÁREA DE MEDIA SHADCN STYLE */}
+          <div className='cms-project-form__section'>
+            <label style={{ fontWeight: 500, fontSize: '0.875rem' }}>
+              Media del Proyecto
             </label>
-            <div
-              style={{
-                width: '100%',
-                height: '200px',
-                backgroundColor: '#f8fafc',
-                borderRadius: '8px',
-                border: '2px dashed #cbd5e1',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                overflow: 'hidden',
-              }}
-              onClick={() => fileInputRef.current.click()}
-            >
-              {imagePreview ? (
-                <img
-                  src={imagePreview}
-                  alt='Preview'
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              ) : (
-                <>
-                  <ImageIcon
-                    size={40}
-                    color='#94a3b8'
-                    style={{ marginBottom: '10px' }}
+
+            {imagePreview ? (
+              // VISTA DE PREVIEW (Con botón de borrar flotante)
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '240px',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  backgroundColor: '#f1f5f9',
+                  border: '1px solid #e2e8f0',
+                }}
+              >
+                {isVideoMedia ? (
+                  <video
+                    src={imagePreview}
+                    autoPlay
+                    muted
+                    loop
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
                   />
-                  <span style={{ fontSize: '0.85rem', color: '#64748b' }}>
-                    Clic para subir imagen (Alta calidad)
+                ) : (
+                  <img
+                    src={imagePreview}
+                    alt='Preview'
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                )}
+
+                <button
+                  type='button'
+                  onClick={clearMedia}
+                  style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    backgroundColor: 'rgba(255,255,255,0.9)',
+                    border: 'none',
+                    borderRadius: '50%',
+                    padding: '8px',
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    display: 'flex',
+                    color: '#ef4444',
+                  }}
+                  title='Eliminar media'
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
+            ) : (
+              // VISTA DE 2 BOTONES GRANDES INICIALES
+              <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+                <button
+                  type='button'
+                  onClick={() => imageInputRef.current.click()}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem',
+                    borderRadius: '8px',
+                    border: '1px dashed #cbd5e1',
+                    backgroundColor: '#fafafa',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s',
+                    gap: '0.5rem',
+                    color: '#334155',
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.backgroundColor = '#f1f5f9')
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.backgroundColor = '#fafafa')
+                  }
+                >
+                  <ImageIcon
+                    size={32}
+                    color='#64748b'
+                  />
+                  <span style={{ fontWeight: 500, fontSize: '0.9rem' }}>
+                    Subir Imagen
                   </span>
-                </>
-              )}
-            </div>
+                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                    JPG, PNG, WEBP (Max 2MB)
+                  </span>
+                </button>
+
+                <button
+                  type='button'
+                  onClick={() => videoInputRef.current.click()}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2rem',
+                    borderRadius: '8px',
+                    border: '1px dashed #cbd5e1',
+                    backgroundColor: '#fafafa',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s',
+                    gap: '0.5rem',
+                    color: '#334155',
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.backgroundColor = '#f1f5f9')
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.backgroundColor = '#fafafa')
+                  }
+                >
+                  <VideoIcon
+                    size={32}
+                    color='#64748b'
+                  />
+                  <span style={{ fontWeight: 500, fontSize: '0.9rem' }}>
+                    Subir Video
+                  </span>
+                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                    MP4, WEBM (Max 15MB)
+                  </span>
+                </button>
+              </div>
+            )}
+
+            {/* Inputs Ocultos */}
             <input
               type='file'
               accept='image/*'
-              ref={fileInputRef}
-              onChange={handleImageChange}
+              ref={imageInputRef}
+              onChange={(e) => handleFileChange(e, 'image')}
+              style={{ display: 'none' }}
+            />
+            <input
+              type='file'
+              accept='video/mp4,video/webm'
+              ref={videoInputRef}
+              onChange={(e) => handleFileChange(e, 'video')}
               style={{ display: 'none' }}
             />
           </div>
@@ -206,7 +331,6 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
                 name='title'
                 value={formData.title}
                 onChange={handleInputChange}
-                placeholder='Ej. Rebranding AutoStar'
                 required
               />
             </div>
@@ -232,7 +356,6 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
                   name='date'
                   value={formData.date}
                   onChange={handleInputChange}
-                  placeholder='Ej. Octubre 2023'
                   required
                 />
               </div>
@@ -246,7 +369,6 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
                   name='client'
                   value={formData.client}
                   onChange={handleInputChange}
-                  placeholder='Ej. AutoStar Motors'
                   required
                 />
               </div>
@@ -257,7 +379,6 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
                   name='project_url'
                   value={formData.project_url}
                   onChange={handleInputChange}
-                  placeholder='https://...'
                 />
               </div>
             </div>
@@ -268,7 +389,6 @@ const ProjectForm = ({ onSubmitSuccess, onCancel, projectToEdit }) => {
                 name='description'
                 value={formData.description}
                 onChange={handleInputChange}
-                placeholder='Detalles de lo que se hizo...'
                 className='textarea-small'
               ></textarea>
             </div>

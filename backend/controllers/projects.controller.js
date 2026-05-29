@@ -55,6 +55,7 @@ export const createProject = async (req, res) => {
 
     const uploadResult = await cloudinary.uploader.upload(dataURI, {
       folder: 'mood_projects',
+      resource_type: 'auto',
     });
 
     const imgUrl = uploadResult.secure_url;

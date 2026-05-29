@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { PlayCircle } from 'lucide-react'; // 🌟 Importamos el ícono de Play
 import './Masonry.scss';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -52,6 +53,21 @@ const preloadImages = async (urls) => {
   );
 };
 
+// 🌟 FUNCIONES AUXILIARES PARA VIDEOS EN CLOUDINARY
+const getThumbnailUrl = (url) => {
+  if (!url) return '';
+  // Si es un video, Cloudinary nos devuelve el primer frame si le pedimos .jpg
+  if (url.match(/\.(mp4|webm|mov|ogg)$/i)) {
+    return url.replace(/\.(mp4|webm|mov|ogg)$/i, '.jpg');
+  }
+  return url;
+};
+
+const isVideoMedia = (url) => {
+  if (!url) return false;
+  return !!url.match(/\.(mp4|webm|mov|ogg)$/i);
+};
+
 const Masonry = ({
   items,
   ease = 'power3.out',
@@ -80,7 +96,6 @@ const Masonry = ({
   const hasMounted = useRef(false);
   const ctxRef = useRef(gsap.context(() => {}));
 
-  // 🌟 AQUÍ ESTÁ LA MAGIA Y LA SOLUCIÓN AL BUG
   const getInitialPosition = (item) => {
     const containerRect = containerRef.current?.getBoundingClientRect();
     if (!containerRect) return { x: item.x, y: item.y };
@@ -94,9 +109,9 @@ const Masonry = ({
 
     switch (direction) {
       case 'top':
-        return { x: item.x, y: item.y - 150 }; // Antes usaba window.innerHeight
+        return { x: item.x, y: item.y - 150 };
       case 'bottom':
-        return { x: item.x, y: item.y + 150 }; // 🌟 Antes mandaba la imagen debajo del footer
+        return { x: item.x, y: item.y + 150 };
       case 'left':
         return { x: item.x - 150, y: item.y };
       case 'right':
@@ -112,7 +127,9 @@ const Masonry = ({
   };
 
   useEffect(() => {
-    preloadImages(items.map((i) => i.img)).then(() => setImagesReady(true));
+    // 🌟 Aseguramos precargar las imágenes (miniaturas), nunca los .mp4 directamente
+    const imageUrls = items.map((i) => getThumbnailUrl(i.img));
+    preloadImages(imageUrls).then(() => setImagesReady(true));
   }, [items]);
 
   const { grid, finalHeight } = useMemo(() => {
@@ -229,6 +246,10 @@ const Masonry = ({
       style={{ height: finalHeight }}
     >
       {grid.map((item) => {
+        // 🌟 Determinamos si es video y sacamos su URL de miniatura
+        const thumbUrl = getThumbnailUrl(item.img);
+        const isVideo = isVideoMedia(item.img);
+
         return (
           <div
             key={item.id}
@@ -244,8 +265,38 @@ const Masonry = ({
           >
             <div
               className='item-img'
-              style={{ backgroundImage: `url(${item.img})` }}
-            ></div>
+              // 🌟 Usamos comillas simples para la URL de fondo y position relative
+              style={{
+                backgroundImage: `url('${thumbUrl}')`,
+                position: 'relative',
+              }}
+            >
+              {/* 🌟 Ícono de Play si es video */}
+              {isVideo && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    borderRadius: '50%',
+                    width: '60px',
+                    height: '60px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    pointerEvents: 'none', // Para no interrumpir los clicks/hovers
+                  }}
+                >
+                  <PlayCircle
+                    size={36}
+                    color='#ffffff'
+                    strokeWidth={1.5}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         );
       })}

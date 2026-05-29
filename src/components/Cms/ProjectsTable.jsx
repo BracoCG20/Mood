@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import { Power, PowerOff, Edit } from 'lucide-react';
-import './ProjectsTable.scss'; // Crearemos este archivo ahora
+import './ProjectsTable.scss';
+
+// 🌟 MAGIA CLOUDINARY: Extraer frame si es video
+const getThumbnailUrl = (url) => {
+  if (!url) return '';
+  if (url.match(/\.(mp4|webm|mov|ogg)$/i)) {
+    return url.replace(/\.(mp4|webm|mov|ogg)$/i, '.jpg');
+  }
+  return url;
+};
 
 const ProjectsTable = ({ projects, onToggleStatus, onEdit }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,13 +55,14 @@ const ProjectsTable = ({ projects, onToggleStatus, onEdit }) => {
               >
                 <td>
                   <img
-                    src={project.img_url}
+                    // 🌟 USAMOS LA FUNCIÓN AQUÍ PARA QUE EL VIDEO SE VEA COMO IMAGEN
+                    src={getThumbnailUrl(project.img_url)}
                     alt={project.title}
                     style={{
                       width: '50px',
                       height: '30px',
                       objectFit: 'cover',
-                      borderRadius: '5px',
+                      borderRadius: '8px',
                       display: 'block',
                     }}
                   />
