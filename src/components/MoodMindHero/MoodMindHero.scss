@@ -10,11 +10,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 8rem 2rem 8rem; /* Padding balanceado sin el carrusel abajo */
+  padding: 8rem 2rem;
   box-sizing: border-box;
   overflow: hidden;
 
-  /* 🌟 CONTENEDOR DEL FONDO RIPPLE GRID */
+  /* 🌟 CONTENEDOR DEL FONDO LIGHT RAYS */
   &__bg {
     position: absolute;
     top: 0;
@@ -22,17 +22,16 @@
     width: 100%;
     height: 100%;
     z-index: 1; /* Por detrás del texto */
-    pointer-events: auto; /* IMPORTANTE: Para que reaccione al mouse */
+    pointer-events: none; /* Permite que los clics pasen al texto */
   }
 
   &__container {
     position: relative;
-    z-index: 2; /* Por encima del RippleGrid */
+    z-index: 2; /* Por encima de los rayos de luz */
     width: 100%;
     max-width: 1200px;
     display: flex;
     flex-direction: column;
-    pointer-events: none; /* Dejamos que los clics pasen al fondo... */
   }
 
   &__top {
@@ -46,10 +45,6 @@
       gap: 3rem;
       align-items: flex-start;
     }
-  }
-
-  &__title-col {
-    pointer-events: auto; /* ... excepto en el título */
   }
 
   &__title {
@@ -89,8 +84,6 @@
   &__desc-col {
     display: flex;
     justify-content: flex-end;
-    position: relative;
-    pointer-events: auto; /* ... y en el párrafo para el VariableProximity */
 
     @media (max-width: 1024px) {
       justify-content: flex-start;
@@ -103,13 +96,10 @@
     color: rgba(255, 255, 255, 0.85);
     margin: 0;
     max-width: 500px;
-    font-family: 'Roboto Flex', sans-serif;
 
-    .variable-proximity-desc {
-      white-space: normal;
-      span {
-        transition: font-variation-settings 0.1s ease-out;
-      }
+    strong {
+      color: #ffffff;
+      font-weight: 600;
     }
   }
 }
