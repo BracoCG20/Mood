@@ -4,102 +4,117 @@
   position: relative;
   margin: 1rem;
   min-height: calc(100vh - 2rem);
-  border-radius: 16px;
+
+  /* 🌟 BORDES: Superior 16px, Inferior en punta (0px) */
+  border-radius: 16px 16px 0 0;
+
   background-color: #1c1c1e;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 8rem 2rem;
+  align-items: center; /* 🌟 Centramos horizontalmente todo el bloque */
+  padding: 6rem 2rem;
   box-sizing: border-box;
   overflow: hidden;
 
-  /* 🌟 CONTENEDOR DEL FONDO LIGHT RAYS */
+  /* FONDO LIGHT RAYS */
   &__bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Por detrás del texto */
-    pointer-events: none; /* Permite que los clics pasen al texto */
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* LOGO DE FONDO (MARCA DE AGUA) */
+  &__bg-logo {
+    position: absolute;
+    bottom: -15%;
+    right: -5%;
+    width: 800px;
+    height: auto;
+    filter: invert(1) brightness(2);
+    opacity: 0.03;
+    pointer-events: none;
+    user-select: none;
+    transform: rotate(-10deg);
+    z-index: 1;
+
+    @media (max-width: 1024px) {
+      width: 500px;
+      right: -10%;
+      bottom: -10%;
+    }
   }
 
   &__container {
     position: relative;
-    z-index: 2; /* Por encima de los rayos de luz */
+    z-index: 2;
     width: 100%;
-    max-width: 1200px;
-    display: flex;
-    flex-direction: column;
+    max-width: 1300px;
+    margin: 0 auto;
   }
 
-  &__top {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 4rem;
-    align-items: center;
-
-    @media (max-width: 1024px) {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      align-items: flex-start;
-    }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 🌟 Centrado interno de los elementos */
+    text-align: center; /* 🌟 El texto también va centrado */
+    gap: 4rem; /* Separación entre el título y los logos */
+    max-width: 900px;
+    margin: 0 auto; /* Asegura que el contenedor esté al medio */
   }
 
   &__title {
-    font-size: clamp(3rem, 5.5vw, 5.5rem);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 700;
     line-height: 1.15;
-    color: #ffffff;
+    color: $blanco;
     margin: 0;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.02em;
     text-transform: uppercase;
+
+    &-white {
+      color: $primary;
+    }
   }
 
-  &__highlight {
-    background-color: $primary;
-    color: #111111 !important;
-    padding: 0 0.3em;
-    border-radius: 12px;
-    margin-top: 0.2em;
-    display: inline-flex;
+  /* 🌟 CONTENEDOR DE LOGOS ESTÁTICOS (2 LÍNEAS) */
+  &__ai-logos {
+    display: grid;
+    /* Al pedir 4 columnas iguales, los 8 logos se dividen en exactamente 2 filas */
+    grid-template-columns: repeat(4, 1fr);
     align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 20px rgba($primary, 0.2);
-    overflow: hidden;
-    font-weight: 900;
+    justify-items: center;
+    gap: 2.5rem 4rem; /* Gap vertical y horizontal */
+    width: 100%;
+    max-width: 800px; /* Limita el ancho para que no se estiren demasiado */
 
-    * {
-      color: #111111 !important;
+    @media (max-width: 768px) {
+      /* En móviles lo pasamos a 2 columnas (4 filas) para que no se vea miniatura */
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
     }
 
-    .mood-mind-hero__rotating-word {
-      padding: 0;
-      margin: 0;
-      display: inline-block;
-    }
-  }
+    img {
+      height: 30px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.5;
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 
-  &__desc-col {
-    display: flex;
-    justify-content: flex-end;
+      @media (max-width: 768px) {
+        height: 28px;
+      }
 
-    @media (max-width: 1024px) {
-      justify-content: flex-start;
-    }
-  }
-
-  &__description {
-    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85);
-    margin: 0;
-    max-width: 500px;
-
-    strong {
-      color: #ffffff;
-      font-weight: 600;
+      &:hover {
+        opacity: 1; /* Brillo al hover */
+      }
     }
   }
 }

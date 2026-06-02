@@ -1,11 +1,19 @@
 import { useTranslation } from 'react-i18next';
 import FadeContent from '../FadeContent/FadeContent';
-import RotatingText from '../RotatingText/RotatingText';
-import LightRays from '../LightRays/LightRays'; // 🌟 Importamos el nuevo fondo
+import LightRays from '../LightRays/LightRays';
+import logoMoodBg from '../../assets/Logo_Mood_Vectorizado.svg';
 import './MoodMindHero.scss';
 
-const ROTATING_WORDS = ['RÁPIDA', 'PRECISA', 'EFICIENTE', 'CREATIVA'];
-const ROTATION_INTERVAL_MS = 4000;
+const AI_LOGOS = [
+  { src: '/Logos/ChatGPT.svg', alt: 'ChatGPT' },
+  { src: '/Logos/Deepl.webp', alt: 'DeepL' },
+  { src: '/Logos/ElevenLabs.webp', alt: 'ElevenLabs' },
+  { src: '/Logos/Envato.svg', alt: 'Envato' },
+  { src: '/Logos/KlingAI.svg', alt: 'KlingAI' },
+  { src: '/Logos/Krea.webp', alt: 'Krea' },
+  { src: '/Logos/Magnific.webp', alt: 'Magnific' },
+  { src: '/Logos/Midjourney.svg', alt: 'Midjourney' },
+];
 
 const MoodMindHero = () => {
   const { t } = useTranslation();
@@ -16,7 +24,7 @@ const MoodMindHero = () => {
       <div className='mood-mind-hero__bg'>
         <LightRays
           raysOrigin='top-center'
-          raysColor='#4ade80' // Usamos el verde neón para que haga match con la caja
+          raysColor='#4ade80'
           raysSpeed={1}
           lightSpread={0.5}
           rayLength={3}
@@ -31,52 +39,45 @@ const MoodMindHero = () => {
         />
       </div>
 
-      <div className='mood-mind-hero__container'>
-        <div className='mood-mind-hero__top'>
-          <div className='mood-mind-hero__title-col'>
-            <FadeContent
-              duration={0.8}
-              delay={0.1}
-              direction='bottom'
-            >
-              <h1 className='mood-mind-hero__title'>
-                PRODUCCIÓN <br /> MÁS <br />
-                <div className='mood-mind-hero__highlight'>
-                  <RotatingText
-                    texts={ROTATING_WORDS}
-                    mainClassName='mood-mind-hero__rotating-word'
-                    staggerFrom='last'
-                    initial={{ y: '100%' }}
-                    animate={{ y: 0 }}
-                    exit={{ y: '-120%' }}
-                    staggerDuration={0.025}
-                    splitLevelClassName='overflow-hidden'
-                    transition={{ type: 'spring', damping: 30, stiffness: 400 }}
-                    rotationInterval={ROTATION_INTERVAL_MS}
-                  />
-                </div>
-              </h1>
-            </FadeContent>
-          </div>
+      {/* 🌟 LOGO GIGANTE DE FONDO (MARCA DE AGUA) */}
+      <img
+        src={logoMoodBg}
+        alt=''
+        className='mood-mind-hero__bg-logo'
+        aria-hidden='true'
+      />
 
-          <div className='mood-mind-hero__desc-col'>
-            <div className='mood-mind-hero__description-wrapper'>
-              <FadeContent
-                duration={0.8}
-                delay={0.3}
-                direction='bottom'
-              >
-                <p className='mood-mind-hero__description'>
-                  Fusionamos el <strong>ingenio humano</strong> con el poder
-                  ilimitado de la <strong>Inteligencia Artificial</strong>. En
-                  Mood, no solo optimizamos tiempos y recursos; elevamos la
-                  dirección de arte y las estrategias digitales para crear
-                  marcas, campañas y experiencias que rompen el molde. El futuro
-                  de tu marca empieza aquí.
-                </p>
-              </FadeContent>
+      <div className='mood-mind-hero__container'>
+        <div className='mood-mind-hero__content'>
+          <FadeContent
+            duration={0.8}
+            delay={0.1}
+            direction='bottom'
+          >
+            <h1 className='mood-mind-hero__title'>
+              NUESTRO MOOD <br />
+              ES SIEMPRE ESTAR AL D
+              <span className='mood-mind-hero__title-white'>IA</span>
+            </h1>
+          </FadeContent>
+
+          {/* 🌟 LOGOS ESTÁTICOS DE IA (Forzados a 2 líneas en CSS) */}
+          <FadeContent
+            duration={0.8}
+            delay={0.3}
+            direction='bottom'
+          >
+            <div className='mood-mind-hero__ai-logos'>
+              {AI_LOGOS.map((logo, index) => (
+                <img
+                  key={index}
+                  src={logo.src}
+                  alt={logo.alt}
+                  title={logo.alt}
+                />
+              ))}
             </div>
-          </div>
+          </FadeContent>
         </div>
       </div>
     </section>
