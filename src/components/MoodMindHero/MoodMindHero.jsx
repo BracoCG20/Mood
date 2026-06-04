@@ -1,72 +1,62 @@
-import { useTranslation } from 'react-i18next';
+import { ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK
+import BlurText from '../BlurText/BlurText';
 import FadeContent from '../FadeContent/FadeContent';
-import LightRays from '../LightRays/LightRays';
-import logoMoodBg from '../../assets/Logo_Mood_Vectorizado.svg';
 import './MoodMindHero.scss';
 
 const MoodMindHero = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); // <-- INICIALIZAMOS EL HOOK
+
+  const handleScroll = () => {
+    const element = document.getElementById('adn-content');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
-    <section className='mood-mind-hero'>
-      {/* FONDO LIGHT RAYS */}
-      <div className='mood-mind-hero__bg'>
-        <LightRays
-          raysOrigin='top-center'
-          raysColor='#4ade80'
-          raysSpeed={1}
-          lightSpread={0.5}
-          rayLength={3}
-          followMouse={true}
-          mouseInfluence={0.1}
-          noiseAmount={0}
-          distortion={0}
-          className='custom-rays'
-          pulsating={false}
-          fadeDistance={1}
-          saturation={1}
-        />
-      </div>
+    <section className='moodmind-hero'>
+      <div className='moodmind-hero__container'>
+        {/* 1. Título dividido en dos BlurText */}
+        <div className='moodmind-hero__header'>
+          <BlurText
+            text={t('moodmindHero.title1')}
+            delay={30}
+            animateBy='words'
+            direction='top'
+            as='h1'
+            className='moodmind-hero__title'
+          />
+          <BlurText
+            text={t('moodmindHero.title2')}
+            delay={50}
+            animateBy='words'
+            direction='top'
+            as='h1'
+            className='moodmind-hero__title moodmind-hero__title-light'
+          />
+        </div>
 
-      {/* LOGO GIGANTE DE FONDO (MARCA DE AGUA) */}
-      <img
-        src={logoMoodBg}
-        alt=''
-        className='mood-mind-hero__bg-logo'
-        aria-hidden='true'
-      />
-
-      <div className='mood-mind-hero__container'>
-        <div className='mood-mind-hero__content'>
-          {/* 🌟 TÍTULO: MARCAS AL LADO DE POTENCIAMOS */}
-          <FadeContent
-            duration={0.8}
-            delay={0.1}
-            direction='bottom'
+        {/* 2. Sección media: Botón y descripción corta */}
+        <div className='moodmind-hero__middle'>
+          <button
+            className='moodmind-hero__scroll-btn'
+            aria-label={t('moodmindHero.ariaScroll')}
+            onClick={handleScroll}
           >
-            <h1 className='mood-mind-hero__title'>
-              <span className='mood-mind-hero__title-top'>
-                <span className='mood-mind-hero__muted-text'>Potenciamos</span>
-                <span className='mood-mind-hero__highlight'>marcas</span>
-              </span>
-              <span className='mood-mind-hero__title-bottom'>
-                extraordinarias con IA.
-              </span>
-            </h1>
-          </FadeContent>
+            <ChevronDown size={24} />
+          </button>
 
-          {/* PÁRRAFO DESCRIPTIVO */}
-          <FadeContent
-            duration={0.8}
-            delay={0.2}
-            direction='bottom'
-          >
-            <p className='mood-mind-hero__description'>
-              Fusionamos la creatividad estratégica con el poder ilimitado de la
-              Inteligencia Artificial para diseñar el futuro de tu marca, romper
-              el molde y acelerar tus resultados.
-            </p>
-          </FadeContent>
+          <div className='moodmind-hero__paragraph-wrapper'>
+            <BlurText
+              text={t('moodmindHero.paragraph')}
+              delay={40}
+              animateBy='words'
+              direction='top'
+              as='p'
+              className='moodmind-hero__paragraph'
+            />
+          </div>
         </div>
       </div>
     </section>
