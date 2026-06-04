@@ -5,6 +5,7 @@ import MoodMindHero from '../../components/MoodMindHero/MoodMindHero';
 import './MoodMind.scss';
 import Footer from '../../components/Footer/Footer';
 import MoodMindFeatures from '../../components/MoodMindFeatures/MoodMindFeatures';
+import MoodMindWorkflow from '../../components/MoodMindWorkflow/MoodMindWorkflow';
 
 const MoodMind = () => {
   return (
@@ -13,7 +14,7 @@ const MoodMind = () => {
 
       <MoodMindHero />
       <MoodMindFeatures />
-
+      <MoodMindWorkflow />
       {/* 🌟 AQUÍ DEBAJO PUEDES AGREGAR EL RESTO DE SECCIONES DE LA PÁGINA EN EL FUTURO */}
 
       <div className='mood-mind__footer-area'>
