@@ -1,36 +1,28 @@
 import { Search, Zap, Sparkles } from 'lucide-react';
 import FadeContent from '../FadeContent/FadeContent';
 import BlurText from '../BlurText/BlurText';
+import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK
 import './MoodApproach.scss';
 
+// 🌟 Solo guardamos los IDs y los componentes de Iconos.
 const APPROACH_DATA = [
   {
     id: 'analiza',
-    overline: 'IA Analiza',
-    title: 'Mood Interpreta',
-    description:
-      'Procesamos datos masivos en segundos. Nuestro equipo extrae los insights estratégicos.',
     icon: Search,
   },
   {
     id: 'acelera',
-    overline: 'IA Acelera',
-    title: 'Mood Decide',
-    description:
-      'Automatizamos la creación visual. Nuestros directores seleccionan y refinan la idea ganadora.',
     icon: Zap,
   },
   {
     id: 'optimiza',
-    overline: 'IA Optimiza',
-    title: 'Mood Construye Marca',
-    description:
-      'El algoritmo escala el performance comercial. Nosotros cuidamos la esencia de tu marca.',
     icon: Sparkles,
   },
 ];
 
 const MoodApproach = () => {
+  const { t } = useTranslation(); // <-- INICIALIZAMOS EL HOOK
+
   return (
     <section className='mood-approach'>
       <div className='mood-approach__container'>
@@ -45,18 +37,18 @@ const MoodApproach = () => {
             >
               <div className='mood-approach__badge'>
                 <span className='mood-approach__badge-dot'></span>
-                NUESTRO ENFOQUE
+                {t('moodApproach.badge')} {/* <-- TRADUCCIÓN */}
               </div>
             </FadeContent>
           </div>
 
           {/* Lado Derecho */}
           <div className='mood-approach__header-right'>
-            {/* 🌟 TÍTULO REESCRITO Y FORZADO A 2 LÍNEAS EXACTAS */}
+            {/* 🌟 TÍTULO EN 2 LÍNEAS TRADUCIDO */}
             <h2 className='mood-approach__title'>
               <span className='mood-approach__title-line'>
                 <BlurText
-                  text='Sinergia perfecta entre Inteligencia'
+                  text={t('moodApproach.title1')} // <-- TRADUCCIÓN LÍNEA 1
                   as='span'
                   delay={30}
                   animateBy='words'
@@ -65,7 +57,7 @@ const MoodApproach = () => {
               </span>
               <span className='mood-approach__title-line'>
                 <BlurText
-                  text='Artificial y talento humano.'
+                  text={t('moodApproach.title2')} // <-- TRADUCCIÓN LÍNEA 2
                   as='span'
                   delay={100}
                   animateBy='words'
@@ -80,10 +72,7 @@ const MoodApproach = () => {
               direction='bottom'
             >
               <p className='mood-approach__description'>
-                La tecnología aporta velocidad y precisión milimétrica. Sin
-                embargo, es nuestra visión estratégica la que guía estas
-                herramientas para crear conexiones reales y resultados de
-                negocio tangibles.
+                {t('moodApproach.description')} {/* <-- TRADUCCIÓN */}
               </p>
             </FadeContent>
           </div>
@@ -101,7 +90,6 @@ const MoodApproach = () => {
                 delay={0.2 * (index + 1)}
                 direction='bottom'
               >
-                {/* 🌟 UNA SOLA CLASE BASE. EL SCSS HARÁ LA MAGIA */}
                 <div className='mood-approach__card'>
                   <div className='mood-approach__card-icon'>
                     <IconComponent
@@ -112,11 +100,16 @@ const MoodApproach = () => {
 
                   <div className='mood-approach__card-content'>
                     <span className='mood-approach__card-overline'>
-                      {card.overline}
+                      {/* TRADUCCIÓN DINÁMICA DEL OVERLINE */}
+                      {t(`moodApproach.cards.${card.id}.overline`)}
                     </span>
-                    <h3 className='mood-approach__card-title'>{card.title}</h3>
+                    <h3 className='mood-approach__card-title'>
+                      {/* TRADUCCIÓN DINÁMICA DEL TÍTULO */}
+                      {t(`moodApproach.cards.${card.id}.title`)}
+                    </h3>
                     <p className='mood-approach__card-desc'>
-                      {card.description}
+                      {/* TRADUCCIÓN DINÁMICA DE LA DESCRIPCIÓN */}
+                      {t(`moodApproach.cards.${card.id}.description`)}
                     </p>
                   </div>
                 </div>

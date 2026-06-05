@@ -24,10 +24,78 @@
   "moodmindHero": {
     "title1": "Creativity without",
     "title2": "physical limits.",
-    "paragraph": "Scenarios that would be impossible to achieve without moving any equipment. Multiple versions of the same campaign.",
+    "paragraph": "Scenarios that would be impossible without moving a team. Multiple versions of the same campaign",
     "ariaScroll": "Go to the next section",
     "altDesktop": "Mood team working on Desktop",
     "altMobile": "Mood team working on Mobile"
+  },
+  "moodMindFeatures": {
+    "badgeToday": "Who we are Today",
+    "descToday": "Mood is a creative and strategic growth business unit driven by Artificial Intelligence. We combine creative talent, digital expertise in content, data, and technology to transform marketing into an intelligent, efficient system oriented towards business results.",
+    "badgeFuture": "Who we want to be",
+    "heroText": "AI DRIVEN AGENCY.",
+    "descFuture": "We are in a healthy transition towards a new business model where AI will be at the center of everything, with human talent validation and curation."
+  },
+  "moodMindWorkflow": {
+    "badge": "MOOD WORKFLOW",
+    "title": "AI-Driven Production",
+    "slides": {
+      "rapida": {
+        "title": "Faster Production",
+        "bullets": [
+          "AI reduces time in editing, retouching, mockups, renders, and adaptations.",
+          "Mockups, renders, and key visuals in hours, not weeks.",
+          "Mood converts that speed into campaign-ready assets."
+        ]
+      },
+      "precisa": {
+        "title": "Precise and Efficient Production",
+        "bullets": [
+          "AI detects formats, trends, and performance.",
+          "Fewer reworks and unnecessary tests.",
+          "Mood adapts each asset to the right channel (Social, Paid, B2B, Retail, Events)."
+        ]
+      },
+      "ahorro": {
+        "title": "Real Structural Savings",
+        "bullets": [
+          "Less investment in models, casting, fees, and travel expenses.",
+          "Reduction in equipment rentals, physical sets, and locations.",
+          "More investment in paid media and performance, not operational costs."
+        ]
+      },
+      "creativa": {
+        "title": "Creativity Without Physical Limits",
+        "bullets": [
+          "Impossible scenarios without moving a production team.",
+          "Multiple versions of the same campaign and pre-launch visual testing.",
+          "AI generates visual routes; Mood strategically selects and elevates the idea."
+        ]
+      }
+    }
+  },
+  "moodApproach": {
+    "badge": "OUR APPROACH",
+    "title1": "Perfect synergy between Artificial",
+    "title2": "Intelligence and human talent.",
+    "description": "Technology provides speed and pinpoint accuracy. However, it is our strategic vision that guides these tools to create real connections and tangible business results.",
+    "cards": {
+      "analiza": {
+        "overline": "AI Analyzes",
+        "title": "Mood Interprets",
+        "description": "We process massive data in seconds. Our team extracts the strategic insights."
+      },
+      "acelera": {
+        "overline": "AI Accelerates",
+        "title": "Mood Decides",
+        "description": "We automate visual creation. Our directors select and refine the winning idea."
+      },
+      "optimiza": {
+        "overline": "AI Optimizes",
+        "title": "Mood Builds Brand",
+        "description": "The algorithm scales commercial performance. We preserve the essence of your brand."
+      }
+    }
   },
   "adnTeam": {
     "title1": "Meet the ",

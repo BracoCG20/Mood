@@ -29,6 +29,74 @@
     "altDesktop": "Equipo Mood trabajando en Desktop",
     "altMobile": "Equipo Mood trabajando en Móvil"
   },
+  "moodMindFeatures": {
+    "badgeToday": "Quiénes somos Hoy",
+    "descToday": "Mood es una unidad de negocio creativa y estratégica de crecimiento impulsada por inteligencia Artificial. Combinamos talento creativo, expertise digital en contenido, data y tecnología para transformar el marketing en un sistema inteligente, eficiente y orientado a resultados de negocio.",
+    "badgeFuture": "Quiénes queremos ser",
+    "heroText": "IA DRIVEN AGENCY.",
+    "descFuture": "Nos encontramos en una transición sana hacia un nuevo modelo de negocio donde la IA será el centro de todo con la validación y curación de talento humano."
+  },
+  "moodMindWorkflow": {
+    "badge": "MOOD WORKFLOW",
+    "title": "Producción impulsada por IA",
+    "slides": {
+      "rapida": {
+        "title": "Producción más rápida",
+        "bullets": [
+          "La IA reduce tiempos en edición, retoque, mockups, renders y adaptaciones.",
+          "Mockups, renders y key visuals en horas, no semanas.",
+          "Mood convierte esa velocidad en piezas listas para campaña."
+        ]
+      },
+      "precisa": {
+        "title": "Producción precisa y eficiente",
+        "bullets": [
+          "La IA detecta formatos, tendencias y performance.",
+          "Menos reprocesos y menos pruebas innecesarias.",
+          "Mood adapta cada pieza al canal correcto (RRSS, pauta, B2B, retail, eventos)."
+        ]
+      },
+      "ahorro": {
+        "title": "Ahorro estructural real",
+        "bullets": [
+          "Menos inversión en modelos, casting, honorarios y viáticos.",
+          "Disminución de alquiler de equipos, sets físicos y locaciones.",
+          "Se invierte más en pauta y performance, no en costos operativos."
+        ]
+      },
+      "creativa": {
+        "title": "Creatividad sin límites físicos",
+        "bullets": [
+          "Escenarios imposibles sin mover un equipo de producción.",
+          "Versiones múltiples de una misma campaña y testing visual previo.",
+          "La IA genera rutas visuales; Mood selecciona y eleva la idea estratégicamente."
+        ]
+      }
+    }
+  },
+  "moodApproach": {
+    "badge": "NUESTRO ENFOQUE",
+    "title1": "Sinergia perfecta entre Inteligencia",
+    "title2": "Artificial y talento humano.",
+    "description": "La tecnología aporta velocidad y precisión milimétrica. Sin embargo, es nuestra visión estratégica la que guía estas herramientas para crear conexiones reales y resultados de negocio tangibles.",
+    "cards": {
+      "analiza": {
+        "overline": "IA Analiza",
+        "title": "Mood Interpreta",
+        "description": "Procesamos datos masivos en segundos. Nuestro equipo extrae los insights estratégicos."
+      },
+      "acelera": {
+        "overline": "IA Acelera",
+        "title": "Mood Decide",
+        "description": "Automatizamos la creación visual. Nuestros directores seleccionan y refinan la idea ganadora."
+      },
+      "optimiza": {
+        "overline": "IA Optimiza",
+        "title": "Mood Construye Marca",
+        "description": "El algoritmo escala el performance comercial. Nosotros cuidamos la esencia de tu marca."
+      }
+    }
+  },
   "adnTeam": {
     "title1": "Conoce al ",
     "title2": "Equipo",

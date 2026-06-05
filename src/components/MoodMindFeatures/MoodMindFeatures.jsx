@@ -1,8 +1,11 @@
 import FadeContent from '../FadeContent/FadeContent';
 import DotGrid from '../DotGrid/DotGrid';
+import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK
 import './MoodMindFeatures.scss';
 
 const MoodMindFeatures = () => {
+  const { t } = useTranslation(); // <-- INICIALIZAMOS EL HOOK
+
   return (
     <section
       className='mood-mind-features'
@@ -37,18 +40,15 @@ const MoodMindFeatures = () => {
               <div className='mood-mind-features__section'>
                 <div className='mood-mind-features__badge'>
                   <span className='mood-mind-features__badge-dot'></span>
-                  Quiénes somos Hoy
+                  {t('moodMindFeatures.badgeToday')}{' '}
+                  {/* <-- TRADUCCIÓN DINÁMICA */}
                 </div>
 
                 {/* Tarjeta Glassmorphism */}
                 <div className='mood-mind-features__glass-card'>
                   <p className='mood-mind-features__text'>
-                    Mood es una unidad de negocio creativa y estratégica de
-                    crecimiento impulsada por inteligencia Artificial.
-                    Combinamos talento creativo, expertise digital en contenido,
-                    data y tecnología para transformar el marketing en un
-                    sistema inteligente, eficiente y orientado a resultados de
-                    negocio.
+                    {t('moodMindFeatures.descToday')}{' '}
+                    {/* <-- TRADUCCIÓN DINÁMICA */}
                   </p>
                 </div>
               </div>
@@ -57,20 +57,21 @@ const MoodMindFeatures = () => {
               <div className='mood-mind-features__section'>
                 <div className='mood-mind-features__badge'>
                   <span className='mood-mind-features__badge-dot'></span>
-                  Quiénes queremos ser
+                  {t('moodMindFeatures.badgeFuture')}{' '}
+                  {/* <-- TRADUCCIÓN DINÁMICA */}
                 </div>
 
                 {/* Tarjeta Glassmorphism Destacada */}
                 <div className='mood-mind-features__glass-card mood-mind-features__glass-card--highlight'>
                   {/* Protagonista Absoluto */}
                   <h3 className='mood-mind-features__hero-text'>
-                    IA DRIVEN AGENCY.
+                    {t('moodMindFeatures.heroText')}{' '}
+                    {/* <-- TRADUCCIÓN DINÁMICA */}
                   </h3>
 
                   <p className='mood-mind-features__text'>
-                    Nos encontramos en una transición sana hacia un nuevo modelo
-                    de negocio donde la IA será el centro de todo con la
-                    validación y curación de talento humano.
+                    {t('moodMindFeatures.descFuture')}{' '}
+                    {/* <-- TRADUCCIÓN DINÁMICA */}
                   </p>
                 </div>
               </div>
