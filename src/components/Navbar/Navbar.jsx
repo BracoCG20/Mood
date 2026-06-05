@@ -17,7 +17,6 @@ const Navbar = () => {
   const isDarkMode =
     location.pathname === '/' ||
     location.pathname === '/mood-print' ||
-    location.pathname === '/mood-mind' ||
     location.pathname === '/trabaja_con_nosotros';
 
   useEffect(() => {

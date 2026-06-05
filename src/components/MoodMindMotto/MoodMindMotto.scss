@@ -1,0 +1,67 @@
+@use '../../styles/variables' as *;
+
+.mood-mind-motto {
+  position: relative;
+  width: 100%;
+
+  /* 🌟 FONDO OSCURO PARA CONECTAR CON EL FOOTER */
+  background-color: #fff; /* Fondo súper oscuro casi negro */
+
+  padding: 8rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+
+  /* 🌟 BORDES REDONDEADOS INFERIORES CALCADOS DE TESTIMONIALS */
+  border-bottom-left-radius: 48px;
+  border-bottom-right-radius: 48px;
+
+  &__container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  &__text {
+    /* Tamaño dinámico: Base 3rem, escala con 8vw, máximo 8rem */
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 800; /* Letra pesada/gruesa */
+    line-height: 1.1;
+    color: $primary; /* El verde de tu marca */
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__line {
+    display: block;
+  }
+
+  /* 🌟 MAGIA: El resalte en blanco para la "IA" */
+  &__highlight {
+    color: #ffffff; /* Blanco puro */
+    /* Sombra opcional para darle un leve resplandor a la IA */
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+  }
+
+  /* Ajustes para móviles */
+  @media (max-width: 768px) {
+    min-height: 50vh;
+    padding: 6rem 1.5rem;
+
+    /* 🌟 Reducimos el border-radius en móviles para que no se vea exagerado */
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+
+    &__text {
+      line-height: 1.15;
+    }
+  }
+}

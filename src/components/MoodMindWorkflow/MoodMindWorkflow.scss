@@ -1,6 +1,7 @@
 @use '../../styles/variables' as *;
 
 .mood-mind-workflow {
+  background-color: #fdfaf1; /* Fondo súper claro estilo corporativo */
   /* 400vh permite hacer scroll durante 4 pantallas completas antes de avanzar */
   height: 400vh;
   position: relative;
