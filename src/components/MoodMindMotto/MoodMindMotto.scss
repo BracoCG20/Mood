@@ -4,15 +4,15 @@
   position: relative;
   width: 100%;
 
-  /* 🌟 FONDO OSCURO PARA CONECTAR CON EL FOOTER */
-  background-color: #fff; /* Fondo súper oscuro casi negro */
+  /* 🌟 FONDO OSCURO PARA CONECTAR CON EL FOOTER (Comentario original, aunque es blanco) */
+  background-color: #fff;
 
   padding: 8rem 2rem;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 90vh;
 
   /* 🌟 BORDES REDONDEADOS INFERIORES CALCADOS DE TESTIMONIALS */
   border-bottom-left-radius: 48px;
@@ -31,7 +31,7 @@
     font-size: clamp(3rem, 8vw, 7rem);
     font-weight: 700; /* Letra pesada/gruesa */
     line-height: 1.1;
-    color: $negro; /* El verde de tu marca */
+    color: $negro; /* Color principal */
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.02em;
@@ -41,12 +41,18 @@
   }
 
   &__line {
-    display: block;
+    /* AJUSTE: Se usa flex para mantener unidas y alineadas las letras del VariableProximity */
+    display: flex;
+    justify-content: center;
+
+    &--inline {
+      flex-direction: row;
+    }
   }
 
   /* 🌟 MAGIA: El resalte en blanco para la "IA" */
   &__highlight {
-    color: $primary; /* Blanco puro */
+    color: $primary; /* Verde primario */
     /* Sombra opcional para darle un leve resplandor a la IA */
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
   }
