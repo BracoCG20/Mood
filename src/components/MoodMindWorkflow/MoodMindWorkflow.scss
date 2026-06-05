@@ -41,8 +41,8 @@
   }
 
   &__badge {
-    background-color: #ffffff;
-    color: #111111;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #2c1c1c;
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     font-size: 0.7rem;
@@ -52,9 +52,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    align-self: flex-start;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    align-self: flex-start; /* Evita que ocupe todo el ancho */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.041);
   }
 
   &__badge-dot {

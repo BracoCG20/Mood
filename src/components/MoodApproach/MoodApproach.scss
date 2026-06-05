@@ -1,0 +1,261 @@
+@use '../../styles/variables' as *;
+
+/* 🌟 ANIMACIÓN DE REFLEJO DE LUZ CORREGIDA */
+%shiny-animation {
+  position: relative;
+  overflow: hidden; /* Evita que la luz se salga de la tarjeta */
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Empieza fuera de la tarjeta por la izquierda */
+    width: 50%;
+    height: 100%;
+    transform: skewX(-25deg);
+    transition: left 0.7s ease; /* Transición limpia usando left */
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &:hover::after {
+    left: 200%; /* Atraviesa toda la tarjeta hacia la derecha */
+  }
+}
+
+.mood-approach {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 6rem 2rem;
+  box-sizing: border-box;
+
+  /* 🌟 Ocupar el 100% del alto de la pantalla en desktop */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    min-height: auto;
+    padding: 6rem 1.5rem;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 1300px;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  /* ==========================================
+     🌟 CABECERA
+     ========================================== */
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+
+  &__header-left {
+    flex: 0 0 200px;
+  }
+
+  &__badge {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: #111111;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: $primary;
+    border-radius: 2px;
+  }
+
+  &__header-right {
+    flex: 1;
+    max-width: 950px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  &__title {
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 500;
+    color: #111111;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  /* Fuerza que cada bloque ocupe una línea completa */
+  &__title-line {
+    display: block;
+  }
+
+  &__description {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: rgba(17, 17, 17, 0.7);
+    margin: 0;
+    max-width: 800px;
+    font-weight: 400;
+  }
+
+  /* ==========================================
+     🌟 GRILLA DE TARJETAS
+     ========================================== */
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* 🌟 TARJETA BASE */
+  &__card {
+    @extend %shiny-animation;
+    border-radius: 16px;
+    padding: 3.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 360px;
+    box-sizing: border-box;
+    /* ELIMINADO EL TRANSFORM, SOLO TRANSCIÓN DE SOMBRA */
+    transition: box-shadow 0.4s ease;
+
+    /* Sombra sutil estática al hacer hover, SIN MOVERSE */
+    &:hover {
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 768px) {
+      min-height: 320px;
+      padding: 2.5rem 2rem;
+    }
+  }
+
+  &__card-icon {
+    margin-bottom: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  &__card-overline {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  &__card-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  &__card-desc {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  /* ==========================================
+     🌟 VARIANTES DE TARJETAS
+     ========================================== */
+
+  /* 🌟 Variante Oscura (La del medio) */
+  &--dark {
+    background-color: #212526;
+    color: #ffffff;
+
+    /* Reflejo BLANCO brillante para fondo oscuro */
+    &::after {
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.25) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+
+    .mood-approach__card-icon {
+      color: $primary;
+    }
+    .mood-approach__card-overline {
+      color: $primary;
+    }
+    .mood-approach__card-title {
+      color: #ffffff;
+    }
+    .mood-approach__card-desc {
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  /* 🌟 Variante Clara (Los extremos) */
+  &--light {
+    background-color: #f4f5f6; /* Gris muy claro, sin borde como en la captura */
+    color: #111111;
+
+    /* Reflejo OSCURO sutil para que se vea sobre el fondo gris claro */
+    &::after {
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.05) 50%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    }
+
+    .mood-approach__card-icon {
+      color: #111111;
+    }
+    .mood-approach__card-overline {
+      color: rgba(17, 17, 17, 0.5);
+    }
+    .mood-approach__card-title {
+      color: #111111;
+    }
+    .mood-approach__card-desc {
+      color: rgba(17, 17, 17, 0.7);
+    }
+  }
+}
