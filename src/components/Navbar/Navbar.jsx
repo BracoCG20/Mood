@@ -87,7 +87,7 @@ const Navbar = () => {
               to='/mood-mind'
               className={`navbar__link ${location.pathname === '/mood-mind' ? 'navbar__link--active' : ''}`}
             >
-              MoodMind
+              #MoodMind
             </Link>
           </li>
         </ul>
@@ -158,7 +158,7 @@ const Navbar = () => {
               className={`mobile-panel__link ${location.pathname === '/mood-mind' ? 'mobile-panel__link--active' : ''}`}
               onClick={closeMenu}
             >
-              MoodMind
+              #MoodMind
             </Link>
           </li>
         </ul>

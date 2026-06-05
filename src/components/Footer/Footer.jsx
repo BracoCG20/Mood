@@ -73,10 +73,10 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href='/#what'
+                    href='/mood-mind'
                     className='footer__nav-link'
                   >
-                    #TheMoodEdit
+                    #MoodMind
                   </a>
                 </li>
               </ul>
