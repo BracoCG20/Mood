@@ -1,9 +1,111 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Briefcase, Calendar, ChevronRight, MapPin } from 'lucide-react';
 import './CareersJobs.scss';
 
+// ==========================================
+// 🌟 SUB-COMPONENTE DINÁMICO PARA LAS CARDS (NOTCH)
+// ==========================================
+const JobCardClipped = ({ job }) => {
+  const cardRef = useRef(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const element = cardRef.current;
+    if (!element) return;
+
+    const updateSize = () => {
+      const rect = element.getBoundingClientRect();
+      setSize({ width: rect.width, height: rect.height });
+    };
+
+    updateSize(); // Llamada inicial
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // 🌟 FUNCIÓN MATEMÁTICA PARA EL RECORTE INFERIOR DERECHO
+  const getDynamicPath = (w, h) => {
+    if (w === 0 || h === 0) return '';
+
+    const r = 16; // Radio principal (esquinas de la tarjeta)
+    const nw = 58; // Ancho del recorte (Notch Width) para que quepa el botón
+    const nh = 58; // Alto del recorte (Notch Height)
+    const nr = 16; // Radio interno de las curvas del recorte
+
+    return `
+      M ${r} 0
+      L ${w - r} 0
+      A ${r} ${r} 0 0 1 ${w} ${r}
+      L ${w} ${h - nh - nr}
+      A ${nr} ${nr} 0 0 1 ${w - nr} ${h - nh}
+      L ${w - nw + nr} ${h - nh}
+      A ${nr} ${nr} 0 0 0 ${w - nw} ${h - nh + nr}
+      L ${w - nw} ${h - r}
+      A ${r} ${r} 0 0 1 ${w - nw - r} ${h}
+      L ${r} ${h}
+      A ${r} ${r} 0 0 1 0 ${h - r}
+      L 0 ${r}
+      A ${r} ${r} 0 0 1 ${r} 0
+      Z
+    `
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
+  const dynamicClipPath = getDynamicPath(size.width, size.height);
+
+  return (
+    <div
+      className='job-card'
+      ref={cardRef}
+    >
+      {/* FONDO RECORTADO CON CLIP-PATH */}
+      <div
+        className='job-card__clipped-bg'
+        style={{
+          clipPath: dynamicClipPath ? `path('${dynamicClipPath}')` : 'none',
+        }}
+      >
+        <div className='job-card__info'>
+          <h3 className='job-card__name'>{job.title}</h3>
+          <div className='job-card__meta'>
+            <span className='job-card__role'>
+              <Briefcase size={14} /> {job.type}
+            </span>
+            <span className='job-card__role'>
+              <Calendar size={14} /> {job.date}
+            </span>
+
+            {/* 🕵️‍♂️ TAG DE PAÍS PREPARADO (Oculto por CSS) */}
+            <span className='job-card__role job-card__role--country-tag'>
+              <MapPin size={14} /> {job.country}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* BOTÓN FLOTANTE EN EL RECORTE (Fuera del clip-path) */}
+      <Link
+        to={`/trabaja_con_nosotros/${job.id}`}
+        className='job-card__btn'
+        aria-label={`Ver detalles del puesto ${job.title}`}
+      >
+        <ChevronRight
+          size={22}
+          strokeWidth={2.5}
+        />
+      </Link>
+    </div>
+  );
+};
+
+// ==========================================
+// COMPONENTE PRINCIPAL
+// ==========================================
 const CareersJobs = () => {
   const { t } = useTranslation();
   const [jobsList, setJobsList] = useState([]);
@@ -16,7 +118,6 @@ const CareersJobs = () => {
         const response = await fetch('http://localhost:5000/api/jobs');
         if (response.ok) {
           const data = await response.json();
-          // Filtramos primero para asegurarnos de mostrar SOLO las vacantes "Activas"
           const activeJobs = data.filter((job) => job.is_active === true);
           setJobsList(activeJobs);
         }
@@ -30,8 +131,6 @@ const CareersJobs = () => {
     fetchPublicJobs();
   }, []);
 
-  /* 🔥 EL FILTRO SECRETO MULTI-PAÍS: 
-     Por el momento, filtramos para que en pantalla SOLO aparezca Perú. */
   const visibleJobs = jobsList.filter(
     (job) => job.country === 'Peru' || job.country === 'Perú',
   );
@@ -48,42 +147,10 @@ const CareersJobs = () => {
             </div>
           ) : visibleJobs.length > 0 ? (
             visibleJobs.map((job) => (
-              <div
-                className='job-card'
+              <JobCardClipped
                 key={job.id}
-              >
-                {/* Lado izquierdo: Info del puesto */}
-                <div className='job-card__info'>
-                  <h3 className='job-card__name'>{job.title}</h3>
-                  <div className='job-card__meta'>
-                    <span className='job-card__role'>
-                      <Briefcase size={14} /> {job.type}
-                    </span>
-                    <span className='job-card__role'>
-                      <Calendar size={14} /> {job.date}
-                    </span>
-
-                    {/* 🕵️‍♂️ TAG DE PAÍS PREPARADO (Oculto por CSS hasta el lanzamiento en otros países) */}
-                    <span className='job-card__role job-card__role--country-tag'>
-                      <MapPin size={14} /> {job.country}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Lado derecho: Botón CTA unificado al estilo AdnTeam */}
-                <div className='job-card__footer'>
-                  <Link
-                    to={`/trabaja_con_nosotros/${job.id}`}
-                    className='job-card__btn'
-                    aria-label={`Ver detalles del puesto ${job.title}`}
-                  >
-                    <ChevronRight
-                      size={22}
-                      strokeWidth={2.5}
-                    />
-                  </Link>
-                </div>
-              </div>
+                job={job}
+              />
             ))
           ) : (
             <div className='careers-jobs__empty-state'>

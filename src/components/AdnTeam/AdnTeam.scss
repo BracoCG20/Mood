@@ -144,18 +144,27 @@
   }
 }
 
-// --- ESTILOS DE LA CARTA (LIDERAZGO) ---
+// ==========================================
+// 🌟 ESTILOS DE LA CARTA CON RECORTE (LIDERAZGO)
+// ==========================================
 .team-card {
-  background-color: $blanco;
-  border-radius: 20px;
-  padding: 0.75rem;
+  position: relative; /* Clave para el drop-shadow y posición absoluta del botón */
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 30px rgba($negro, 0.03);
-  transition: box-shadow 0.3s ease;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.03));
+  transition: filter 0.3s ease;
 
   &:hover {
-    box-shadow: 0 15px 35px rgba($negro, 0.06);
+    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.06));
+  }
+
+  &__clipped-bg {
+    background-color: $blanco;
+    width: 100%;
+    height: 100%;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
   }
 
   &__image-wrapper {
@@ -164,7 +173,7 @@
     height: 450px;
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.4rem;
   }
 
   &__image {
@@ -199,6 +208,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 0.5rem 0.5rem;
+    padding-right: 65px; /* Evita que el texto choque con el hueco */
   }
 
   &__info {
@@ -225,11 +235,15 @@
     font-family: monospace;
   }
 
+  /* 🌟 BOTÓN FLOTANTE EN EL RECORTE */
   &__action-btn {
     @extend %shiny-animation;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
     background-color: #cef79e;
     color: $negro;
     display: flex;
@@ -237,7 +251,7 @@
     align-items: center;
     border: none;
     cursor: pointer;
-    flex-shrink: 0;
+    z-index: 5;
 
     svg {
       position: relative;
@@ -354,22 +368,20 @@
   }
 }
 
-// --- ESTILOS DE LA CARTA DE TEXTO REDUCIDA ---
+// ==========================================
+// 🌟 CARTA DE TEXTO REDUCIDA CON NOTCH
+// ==========================================
 .member-card {
+  position: relative; /* Clave para que el botón flote dentro de la carta */
   flex: 0 0 calc((100% - 4.5rem) / 4);
   height: 210px;
-  background-color: $blanco;
-  border-radius: 16px;
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   scroll-snap-align: start;
-  box-shadow: 0 10px 30px rgba($negro, 0.02);
+  cursor: pointer;
 
-  transition:
-    background-color 0.4s ease,
-    box-shadow 0.4s ease;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.02));
+  transition: filter 0.4s ease;
 
   @media (max-width: 1024px) {
     flex: 0 0 calc((100% - 3rem) / 3);
@@ -377,16 +389,15 @@
   @media (max-width: 768px) {
     flex: 0 0 calc((100% - 1.5rem) / 2);
     height: 190px;
-    padding: 1.25rem;
   }
   @media (max-width: 480px) {
-    /* MAGIA: En móviles muy estrechos, la tarjeta ocupa el 100% exacto */
     flex: 0 0 100%;
   }
 
   &:hover {
-    background-color: #1c1c1e;
-    box-shadow: 0 15px 35px rgba($negro, 0.15);
+    .member-card__clipped-bg {
+      background-color: #1c1c1e;
+    }
 
     .member-card__name,
     .member-card__link {
@@ -403,6 +414,23 @@
       &::after {
         transform: translateX(400%) skewX(-25deg);
       }
+    }
+  }
+
+  &__clipped-bg {
+    background-color: $blanco;
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem;
+    padding-right: 65px; /* Empuja el texto para que no se monte sobre el notch */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background-color 0.4s ease;
+
+    @media (max-width: 768px) {
+      padding: 1.25rem;
+      padding-right: 55px;
     }
   }
 
@@ -448,19 +476,22 @@
     transition: color 0.4s ease;
   }
 
+  /* 🌟 BOTÓN FLOTANTE EN EL HUECO (NOTCH) */
   &__btn {
     @extend %shiny-animation;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px 10px 10px 0;
-    background-color: #e5fabb;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background-color: #e5fabb; /* Color verde sutil */
     color: $negro;
     display: flex;
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    margin-right: -0.5rem;
-    margin-bottom: -0.5rem;
+    z-index: 5;
     transition: background-color 0.4s ease;
 
     svg {
