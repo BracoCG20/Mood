@@ -1,279 +1,313 @@
 @use '../../styles/variables' as *;
+@use 'sass:color';
 
-%shiny-animation {
-  position: relative;
-  overflow: hidden;
-  &::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -120%;
-    width: 60%;
-    height: 200%;
-    background: linear-gradient(
-      100deg,
-      rgba(255, 255, 255, 0) 20%,
-      rgba(255, 255, 255, 0.4) 50%,
-      rgba(255, 255, 255, 0) 80%
-    );
-    transform: skewX(-25deg);
-    transition: transform 0.6s ease-in-out;
-    z-index: 1;
-  }
-  &:hover::after {
-    transform: translateX(400%) skewX(-25deg);
-  }
-}
-
-.cms-login {
-  min-height: 100vh;
-  width: 100%;
+.cms-login-container {
+  height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f1f5f9; // Gris ultra claro de fondo (slate-100)
-  padding: 2rem;
+  background-color: #f1f5f9; // Fondo general ultra suave
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
 
-  /* 🌟 LA TARJETA CONTENEDORA PRINCIPAL BLANCA */
-  &__wrapper {
+  .login-box {
+    display: flex;
     background-color: $blanco;
+    width: 100%;
+    max-width: 1100px;
+    height: 90vh;
+    max-height: 700px;
     border-radius: 24px;
-    width: 100%;
-    max-width: 1200px;
-    min-height: 800px;
-    display: grid;
-    grid-template-columns: 1fr;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04); // Sombra premium muy suave
-    padding: 2rem; // EL PADDING QUE SEPARA LA IMAGEN DEL BORDE
-
-    @media (min-width: 900px) {
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-  }
-
-  // ==========================================
-  // LADO IZQUIERDO: Slider Contenido
-  // ==========================================
-  &__slider-section {
-    display: none; // Oculto en móvil
-
-    @media (min-width: 900px) {
-      display: block;
-      height: 100%;
-      width: 100%;
-    }
-  }
-
-  &__slider-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 18px 0 0 18px; // Esquinas redondeadas internas para la imagen
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+    padding: 12px; // El padding interno clave que crea el marco
+    box-sizing: border-box;
     overflow: hidden;
-    background-color: #f8fafc; // Fallback
   }
 
-  &__slider-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out; // Transición suave entre imágenes
-
-    &--active {
-      opacity: 1;
-    }
-  }
-
-  &__slider-overlay {
-    position: absolute;
-    inset: 0;
-    // Gradiente sutil solo abajo para que la caja de texto y los puntos destaquen
+  // ==========================================
+  // PANEL IZQUIERDO (Branding)
+  // ==========================================
+  .login-brand-panel {
+    width: 50%;
+    /* Utilizo el color oscuro de Mood como panel principal */
     background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.4) 0%,
-      rgba(0, 0, 0, 0) 40%
+      135deg,
+      $negro,
+      color.adjust(#1c1c1e, $lightness: -10%)
     );
-    z-index: 1;
-  }
-
-  &__slider-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 2rem;
-    z-index: 2;
+    border-radius: 16px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
 
-  /* 🌟 LA CAJA BLANCA FLOTANTE DENTRO DE LA IMAGEN */
-  &__floating-box {
-    border-radius: 20px;
-    padding: 22px 26px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 500px;
-    background: rgba($blanco, 0.15);
-    border: 1px solid rgba($blanco, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-
-    p {
-      margin: 0;
-      color: #fff; // slate-700
-      font-size: 0.95rem;
-      line-height: 1.5;
-      font-weight: 400;
+    @media (max-width: 850px) {
+      display: none; // Oculto en móvil
     }
-  }
 
-  &__slider-dots {
-    display: flex;
-    gap: 0.5rem;
-  }
+    .brand-content {
+      position: relative;
+      z-index: 10;
+      color: $blanco;
 
-  &__dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.4);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0;
+      .brand-badge {
+        display: inline-block;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
 
-    &--active {
-      background-color: $blanco;
-      width: 16px;
-      border-radius: 4px;
+      h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin: 0 0 20px 0;
+        letter-spacing: -1px;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.6;
+        margin: 0;
+        max-width: 90%;
+
+        strong {
+          color: $blanco;
+        }
+      }
+    }
+
+    // Círculos decorativos de fondo
+    .circle-decoration {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0)
+      );
+    }
+    .circle-1 {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      right: -100px;
+    }
+    .circle-2 {
+      width: 250px;
+      height: 250px;
+      bottom: 20%;
+      left: -50px;
     }
   }
 
   // ==========================================
-  // LADO DERECHO: Formulario Shadcn
+  // PANEL DERECHO (Formulario)
   // ==========================================
-  &__form-section {
+  .login-form-panel {
+    width: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
-  }
 
-  &__form-inner {
-    width: 100%;
-    max-width: 340px; // Mantiene el formulario estrecho
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  &__header {
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-
-    h2 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: #0f172a; // slate-900
-      margin: 0;
-      letter-spacing: -0.04em;
-    }
-
-    p {
-      color: #64748b; // slate-500
-      font-size: 0.9rem;
-      margin: 0;
-    }
-  }
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  &__group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    label {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #0f172a;
-    }
-
-    input {
+    @media (max-width: 850px) {
       width: 100%;
-      height: 2.5rem; // h-10
-      padding: 0.5rem 0.75rem;
-      border: 1px solid #e2e8f0; // slate-200
-      border-radius: 8px; // radius-md
-      font-size: 0.875rem;
-      color: #0f172a;
-      outline: none;
-      transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
+    }
 
-      &::placeholder {
-        color: #94a3b8;
+    .form-wrapper {
+      width: 100%;
+      max-width: 400px;
+      padding: 0 30px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+      position: relative;
+    }
+
+    .form-header {
+      margin-bottom: 40px;
+
+      .logo-container {
+        width: 110px;
+        height: 50px;
+        background-color: $negro;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+        img {
+          width: 100px;
+          object-fit: contain;
+          // filter: brightness(0) invert(1);
+        }
       }
 
-      /* 🌟 SHADCN FOCUS RING */
-      &:focus {
-        border-color: #0f172a;
-        box-shadow: 0 0 0 1px #0f172a;
+      h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $negro;
+        margin: 0 0 5px 0;
+        letter-spacing: -0.5px;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #64748b;
+        margin: 0;
+        font-weight: 400;
       }
     }
-  }
 
-  &__label-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
 
-  &__forgot {
-    font-size: 0.8rem;
-    color: #64748b;
-    text-decoration: none;
-    font-weight: 500;
+      .modern-input-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 10px 18px;
+        background-color: $blanco;
+        transition: all 0.2s ease;
 
-    &:hover {
-      color: #0f172a;
-      text-decoration: underline;
+        &:focus-within {
+          border-color: $negro;
+          box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+        }
+
+        &.has-value {
+          border-color: #cbd5e1;
+        }
+
+        .input-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+
+          label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 4px;
+          }
+
+          input {
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1rem;
+            color: #1e293b;
+            font-weight: 400;
+            padding: 0;
+            width: 100%;
+
+            &::placeholder {
+              color: #cbd5e1;
+              font-weight: 400;
+            }
+
+            &:disabled {
+              background: transparent;
+              color: #94a3b8;
+            }
+          }
+        }
+
+        .icon-container {
+          color: #94a3b8;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-left: 15px;
+        }
+
+        &:focus-within .icon-container {
+          color: $negro;
+        }
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+
+        .btn-ingresar {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background-color: $negro;
+          color: $blanco;
+          border: none;
+          padding: 14px 28px;
+          border-radius: 12px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+
+          &:hover:not(:disabled) {
+            background-color: color.adjust($primary, $lightness: 5%);
+            color: $negro;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+          }
+
+          &:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+          }
+
+          .spinner {
+            animation: spin 1s linear infinite;
+          }
+        }
+      }
+    }
+
+    .footer-copy {
+      position: absolute;
+      bottom: 0;
+      left: 30px;
+      right: 30px;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      text-align: center;
+      padding-bottom: 20px;
     }
   }
+}
 
-  &__btn {
-    margin-top: 0.5rem;
-    width: 100%;
-    height: 2.5rem;
-    background-color: #0f172a; // slate-900
-    color: $blanco;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background-color: rgba(15, 23, 42, 0.9);
-    }
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

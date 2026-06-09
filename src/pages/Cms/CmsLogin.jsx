@@ -1,58 +1,31 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
 import './CmsLogin.scss';
 
-// 🌟 DATOS DEL SLIDER
-const SLIDER_DATA = [
-  {
-    id: 1,
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=100',
-    text: 'Gestión inteligente de talento y análisis de rendimiento centralizado en un solo lugar.',
-  },
-  {
-    id: 2,
-    image:
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=100',
-    text: 'Automatiza procesos de reclutamiento y toma decisiones basadas en datos reales.',
-  },
-  {
-    id: 3,
-    image:
-      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=900&q=100',
-    text: 'Transformamos la administración del equipo con herramientas de inteligencia artificial.',
-  },
-];
+// Si tienes un logo en assets, impórtalo aquí.
+import logo from '../../assets/Logo_Mood.svg';
 
 const CmsLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useContext(AuthContext);
-
-  // 🌟 ESTADO Y EFECTO PARA EL SLIDER AUTOMÁTICO
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % SLIDER_DATA.length);
-    }, 10000); // Cambia cada 5 segundos
-    return () => clearInterval(timer);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!email || !password) {
       alert('Por favor, ingresa tus credenciales.');
+      setIsLoading(false);
       return;
     }
 
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
@@ -62,110 +35,126 @@ const CmsLogin = () => {
         login(data.token, data.user);
       } else {
         alert(data.message || 'Credenciales inválidas');
+        setIsLoading(false);
       }
     } catch (error) {
       console.error('Error de conexión:', error);
       alert('Error al conectar con el servidor.');
+      setIsLoading(false);
     }
   };
 
   return (
-    <main className='cms-login'>
-      {/* CONTENEDOR PRINCIPAL BLANCO CON PADDING (ESTILO SHADCN) */}
-      <div className='cms-login__wrapper'>
-        {/* LADO IZQUIERDO: Slider con Padding */}
-        <div className='cms-login__slider-section'>
-          <div className='cms-login__slider-container'>
-            {/* Imágenes del Slider */}
-            {SLIDER_DATA.map((slide, index) => (
-              <img
-                key={slide.id}
-                src={slide.image}
-                alt={`Slide ${index + 1}`}
-                className={`cms-login__slider-image ${
-                  index === currentSlide
-                    ? 'cms-login__slider-image--active'
-                    : ''
-                }`}
-              />
-            ))}
-
-            {/* Capa superpuesta para oscurecer un poco la imagen base */}
-            <div className='cms-login__slider-overlay'></div>
-
-            {/* Contenido flotante inferior */}
-            <div className='cms-login__slider-content'>
-              {/* Caja de texto blanca flotante */}
-              <div className='cms-login__floating-box'>
-                <p>{SLIDER_DATA[currentSlide].text}</p>
-              </div>
-
-              {/* Puntos de navegación (Dots) */}
-              <div className='cms-login__slider-dots'>
-                {SLIDER_DATA.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`cms-login__dot ${
-                      index === currentSlide ? 'cms-login__dot--active' : ''
-                    }`}
-                    aria-label={`Ir al slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
+    <div className='cms-login-container'>
+      <div className='login-box'>
+        {/* --- PANEL IZQUIERDO (Branding) --- */}
+        <div className='login-brand-panel'>
+          <div className='brand-content'>
+            <span className='brand-badge'>Plataforma Centralizada</span>
+            <h1>
+              Gestión <br />
+              Inteligente <br />
+              del Talento
+            </h1>
+            <p>
+              El sistema integral más eficiente para el control y administración
+              de recursos humanos en <strong>Mood</strong>.
+            </p>
           </div>
+
+          {/* Elementos decorativos de fondo para el panel */}
+          <div className='circle-decoration circle-1'></div>
+          <div className='circle-decoration circle-2'></div>
         </div>
 
-        {/* LADO DERECHO: Formulario Shadcn */}
-        <div className='cms-login__form-section'>
-          <div className='cms-login__form-inner'>
-            <div className='cms-login__header'>
-              <h2>Iniciar sesión</h2>
-              <p>Ingresa tus credenciales para acceder a tu cuenta.</p>
+        {/* --- PANEL DERECHO (Formulario de Acceso) --- */}
+        <div className='login-form-panel'>
+          <div className='form-wrapper'>
+            {/* Cabecera del formulario */}
+            <div className='form-header'>
+              <div className='logo-container'>
+                {/* Puedes usar el img si tienes el logo importado: <img src={logo} alt='Mood Logo' /> */}
+                {/* <span className='logo-text'>Mood</span> */}
+                <img
+                  src={logo}
+                  alt='Mood Logo'
+                />
+              </div>
+              <h2>Panel de Control</h2>
+              <p className='subtitle'>Inicio de Sesión</p>
             </div>
 
-            <form
-              className='cms-login__form'
-              onSubmit={handleSubmit}
-            >
-              <div className='cms-login__group'>
-                <label htmlFor='email'>Correo electrónico</label>
-                <input
-                  id='email'
-                  type='email'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder='rrhh@mood.com'
-                  required
-                />
-              </div>
-
-              <div className='cms-login__group'>
-                <div className='cms-login__label-row'>
-                  <label htmlFor='password'>Contraseña</label>
+            <form onSubmit={handleSubmit}>
+              {/* Input: Correo Electrónico */}
+              <div className={`modern-input-group ${email ? 'has-value' : ''}`}>
+                <div className='input-content'>
+                  <label>Correo Electrónico</label>
+                  <input
+                    type='email'
+                    placeholder='rrhh@mood.com'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={isLoading}
+                  />
                 </div>
-                <input
-                  id='password'
-                  type='password'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder='••••••••'
-                  required
-                />
+                <div className='icon-container'>
+                  <Mail size={18} />
+                </div>
               </div>
 
-              <button
-                type='submit'
-                className='cms-login__btn'
+              {/* Input: Contraseña */}
+              <div
+                className={`modern-input-group ${password ? 'has-value' : ''}`}
               >
-                Ingresar al panel
-              </button>
+                <div className='input-content'>
+                  <label>Contraseña</label>
+                  <input
+                    type='password'
+                    placeholder='Mínimo 8 caracteres'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+                <div className='icon-container'>
+                  <Lock size={18} />
+                </div>
+              </div>
+
+              {/* Botón de Ingreso */}
+              <div className='form-actions'>
+                <button
+                  type='submit'
+                  disabled={isLoading}
+                  className={`btn-ingresar ${isLoading ? 'loading' : ''}`}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2
+                        className='spinner'
+                        size={20}
+                      />{' '}
+                      Ingresando
+                    </>
+                  ) : (
+                    <>
+                      Ingresar <ArrowRight size={20} />
+                    </>
+                  )}
+                </button>
+              </div>
             </form>
+
+            <div className='footer-copy'>
+              @ Copyright {new Date().getFullYear()}, Mood - Todos los derechos
+              reservados.
+            </div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 
