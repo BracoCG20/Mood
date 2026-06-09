@@ -175,10 +175,10 @@
       5vw,
       3.8rem
     ); /* Un tamaño imponente para pantalla completa */
-    font-weight: 800;
+    font-weight: 700;
     color: $negro;
     line-height: 1.25;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     margin: 0;
     @media (max-width: 768px) {
       font-size: 1.9rem; /* Forzamos un tamaño exacto y equilibrado para móviles estándar */
