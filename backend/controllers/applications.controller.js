@@ -1,89 +1,90 @@
+//backend/controllers/applications.controller.js
 /*global process*/
-import { pool } from "../config/db.js";
-import nodemailer from "nodemailer";
-import { v2 as cloudinary } from "cloudinary";
-import dotenv from "dotenv";
+import { pool } from '../config/db.js';
+import nodemailer from 'nodemailer';
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 // Configuración de Cloudinary
 cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 // Configuración de Nodemailer usando tus variables exactas
 const transporter = nodemailer.createTransport({
-	service: "gmail",
-	auth: {
-		user: process.env.EMAIL_USER,
-		pass: process.env.EMAIL_PASS,
-	},
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 // FUNCIÓN AUXILIAR PARA SUBIR EL CV DESDE LA MEMORIA A CLOUDINARY
 const uploadToCloudinary = (fileBuffer) => {
-	return new Promise((resolve, reject) => {
-		const uploadStream = cloudinary.uploader.upload_stream(
-			{
-				folder: "mood_cvs",
-				resource_type: "auto",
-			},
-			(error, result) => {
-				if (error) return reject(error);
-				resolve(result);
-			},
-		);
-		uploadStream.end(fileBuffer);
-	});
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'mood_cvs',
+        resource_type: 'auto',
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      },
+    );
+    uploadStream.end(fileBuffer);
+  });
 };
 
 // --- ENVIAR UNA NUEVA POSTULACIÓN ---
 export const submitApplication = async (req, res) => {
-	try {
-		const { jobId, name, email, phone, linkedin, github, behance, answers } =
-			req.body;
+  try {
+    const { jobId, name, email, phone, linkedin, github, behance, answers } =
+      req.body;
 
-		if (!req.file) {
-			return res
-				.status(400)
-				.json({ message: "El archivo del CV es requerido." });
-		}
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ message: 'El archivo del CV es requerido.' });
+    }
 
-		const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
-		const cvUrl = cloudinaryResult.secure_url;
+    const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+    const cvUrl = cloudinaryResult.secure_url;
 
-		const insertQuery = `
+    const insertQuery = `
       INSERT INTO applications 
       (job_id, name, email, phone, linkedin, github, behance, cv_url, answers) 
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
       RETURNING id
     `;
 
-		await pool.query(insertQuery, [
-			jobId,
-			name,
-			email,
-			phone,
-			linkedin || null,
-			github || null,
-			behance || null,
-			cvUrl,
-			answers,
-		]);
+    await pool.query(insertQuery, [
+      jobId,
+      name,
+      email,
+      phone,
+      linkedin || null,
+      github || null,
+      behance || null,
+      cvUrl,
+      answers,
+    ]);
 
-		const jobResult = await pool.query("SELECT title FROM jobs WHERE id = $1", [
-			jobId,
-		]);
-		const jobTitle =
-			jobResult.rows.length > 0 ? jobResult.rows[0].title : "la vacante";
+    const jobResult = await pool.query('SELECT title FROM jobs WHERE id = $1', [
+      jobId,
+    ]);
+    const jobTitle =
+      jobResult.rows.length > 0 ? jobResult.rows[0].title : 'la vacante';
 
-		const mailOptions = {
-			from: `"Equipo de Talento - GTH Mood" <${process.env.EMAIL_USER}>`,
-			to: email,
-			subject: `¡Recibimos tu postulación! 🚀 / Tu perfil ya está en nuestro radar`,
-			html: `
+    const mailOptions = {
+      from: `"Equipo de Talento - GTH Mood" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `¡Recibimos tu postulación! 🚀 / Tu perfil ya está en nuestro radar`,
+      html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; padding: 40px 20px;">
           <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             <div style="padding: 24px 32px; border-bottom: 1px solid #e2e8f0; text-align: left; background-color: #1a1a1a;">
@@ -107,59 +108,59 @@ export const submitApplication = async (req, res) => {
           </div>
         </div>
       `,
-		};
+    };
 
-		await transporter.sendMail(mailOptions);
-		res.status(201).json({ message: "Postulación procesada con éxito" });
-	} catch (error) {
-		console.error("Error al procesar la postulación:", error);
-		res
-			.status(500)
-			.json({ message: "Error interno del servidor al procesar los datos." });
-	}
+    await transporter.sendMail(mailOptions);
+    res.status(201).json({ message: 'Postulación procesada con éxito' });
+  } catch (error) {
+    console.error('Error al procesar la postulación:', error);
+    res
+      .status(500)
+      .json({ message: 'Error interno del servidor al procesar los datos.' });
+  }
 };
 
 // --- OBTENER TODAS LAS POSTULACIONES (Para el CMS) ---
 export const getApplications = async (req, res) => {
-	try {
-		const query = `
+  try {
+    const query = `
       SELECT a.*, j.title as job_title 
       FROM applications a
       JOIN jobs j ON a.job_id = j.id
       ORDER BY a.created_at DESC
     `;
-		const result = await pool.query(query);
-		res.json(result.rows);
-	} catch (error) {
-		console.error("Error al obtener postulaciones:", error);
-		res
-			.status(500)
-			.json({ message: "Error interno al cargar los postulantes" });
-	}
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error al obtener postulaciones:', error);
+    res
+      .status(500)
+      .json({ message: 'Error interno al cargar los postulantes' });
+  }
 };
 
 // 🌟 NUEVO: ACTUALIZAR ESTADO DEL CANDIDATO (Nuevo, Seguimiento, Descartado)
 export const updateApplicationStatus = async (req, res) => {
-	const { id } = req.params;
-	const { status } = req.body;
+  const { id } = req.params;
+  const { status } = req.body;
 
-	try {
-		const query =
-			"UPDATE applications SET status = $1 WHERE id = $2 RETURNING *";
-		const result = await pool.query(query, [status, id]);
+  try {
+    const query =
+      'UPDATE applications SET status = $1 WHERE id = $2 RETURNING *';
+    const result = await pool.query(query, [status, id]);
 
-		if (result.rows.length === 0) {
-			return res.status(404).json({ message: "Postulación no encontrada." });
-		}
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Postulación no encontrada.' });
+    }
 
-		res.json({
-			message: "Estado del candidato actualizado con éxito.",
-			application: result.rows[0],
-		});
-	} catch (error) {
-		console.error("Error al actualizar estado de la postulación:", error);
-		res
-			.status(500)
-			.json({ message: "Error interno al cambiar el estado del candidato." });
-	}
+    res.json({
+      message: 'Estado del candidato actualizado con éxito.',
+      application: result.rows[0],
+    });
+  } catch (error) {
+    console.error('Error al actualizar estado de la postulación:', error);
+    res
+      .status(500)
+      .json({ message: 'Error interno al cambiar el estado del candidato.' });
+  }
 };

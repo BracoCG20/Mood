@@ -1,3 +1,4 @@
+//backend/controllers/users.controller.js
 /* global process */
 import { pool } from '../config/db.js';
 import bcrypt from 'bcryptjs';

@@ -1,3 +1,4 @@
+//src/components/Hero/Hero.jsx
 import {
   Palette,
   Monitor,

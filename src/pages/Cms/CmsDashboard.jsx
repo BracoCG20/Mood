@@ -1,3 +1,4 @@
+//src/pages/Cms/CmsDashboard.jsx
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { toast } from 'react-toastify'; // 🌟 IMPORTAMOS TOASTIFY PARA NOTIFICACIONES

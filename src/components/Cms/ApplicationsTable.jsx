@@ -1,3 +1,4 @@
+//src/components/Cms/ApplicationsTable.jsx
 import { useState, useMemo, useEffect } from 'react';
 import Select from 'react-select';
 import { toast } from 'react-toastify'; // 🌟 IMPORTAMOS TOASTIFY

@@ -1,3 +1,4 @@
+//src/components/AdnContent/AdnContent.jsx
 import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK
 import FadeContent from '../FadeContent/FadeContent';
 import './AdnContent.scss';

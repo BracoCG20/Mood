@@ -1,3 +1,4 @@
+//src/App.jsx
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';

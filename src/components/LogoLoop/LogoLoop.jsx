@@ -1,3 +1,4 @@
+//src/components/LogoLoop/LogoLoop.jsx
 import { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
 import './LogoLoop.scss';
 

@@ -1,3 +1,4 @@
+//src/components/Testimonials/Testimonials.jsx
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK

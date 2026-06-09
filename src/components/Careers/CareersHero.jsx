@@ -1,3 +1,4 @@
+//src/components/Careers/CareersHero.jsx
 import { useTranslation } from 'react-i18next';
 import { Rocket, Brain, Coffee } from 'lucide-react';
 import BlurText from '../BlurText/BlurText';

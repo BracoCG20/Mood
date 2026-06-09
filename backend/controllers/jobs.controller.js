@@ -1,3 +1,4 @@
+//backend/controllers/jobs.controller.js
 import { pool } from '../config/db.js';
 
 // --- OBTENER TODOS LOS TRABAJOS ---

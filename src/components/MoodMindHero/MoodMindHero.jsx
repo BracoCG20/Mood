@@ -1,3 +1,4 @@
+//src/components/MoodMindHero/MoodMindHero.jsx
 import { ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK
 import BlurText from '../BlurText/BlurText';

@@ -1,3 +1,4 @@
+//src/pages/AdnMood/AdnMood.jsx
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import AdnHero from '../../components/AdnHero/AdnHero';

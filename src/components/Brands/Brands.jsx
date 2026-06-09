@@ -1,3 +1,4 @@
+//src/components/Brands/Brands.jsx
 import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK
 import LogoLoop from '../LogoLoop/LogoLoop';
 import './Brands.scss';

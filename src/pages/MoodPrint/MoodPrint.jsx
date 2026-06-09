@@ -1,3 +1,4 @@
+//src/pages/MoodPrint/MoodPrint.jsx
 import { useState, useRef } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';

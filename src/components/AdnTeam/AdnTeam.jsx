@@ -1,3 +1,4 @@
+//src/components/AdnTeam/AdnTeam.jsx
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

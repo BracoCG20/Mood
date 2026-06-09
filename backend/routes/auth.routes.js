@@ -1,9 +1,10 @@
-import { Router } from "express";
-import { login } from "../controllers/auth.controller.js";
+//backend/routes/auth.routes.js
+import { Router } from 'express';
+import { login } from '../controllers/auth.controller.js';
 
 const router = Router();
 
 // Ruta pública para iniciar sesión
-router.post("/login", login);
+router.post('/login', login);
 
 export default router;

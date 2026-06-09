@@ -1,3 +1,4 @@
+//src/components/MoodMindWorkflow/MoodMindWorkflow.jsx
 import { useRef, useState } from 'react';
 import {
   motion,

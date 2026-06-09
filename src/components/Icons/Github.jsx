@@ -1,3 +1,4 @@
+//src/components/Icons/Github.jsx
 const Github = ({ size = 24, className = '' }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'

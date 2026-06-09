@@ -1,3 +1,4 @@
+//src/components/DotGrid/DotGrid.jsx
 'use client';
 import { useRef, useEffect, useCallback, useMemo } from 'react';
 import { gsap } from 'gsap';

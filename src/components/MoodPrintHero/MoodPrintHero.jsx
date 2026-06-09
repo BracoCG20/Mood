@@ -1,3 +1,4 @@
+//src/components/MoodPrintHero/MoodPrintHero.jsx
 import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK
 import BlurText from '../BlurText/BlurText';
 import './MoodPrintHero.scss';

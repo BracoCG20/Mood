@@ -1,3 +1,4 @@
+//src/components/MoodMindFeatures/MoodMindFeatures.jsx
 import FadeContent from '../FadeContent/FadeContent';
 import DotGrid from '../DotGrid/DotGrid';
 import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK

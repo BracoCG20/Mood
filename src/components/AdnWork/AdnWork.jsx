@@ -1,3 +1,4 @@
+//src/components/AdnWork/AdnWork.jsx
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom'; // <-- Cambiamos etiqueta <a> por <Link>
 import { useTranslation } from 'react-i18next'; // <-- IMPORTAMOS EL HOOK

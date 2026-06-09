@@ -1,3 +1,4 @@
+//backend/controllers/country.controller.js
 import { pool } from '../config/db.js';
 
 export const getCountries = async (req, res) => {

@@ -1,3 +1,4 @@
+//src/components/Cms/JobsTable.jsx
 import { useState } from 'react';
 import { Power, PowerOff, Edit } from 'lucide-react';
 import './JobsTable.scss';

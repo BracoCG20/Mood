@@ -1,3 +1,4 @@
+//src/components/MoodMindMotto/MoodMindMotto.jsx
 import { useRef, useState, useLayoutEffect } from 'react';
 import FadeContent from '../FadeContent/FadeContent';
 import VariableProximity from '../VariableProximity/VariableProximity';

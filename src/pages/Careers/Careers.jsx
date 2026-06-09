@@ -1,3 +1,4 @@
+//src/pages/Careers/Careets.jsx
 import Navbar from '../../components/Navbar/Navbar'; // <-- Ajusta la ruta según dónde guardas tu Navbar
 import CareersHero from '../../components/Careers/CareersHero';
 import CareersJobs from '../../components/Careers/CareersJobs';

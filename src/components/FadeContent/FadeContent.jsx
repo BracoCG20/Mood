@@ -1,3 +1,4 @@
+//src/components/FadeContent/FadeContent.jsx
 import { motion } from 'motion/react';
 
 const FadeContent = ({

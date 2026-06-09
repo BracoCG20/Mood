@@ -1,3 +1,4 @@
+//src/components/ProjectModal/ProjectModal.jsx
 import { X, ExternalLink } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';

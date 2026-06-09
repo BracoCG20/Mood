@@ -1,3 +1,4 @@
+//src/components/MoodPrintProjects/MoodPrintProjects.jsx
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import FadeContent from '../FadeContent/FadeContent';

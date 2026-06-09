@@ -1,3 +1,4 @@
+//src/components/ScrollReveal/ScrollReveal.jsx
 import { useEffect, useRef, useMemo } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

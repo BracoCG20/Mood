@@ -1,3 +1,4 @@
+//src/pages/MoodMind/MoodMind.jsx
 import Navbar from '../../components/Navbar/Navbar';
 import MoodMindHero from '../../components/MoodMindHero/MoodMindHero';
 import MoodMindFeatures from '../../components/MoodMindFeatures/MoodMindFeatures';

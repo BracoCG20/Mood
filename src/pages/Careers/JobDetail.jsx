@@ -1,3 +1,4 @@
+//src/pages/Careers/JobDetail.jsx
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Briefcase, Calendar, ArrowLeft, Send, MapPin } from 'lucide-react';

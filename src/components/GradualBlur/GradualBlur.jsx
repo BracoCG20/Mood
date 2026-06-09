@@ -1,3 +1,4 @@
+//src/components/GradualBlur/GradualBlur.jsx
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import './GradualBlur.scss';
 

@@ -1,3 +1,4 @@
+//backend/controllers/projects.controller.js
 /* global process */
 import { pool } from '../config/db.js';
 import { v2 as cloudinary } from 'cloudinary';

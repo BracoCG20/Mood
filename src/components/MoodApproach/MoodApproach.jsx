@@ -1,3 +1,4 @@
+//src/components/MoodApproach/MoodApproach.jsx
 import { Search, Zap, Sparkles } from 'lucide-react';
 import FadeContent from '../FadeContent/FadeContent';
 import BlurText from '../BlurText/BlurText';
