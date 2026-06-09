@@ -1,9 +1,9 @@
 import { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { Mail, Lock, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, Lock, ArrowRight, LoaderCircle } from 'lucide-react';
+import { toast } from 'react-toastify'; // 🌟 IMPORTAMOS TOASTIFY
 import './CmsLogin.scss';
 
-// Si tienes un logo en assets, impórtalo aquí.
 import logo from '../../assets/Logo_Mood.svg';
 
 const CmsLogin = () => {
@@ -17,7 +17,7 @@ const CmsLogin = () => {
     setIsLoading(true);
 
     if (!email || !password) {
-      alert('Por favor, ingresa tus credenciales.');
+      toast.warning('Por favor, ingresa tus credenciales.'); // 🌟 ALERTA PERSONALIZADA
       setIsLoading(false);
       return;
     }
@@ -32,14 +32,15 @@ const CmsLogin = () => {
       const data = await response.json();
 
       if (response.ok) {
+        toast.success('Bienvenido al panel de control'); // 🌟 MENSAJE DE ÉXITO
         login(data.token, data.user);
       } else {
-        alert(data.message || 'Credenciales inválidas');
+        toast.error(data.message || 'Credenciales inválidas'); // 🌟 ERROR DE CREDENCIALES
         setIsLoading(false);
       }
     } catch (error) {
       console.error('Error de conexión:', error);
-      alert('Error al conectar con el servidor.');
+      toast.error('Error al conectar con el servidor.'); // 🌟 ERROR DE RED
       setIsLoading(false);
     }
   };
@@ -73,8 +74,6 @@ const CmsLogin = () => {
             {/* Cabecera del formulario */}
             <div className='form-header'>
               <div className='logo-container'>
-                {/* Puedes usar el img si tienes el logo importado: <img src={logo} alt='Mood Logo' /> */}
-                {/* <span className='logo-text'>Mood</span> */}
                 <img
                   src={logo}
                   alt='Mood Logo'
@@ -132,15 +131,16 @@ const CmsLogin = () => {
                 >
                   {isLoading ? (
                     <>
-                      <Loader2
-                        className='spinner'
+                      <LoaderCircle
+                        className='spinner-icon'
                         size={20}
-                      />{' '}
-                      Ingresando
+                      />
+                      <span>Ingresando</span>
                     </>
                   ) : (
                     <>
-                      Ingresar <ArrowRight size={20} />
+                      <span>Ingresar</span>
+                      <ArrowRight size={20} />
                     </>
                   )}
                 </button>

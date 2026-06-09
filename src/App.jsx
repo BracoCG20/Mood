@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // --- Páginas Públicas ---
 import Home from './pages/Home/Home';
@@ -99,6 +101,17 @@ const App = () => {
             }
           />
         </Routes>
+        <ToastContainer
+          position='top-right' // O bottom-right, donde prefieras
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme='dark' // 🌟 ESTO ES CLAVE PARA QUE TOME LOS ESTILOS OSCUROS
+        />
       </AuthProvider>
     </>
   );

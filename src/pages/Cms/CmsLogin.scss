@@ -18,6 +18,7 @@
 
   .login-box {
     display: flex;
+    gap: 12px; // Separación sutil entre paneles
     background-color: $blanco;
     width: 100%;
     max-width: 1100px;
@@ -25,22 +26,31 @@
     max-height: 700px;
     border-radius: 24px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
-    padding: 12px; // El padding interno clave que crea el marco
+    padding: 12px; // El padding interno que crea el marco
     box-sizing: border-box;
     overflow: hidden;
   }
 
   // ==========================================
-  // PANEL IZQUIERDO (Branding)
+  // PANEL IZQUIERDO (Branding - MESH GRADIENT)
   // ==========================================
   .login-brand-panel {
-    width: 50%;
-    /* Utilizo el color oscuro de Mood como panel principal */
-    background: linear-gradient(
-      135deg,
-      $negro,
-      color.adjust($primary, $lightness: -25%)
-    );
+    flex: 1;
+    /* 🌟 NUEVO FONDO ESTILO MESH GRADIENT / AURORA */
+    background-color: #a4ebcb; // Color base menta
+    background-image:
+      radial-gradient(at 0% 0%, #ffef88 0px, transparent 65%),
+      // Luz amarilla cálida top-left
+      radial-gradient(at 100% 0%, #f4fce8 0px, transparent 60%),
+      // Luz clara top-right
+      radial-gradient(at 0% 100%, #00e0b0 0px, transparent 65%),
+      // Cyan/Teal intenso bottom-left
+      radial-gradient(
+          at 100% 100%,
+          #6cebb6 0px,
+          transparent 60%
+        ); // Verde suave bottom-right
+
     border-radius: 16px;
     padding: 50px;
     display: flex;
@@ -56,51 +66,53 @@
     .brand-content {
       position: relative;
       z-index: 10;
-      color: $blanco;
+      color: $negro;
 
       .brand-badge {
         display: inline-block;
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(0, 0, 0, 0.04);
         backdrop-filter: blur(10px);
         padding: 6px 14px;
         border-radius: 10px;
         font-size: 0.75rem;
-        font-weight: 400;
+        font-weight: 600;
         letter-spacing: 1px;
         text-transform: uppercase;
         margin-bottom: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        color: $negro;
       }
 
       h1 {
         font-size: 3rem;
-        font-weight: 700;
+        font-weight: 800;
         line-height: 1.1;
         margin: 0 0 20px 0;
         letter-spacing: -1px;
+        color: $negro;
       }
 
       p {
         font-size: 1.1rem;
-        color: rgba(255, 255, 255, 0.85);
+        color: rgba(0, 0, 0, 0.75);
         line-height: 1.6;
         margin: 0;
         max-width: 90%;
 
         strong {
-          color: $blanco;
+          color: $negro;
         }
       }
     }
 
-    // Círculos decorativos de fondo
+    // Círculos decorativos de fondo (los mantenemos blancos translúcidos para aportar profundidad)
     .circle-decoration {
       position: absolute;
       border-radius: 50%;
       background: linear-gradient(
         to bottom right,
-        rgba(86, 202, 18, 0.05),
-        rgba(30, 129, 47, 0)
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0)
       );
     }
     .circle-1 {
@@ -121,7 +133,9 @@
   // PANEL DERECHO (Formulario)
   // ==========================================
   .login-form-panel {
-    width: 50%;
+    flex: 1;
+    background-color: $blanco;
+    border-radius: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -156,9 +170,8 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 
         img {
-          width: 100px;
+          width: 80px;
           object-fit: contain;
-          // filter: brightness(0) invert(1);
         }
       }
 
@@ -259,11 +272,15 @@
         .btn-ingresar {
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 10px;
+          height: 52px;
+          min-width: 160px;
+          box-sizing: border-box;
           background-color: $negro;
           color: $blanco;
           border: none;
-          padding: 14px 28px;
+          padding: 0 28px;
           border-radius: 12px;
           font-size: 1rem;
           font-weight: 600;
@@ -271,10 +288,15 @@
           transition: all 0.3s ease;
           box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 
+          span {
+            display: inline-block;
+            line-height: 1;
+          }
+
           &:hover:not(:disabled) {
-            background-color: color.adjust($primary, $lightness: 5%);
-            color: $negro;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            background-color: color.adjust(#000000, $lightness: 20%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
           }
 
           &:disabled {
@@ -283,7 +305,7 @@
             transform: none;
           }
 
-          .spinner {
+          .spinner-icon {
             animation: spin 1s linear infinite;
           }
         }

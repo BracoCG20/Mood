@@ -1,5 +1,43 @@
 @use './variables' as *;
 
+/* ==========================================
+   🌟 PERSONALIZACIÓN DE REACT-TOASTIFY (MOOD STYLE)
+   ========================================== */
+:root {
+  // Tipografía y estructura
+  --toastify-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --toastify-toast-bd-radius: 14px; // Bordes redondeados como los inputs
+
+  // Colores del tema oscuro (Recomendado para contrastar)
+  --toastify-color-dark: #1c1c1e; // Tu color oscuro principal
+  --toastify-text-color-dark: #ffffff;
+
+  // Colores de estado adaptados a tu paleta
+  --toastify-color-error: #ff4b4b; // Un rojo más limpio y moderno
+  --toastify-color-success: #d1fca6; // 🌟 EL VERDE PRIMARY DE MOOD
+  --toastify-color-warning: #facc15; // Un amarillo suave
+  --toastify-color-info: #3b82f6; // Un azul moderno
+}
+
+/* Modificamos la caja de la alerta para que parezca flotar con estilo */
+.Toastify__toast {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08); // Borde sutil
+  padding: 16px !important;
+}
+
+/* Ajustamos el texto para que sea más legible y moderno */
+.Toastify__toast-body {
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+}
+
+/* Redondeamos la barrita de progreso inferior */
+.Toastify__progress-bar {
+  border-bottom-left-radius: 14px;
+}
+
 * {
   margin: 0;
   padding: 0;
