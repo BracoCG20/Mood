@@ -5,7 +5,9 @@ import {
   ShieldAlert,
   ShieldCheck,
   UserPlus,
-  PowerOff,
+  Ban,
+  UserStar,
+  ShieldUser,
 } from 'lucide-react';
 import './UsersTable.scss';
 
@@ -83,9 +85,9 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
                       className={`badge badge--role ${user.role_name === 'SuperAdmin' ? 'superadmin' : 'gth'}`}
                     >
                       {user.role_name === 'SuperAdmin' ? (
-                        <ShieldAlert size={12} />
+                        <ShieldUser size={14} />
                       ) : (
-                        <ShieldCheck size={12} />
+                        <ShieldCheck size={14} />
                       )}
                       {user.role_name || 'Sin Rol'}
                     </span>
@@ -120,7 +122,7 @@ const UsersTable = ({ users, onEdit, onToggleStatus, onAddUser }) => {
                         }
                         title='Desactivar acceso'
                       >
-                        <PowerOff size={16} />
+                        <Ban size={16} />
                       </button>
                     </div>
                   </td>
