@@ -16,10 +16,11 @@ $gris-card: #1c1c1e;
  * 2. BREAKPOINTS (PUNTOS DE QUIEBRE)
  * ==========================================
  */
+$bp-small-mobile: 475px;
 $bp-mobile: 768px;
 $bp-tablet: 968px;
+$bp-large: 1024px; // Añadido para transiciones fluidas de imágenes/layouts grandes
 $bp-desktop: 1200px;
-$bp-small-mobile: 475px; // Añadido para el breakpoint de testimonios
 
 /**
  * ==========================================
