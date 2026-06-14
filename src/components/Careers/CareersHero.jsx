@@ -5,7 +5,6 @@ import BlurText from "../BlurText/BlurText";
 import cultureData from "../../data/careersCulture.json";
 import "./CareersHero.scss";
 
-// Diccionario para mapear los nombres de iconos en el JSON a componentes de Lucide
 const iconMap = {
 	Brain,
 	Rocket,
@@ -15,8 +14,8 @@ const iconMap = {
 /**
  * Componente CareersHero.
  * Renderiza el banner principal de la bolsa de trabajo.
- * Presenta el mensaje principal de la agencia y una cuadrícula dinámica
- * con los pilares de la cultura corporativa, alimentados desde un archivo JSON.
+ * En escritorio, las tarjetas de cultura se apilan asimétricamente en una columna.
+ * En tablet y móvil, se transforman automáticamente en un carrusel de loop infinito.
  */
 const CareersHero = () => {
 	const { t } = useTranslation();
@@ -59,22 +58,46 @@ const CareersHero = () => {
 							{t("careers.culture.title")}
 						</h2>
 
+						{/* Contenedor del Slide Infinito (La máscara visual) */}
 						<div className='careers-hero__culture-grid'>
-							{cultureData.map((item) => {
-								const IconComponent = iconMap[item.iconName];
+							{/* Pista de animación que se desliza en móvil */}
+							<div className='careers-hero__culture-track'>
+								{/* 1. GRUPO ORIGINAL (Visible en Desktop y Mobile) */}
+								<div className='careers-hero__culture-group'>
+									{cultureData.map((item) => {
+										const IconComponent = iconMap[item.iconName];
+										return (
+											<div key={item.id} className='culture-card'>
+												{IconComponent && (
+													<IconComponent className='culture-card__icon' />
+												)}
+												<div className='culture-card__info'>
+													<h3>{t(`careers.culture.items.${item.id}.title`)}</h3>
+													<p>{t(`careers.culture.items.${item.id}.desc`)}</p>
+												</div>
+											</div>
+										);
+									})}
+								</div>
 
-								return (
-									<div key={item.id} className='culture-card'>
-										{IconComponent && (
-											<IconComponent className='culture-card__icon' />
-										)}
-										<div className='culture-card__info'>
-											<h3>{t(`careers.culture.items.${item.id}.title`)}</h3>
-											<p>{t(`careers.culture.items.${item.id}.desc`)}</p>
-										</div>
-									</div>
-								);
-							})}
+								{/* 2. GRUPO DUPLICADO (Oculto en Desktop, Visible en Mobile para el Loop) */}
+								<div className='careers-hero__culture-group careers-hero__culture-group--duplicate'>
+									{cultureData.map((item) => {
+										const IconComponent = iconMap[item.iconName];
+										return (
+											<div key={`dup-${item.id}`} className='culture-card'>
+												{IconComponent && (
+													<IconComponent className='culture-card__icon' />
+												)}
+												<div className='culture-card__info'>
+													<h3>{t(`careers.culture.items.${item.id}.title`)}</h3>
+													<p>{t(`careers.culture.items.${item.id}.desc`)}</p>
+												</div>
+											</div>
+										);
+									})}
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

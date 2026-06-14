@@ -2,7 +2,7 @@
 @use "../../styles/variables" as *;
 
 /**
- * Animación base de entrada para los bloques del Hero.
+ * Animaciones principales
  */
 @keyframes heroFadeIn {
 	to {
@@ -11,9 +11,15 @@
 	}
 }
 
-/**
- * Contenedor principal
- */
+@keyframes infiniteScroll {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-50%);
+	}
+}
+
 .careers-hero {
 	background-color: $blanco;
 	padding: 1rem;
@@ -68,7 +74,7 @@
 	}
 
 	/**
-   * Columna Izquierda: Títulos
+   * Columna Izquierda: Mensaje y Títulos
    */
 	&__left-col {
 		display: flex;
@@ -133,7 +139,7 @@
 	}
 
 	/**
-   * Columna Derecha: Tarjetas de Cultura
+   * Columna Derecha: Contenedor del Carrusel de Cultura
    */
 	&__right-col {
 		background: transparent;
@@ -145,6 +151,12 @@
 			flex-direction: column;
 			align-items: center;
 			padding: 0;
+			width: 100vw;
+			margin-left: -2rem; // Extiende el carrusel a los bordes de la pantalla
+		}
+
+		@media (max-width: $bp-mobile) {
+			margin-left: -1.25rem;
 		}
 	}
 
@@ -162,18 +174,57 @@
 		}
 	}
 
+	/**
+   * Máscara y Pista del Slide (Marquee)
+   */
 	&__culture-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
 		position: relative;
 		width: 100%;
 
 		@media (max-width: $bp-tablet) {
-			max-width: 550px; // Evita que las tarjetas se estiren demasiado en tablet
-			gap: 16px;
+			overflow: hidden;
+			// Máscara de degradado para que las tarjetas se desvanezcan en los bordes
+			mask-image: linear-gradient(
+				to right,
+				transparent 0%,
+				black 5%,
+				black 95%,
+				transparent 100%
+			);
+			-webkit-mask-image: linear-gradient(
+				to right,
+				transparent 0%,
+				black 5%,
+				black 95%,
+				transparent 100%
+			);
+			padding: 10px 0; // Previene que se corte la sombra
 		}
+	}
 
+	&__culture-track {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+
+		@media (max-width: $bp-tablet) {
+			flex-direction: row;
+			width: max-content; // Permite que el contenedor crezca según las tarjetas
+			gap: 0; // El gap se maneja en los grupos para el cálculo matemático
+			animation: infiniteScroll 15s linear infinite;
+
+			&:hover {
+				animation-play-state: paused; // Detiene el slide si el usuario lo toca
+			}
+		}
+	}
+
+	&__culture-group {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+
+		// Escalado asimétrico exclusivo de Escritorio
 		.culture-card {
 			&:nth-child(1) {
 				transform: translateX(0);
@@ -184,24 +235,30 @@
 			&:nth-child(3) {
 				transform: translateX(50px);
 			}
+		}
+
+		@media (max-width: $bp-tablet) {
+			flex-direction: row;
+			gap: 16px;
+			padding-right: 16px; // Offset matemático para que el loop -50% sea perfecto
+
+			.culture-card {
+				transform: none !important; // Reseteamos la asimetría de escritorio
+			}
+		}
+
+		// El grupo duplicado permanece oculto en escritorio
+		&--duplicate {
+			display: none;
 
 			@media (max-width: $bp-tablet) {
-				&:nth-child(1),
-				&:nth-child(2),
-				&:nth-child(3) {
-					transform: translateX(0); // Elimina el escalonamiento en móviles
-				}
-			}
-
-			&:hover {
-				box-shadow: 0 10px 30px rgba($negro, 0.2);
-				background: rgba($blanco, 0.15);
+				display: flex;
 			}
 		}
 	}
 
 	/**
-   * Animaciones Modulares
+   * Modificadores de entrada del Hero
    */
 	&__fade-in {
 		opacity: 0;
@@ -211,7 +268,6 @@
 		&--delay-1 {
 			animation-delay: 0.4s;
 		}
-
 		&--delay-2 {
 			animation-delay: 0.5s;
 		}
@@ -235,10 +291,17 @@
 	border: 1px solid rgba($blanco, 0.2);
 	box-shadow: 0 8px 32px 0 rgba($negro, 0.1);
 	transition: all 0.3s ease;
-	text-align: left; // Forzar alineación izquierda del contenido interno
+	text-align: left;
 
-	@media (max-width: $bp-mobile) {
-		padding: 1.25rem 1.5rem;
+	&:hover {
+		box-shadow: 0 10px 30px rgba($negro, 0.2);
+		background: rgba($blanco, 0.15);
+	}
+
+	@media (max-width: $bp-tablet) {
+		width: 320px; // Ancho fijo estricto en Tablet/Móvil para el slide horizontal
+		flex-shrink: 0; // Evita que se aplasten
+		padding: 1.5rem;
 		gap: 16px;
 		border-radius: 16px;
 	}
@@ -258,7 +321,7 @@
 		position: relative;
 		z-index: 2;
 
-		@media (max-width: $bp-mobile) {
+		@media (max-width: $bp-tablet) {
 			width: 42px;
 			height: 42px;
 			padding: 10px;
@@ -286,7 +349,7 @@
 			margin: 0;
 			letter-spacing: -0.02em;
 
-			@media (max-width: $bp-mobile) {
+			@media (max-width: $bp-tablet) {
 				font-size: 1.05rem;
 			}
 		}
@@ -298,7 +361,7 @@
 			margin: 0;
 			font-weight: 400;
 
-			@media (max-width: $bp-mobile) {
+			@media (max-width: $bp-tablet) {
 				font-size: 0.85rem;
 				line-height: 1.4;
 			}
