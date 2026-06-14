@@ -2,7 +2,7 @@
 @use "../../styles/variables" as *;
 
 /**
- * Animación base de entrada para los bloques del Hero.
+ * Animaciones principales
  */
 @keyframes heroFadeIn {
 	to {
@@ -12,7 +12,7 @@
 }
 
 /**
- * Contenedor principal
+ * Contenedor Maestro
  */
 .careers-hero {
 	background-color: $blanco;
@@ -46,7 +46,7 @@
 		}
 
 		@media (max-width: $bp-mobile) {
-			padding: 4rem 1.25rem;
+			padding: 4rem 0; // Removemos el padding lateral en móvil para dar espacio al carrusel
 		}
 	}
 
@@ -78,6 +78,10 @@
 		@media (max-width: $bp-tablet) {
 			align-items: center;
 			text-align: center;
+		}
+
+		@media (max-width: $bp-mobile) {
+			padding: 0 1.25rem;
 		}
 	}
 
@@ -150,7 +154,7 @@
 		}
 
 		@media (max-width: $bp-mobile) {
-			margin-left: -1.25rem;
+			margin-left: 0;
 		}
 	}
 
@@ -169,7 +173,7 @@
 	}
 
 	/**
-   * Grid / Pista del Slide
+   * Grid / Pista del Slide (Marquee Adaptativo)
    */
 	&__culture-grid {
 		position: relative;
@@ -193,7 +197,6 @@
 			scroll-behavior: smooth;
 			padding: 0.5rem 2rem;
 
-			// Ocultar scrollbar
 			scrollbar-width: none;
 			&::-webkit-scrollbar {
 				display: none;
@@ -202,6 +205,7 @@
 
 		@media (max-width: $bp-mobile) {
 			padding: 0.5rem 1.25rem;
+			scroll-padding-left: 1.25rem; // Ayuda al alineamiento de snap
 		}
 	}
 
@@ -248,7 +252,6 @@
 		&--delay-1 {
 			animation-delay: 0.4s;
 		}
-
 		&--delay-2 {
 			animation-delay: 0.5s;
 		}
@@ -263,6 +266,7 @@
 	border-radius: 20px;
 	padding: 22px 26px;
 	display: flex;
+	height: 110px;
 	align-items: center;
 	gap: 20px;
 	box-sizing: border-box;
@@ -291,14 +295,20 @@
 	}
 
 	@media (max-width: $bp-tablet) {
-		transform: none !important; // Reseteamos asimetría en mobile
-		width: 85vw; // Ocupa el 85% de la pantalla para dejar asomar el siguiente slide
-		max-width: 380px;
+		transform: none !important; // Reseteamos la asimetría de escritorio
+		width: calc(
+			50vw - 32px
+		); // Calcula matemáticamente el ancho para mostrar exactamente 2 en tablet
+		max-width: 400px;
 		flex-shrink: 0;
-		scroll-snap-align: center;
+		scroll-snap-align: start; // Permite un encaje limpio desde el borde izquierdo
 		padding: 1.5rem;
 		gap: 16px;
 		border-radius: 16px;
+	}
+
+	@media (max-width: $bp-mobile) {
+		width: 85vw; // En móvil muestra 1 tarjeta casi completa dejando asomar la siguiente
 	}
 
 	&__icon {

@@ -17,8 +17,8 @@ const iconMap = {
  * Componente CareersHero.
  * Renderiza el banner principal de la bolsa de trabajo.
  * En escritorio, las tarjetas de cultura se apilan asimétricamente en una columna.
- * En tablet y móvil, se transforman automáticamente en un carrusel deslizable
- * con indicadores de paginación (dots).
+ * En tablet y móvil, se transforman en un carrusel deslizable con "scroll-snap"
+ * y paginación por puntos, mostrando 2 y 1 elemento respectivamente.
  */
 const CareersHero = () => {
 	const { t } = useTranslation();
@@ -26,17 +26,18 @@ const CareersHero = () => {
 	const trackRef = useRef(null);
 
 	/**
-	 * Maneja el evento de scroll en el carrusel móvil para actualizar el indicador activo.
+	 * Maneja el evento de scroll en el carrusel móvil/tablet para actualizar
+	 * dinámicamente el indicador (dot) activo.
 	 */
 	const handleScroll = () => {
 		if (!trackRef.current) return;
 		const track = trackRef.current;
 
-		// Obtenemos el ancho de la primera tarjeta más su espaciado (gap)
+		// Ancho de la tarjeta + el espacio (gap) de 16px
 		const cardWidth = track.children[0].offsetWidth + 16;
 		const scrollPosition = track.scrollLeft;
 
-		// Calculamos el índice activo basado en la posición del scroll
+		// Calculamos el índice activo basado en la posición actual del scroll
 		const newIndex = Math.round(scrollPosition / cardWidth);
 		if (newIndex !== activeIndex) {
 			setActiveIndex(newIndex);
@@ -45,7 +46,7 @@ const CareersHero = () => {
 
 	/**
 	 * Desplaza el carrusel al hacer clic en un indicador de paginación.
-	 * @param {number} index - Índice de la tarjeta destino.
+	 * @param {number} index - Índice del slide destino.
 	 */
 	const scrollToSlide = (index) => {
 		if (!trackRef.current) return;
@@ -121,7 +122,7 @@ const CareersHero = () => {
 								})}
 							</div>
 
-							{/* Indicadores de Paginación (Solo en Tablet/Mobile) */}
+							{/* Indicadores de Paginación (Activos en Tablet/Mobile) */}
 							<div className='careers-hero__pagination'>
 								{cultureData.map((_, index) => (
 									<button
