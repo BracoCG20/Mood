@@ -296,19 +296,13 @@
 
 	@media (max-width: $bp-tablet) {
 		transform: none !important; // Reseteamos la asimetría de escritorio
-		width: calc(
-			50vw - 32px
-		); // Calcula matemáticamente el ancho para mostrar exactamente 2 en tablet
+		width: 350px;
 		max-width: 400px;
 		flex-shrink: 0;
 		scroll-snap-align: start; // Permite un encaje limpio desde el borde izquierdo
 		padding: 1.5rem;
 		gap: 16px;
 		border-radius: 16px;
-	}
-
-	@media (max-width: $bp-mobile) {
-		width: 85vw; // En móvil muestra 1 tarjeta casi completa dejando asomar la siguiente
 	}
 
 	&__icon {
