@@ -61,6 +61,13 @@
 	&__footer-area {
 		width: 100%;
 		background-color: $gris-card;
+		background-image:
+			linear-gradient(rgba($gris-card, 0.7), rgba($gris-card, 0.7)),
+			url("../../assets/Fondo_nav.png");
+		background-blend-mode: overlay;
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
 		display: flex;
 		flex-direction: column;
 		position: relative;
