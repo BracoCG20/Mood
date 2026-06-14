@@ -1,48 +1,43 @@
-//src/pages/Home/Home.jsx
-import Navbar from '../../components/Navbar/Navbar';
-import Hero from '../../components/Hero/Hero';
-import Brands from '../../components/Brands/Brands';
-import Services from '../../components/Services/Services';
-import Testimonials from '../../components/Testimonials/Testimonials';
-import Footer from '../../components/Footer/Footer';
-import bgVideo from '../../assets/VideoFondoMood.webm';
-import './Home.scss';
+// src/pages/Home/Home.jsx
+import Navbar from "../../components/Navbar/Navbar";
+import Hero from "../../components/Hero/Hero";
+import Brands from "../../components/Brands/Brands";
+import Services from "../../components/Services/Services";
+import Testimonials from "../../components/Testimonials/Testimonials";
+import Footer from "../../components/Footer/Footer";
+import bgVideo from "../../assets/VideoFondoMood.webm";
+import "./Home.scss";
 
+/**
+ * Componente principal de la página de inicio (Landing Page).
+ * Orquesta la carga del video de fondo, navegación y secciones clave.
+ */
 const Home = () => {
-  return (
-    <main className='home'>
-      <div className='home__hero-frame'>
-        <video
-          className='home__hero-video'
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source
-            src={bgVideo}
-            type='video/webm'
-          />
-        </video>
+	return (
+		<main className='home'>
+			<div className='home__hero-frame'>
+				<video className='home__hero-video' autoPlay loop muted playsInline>
+					<source src={bgVideo} type='video/webm' />
+				</video>
 
-        {/* 🌟 CAPA OSCURA DEGRADADA PARA RESALTAR EL TEXTO */}
-        <div className='home__hero-overlay'></div>
+				{/* Overlay degradado para asegurar la legibilidad del texto sobre el video */}
+				<div className='home__hero-overlay'></div>
 
-        <div className='home__hero-content'>
-          <Navbar />
-          <Hero />
-        </div>
-      </div>
+				<div className='home__hero-content'>
+					<Navbar />
+					<Hero />
+				</div>
+			</div>
 
-      <Brands />
-      <Services />
+			<Brands />
+			<Services />
 
-      <div className='home__footer-area'>
-        <Testimonials />
-        <Footer />
-      </div>
-    </main>
-  );
+			<div className='home__footer-area'>
+				<Testimonials />
+				<Footer />
+			</div>
+		</main>
+	);
 };
 
 export default Home;

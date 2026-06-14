@@ -1,24 +1,94 @@
-//src/styles/_variables.scss
+// src/styles/_variables.scss
+
+/**
+ * ==========================================
+ * 1. PALETA DE COLORES
+ * ==========================================
+ */
 $primary: #73f440;
 $secondary: #eeee7a;
 $blanco: #fff;
 $negro: #373235;
+$gris-card: #1c1c1e;
 
-// Variables de UI compartidas
-$glass-bg: rgba(250, 247, 238, 0.35); // Blanco semi-transparente
+/**
+ * ==========================================
+ * 2. BREAKPOINTS (PUNTOS DE QUIEBRE)
+ * ==========================================
+ */
+$bp-mobile: 768px;
+$bp-tablet: 968px;
+$bp-desktop: 1200px;
+
+/**
+ * ==========================================
+ * 3. EFECTOS REUTILIZABLES (ANIMACIONES)
+ * ==========================================
+ */
+
+// Animación de reflejo de luz (Shiny Effect) para botones y tarjetas
+@mixin shiny-effect($light-color: rgba(255, 255, 255, 0.7), $duration: 0.6s) {
+	position: relative;
+	overflow: hidden;
+
+	&::after {
+		content: "";
+		position: absolute;
+		top: -50%;
+		left: -120%;
+		width: 60%;
+		height: 200%;
+		background: linear-gradient(
+			100deg,
+			rgba(255, 255, 255, 0) 20%,
+			$light-color 50%,
+			rgba(255, 255, 255, 0) 80%
+		);
+		transform: skewX(-25deg);
+		transition: transform $duration ease-in-out;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	&:hover::after {
+		transform: translateX(400%) skewX(-25deg);
+	}
+}
+
+/**
+ * ==========================================
+ * 4. CONFIGURACIÓN GLASSMORPHISM
+ * ==========================================
+ */
+$glass-bg: rgba(250, 247, 238, 0.35);
 $glass-border: rgba(253, 250, 241, 0.6);
 $glass-blur: 12px;
 
-// Placeholder para Glassmorphism reusable
+// Placeholder para píldoras ultra redondeadas
 %glass-pill-style {
-  background: $glass-bg;
-  backdrop-filter: blur($glass-blur);
-  -webkit-backdrop-filter: blur($glass-blur);
-  border: 1px solid $glass-border;
-  border-radius: 50px;
-  box-shadow: 0 4px 15px rgba(55, 50, 53, 0.05);
-  transition:
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+	background: $glass-bg;
+	backdrop-filter: blur($glass-blur);
+	-webkit-backdrop-filter: blur($glass-blur);
+	border: 1px solid $glass-border;
+	border-radius: 50px;
+	box-shadow: 0 4px 15px rgba(55, 50, 53, 0.05);
+	transition:
+		background-color 0.3s ease,
+		border-color 0.3s ease,
+		box-shadow 0.3s ease;
+}
+
+// Mixin parametrizable para paneles y contenedores flotantes
+@mixin glass-pill(
+	$bg: rgba($blanco, 0.7),
+	$border: rgba($negro, 0.03),
+	$shadow: rgba($negro, 0.05),
+	$radius: 14px
+) {
+	background: $bg;
+	backdrop-filter: blur($glass-blur);
+	-webkit-backdrop-filter: blur($glass-blur);
+	border-radius: $radius;
+	box-shadow: 0 4px 15px $shadow;
+	border: 1px solid $border;
 }

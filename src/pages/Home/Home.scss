@@ -1,80 +1,81 @@
-//src/pages/Home/Home.scss
-@use '../../styles/variables' as *;
+// src/pages/Home/Home.scss
+@use "../../styles/variables" as *;
 
+/**
+ * Estilos principales para la vista Home.
+ */
 .home {
-  background-color: $blanco;
-  min-height: 100vh;
-  box-sizing: border-box;
+	background-color: $blanco;
+	min-height: 100vh;
+	box-sizing: border-box;
 
-  &__hero-frame {
-    margin: 1rem;
-    width: calc(100% - 2rem);
-    height: calc(100vh - 2rem);
-    position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid rgba($negro, 0.05);
-    background-color: #ecf0ec;
+	// Contenedor principal del Hero que enmarca el video
+	&__hero-frame {
+		margin: 1rem;
+		width: calc(100% - 2rem);
+		height: calc(100vh - 2rem);
+		position: relative;
+		border-radius: 16px;
+		overflow: hidden;
+		border: 1px solid rgba($negro, 0.05);
+		background-color: #ecf0ec;
 
-    @media (max-width: 768px) {
-      margin: 0.5rem;
-      width: calc(100% - 1rem);
-      height: calc(100vh - 1rem);
-    }
-  }
+		@media (max-width: 768px) {
+			margin: 0.5rem;
+			width: calc(100% - 1rem);
+			height: calc(100vh - 1rem);
+		}
+	}
 
-  &__hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
+	// Video de fondo a pantalla completa dentro del frame
+	&__hero-video {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: 0;
+	}
 
-  /* 🌟 ESTILOS DEL OVERLAY RADIAL CORREGIDO */
-  &__hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+	// Filtro oscuro radial para aislar el texto del fondo dinámico del video
+	&__hero-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+		background: radial-gradient(
+			circle,
+			rgba(0, 0, 0, 0.85) 0%,
+			rgba(0, 0, 0, 0.55) 60%,
+			rgba(0, 0, 0, 0.3) 100%
+		);
+	}
 
-    /* 🌟 SOLUCIÓN PROFESIONAL: Degradado radial
-       El centro es muy oscuro (80% negro) para bloquear los textos del video.
-       A los 60% se aclara (50% negro).
-       Hacia los bordes es mucho más claro (30% negro) para que el video respire.
-    */
-    background: radial-gradient(
-      circle,
-      rgba(0, 0, 0, 0.85) 0%,
-      rgba(0, 0, 0, 0.55) 60%,
-      rgba(0, 0, 0, 0.3) 100%
-    );
-  }
+	// Contenedor del Navbar y texto principal (Hero)
+	&__hero-content {
+		position: relative;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+	}
 
-  &__hero-content {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-  }
+	// Sección inferior oscura (Testimonios + Footer)
+	&__footer-area {
+		width: 100%;
+		background-color: #1c1c1e;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		z-index: 1;
+	}
 
-  &__footer-area {
-    width: 100%;
-    background-color: #1c1c1e;
-    display: flex;
-    flex-direction: column;
-
-    position: relative;
-    z-index: 1;
-  }
-
-  &__desktop-blur {
-    @media (max-width: 968px) {
-      display: none !important;
-    }
-  }
+	// Utilidad para ocultar elementos de diseño específicos en escritorio
+	&__desktop-blur {
+		@media (max-width: 968px) {
+			display: none !important;
+		}
+	}
 }
