@@ -8,14 +8,17 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./MoodPrintProjects.scss";
 
+// NUEVO: Importamos el archivo JSON local
+import projectsJson from "../../data/projects.json";
+
 gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Componente MoodPrintProjects.
  * Gestiona la visualización del portafolio utilizando una cuadrícula tipo Masonry.
- * Obtiene los proyectos dinámicamente desde la API, aplica filtros por categoría
+ * Obtiene los proyectos desde un JSON local, aplica filtros por categoría
  * y maneja la recalibración de GSAP ScrollTrigger al cambiar las dimensiones del DOM.
- * * @param {Object} props
+ * @param {Object} props
  * @param {string} props.selectedCategory - Categoría activa para filtrar los proyectos.
  */
 const MoodPrintProjects = ({ selectedCategory }) => {
@@ -24,32 +27,30 @@ const MoodPrintProjects = ({ selectedCategory }) => {
 	const [projectsData, setProjectsData] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
-	// Carga de datos desde la API
+	// Carga de datos desde el JSON local
 	useEffect(() => {
-		const fetchProjects = async () => {
-			try {
-				const response = await fetch("http://localhost:5000/api/projects");
-				const data = await response.json();
+		try {
+			// Usamos los datos importados directamente
+			const data = projectsJson;
 
-				// Filtrar proyectos activos y mapear las propiedades requeridas por el componente Masonry
-				const activeProjects = data
-					.filter((project) => project.is_active)
-					.map((project) => ({
-						...project,
-						img: project.img_url,
-						height: Math.floor(Math.random() * (800 - 500 + 1)) + 500, // Altura aleatoria para efecto Masonry
-						url: project.project_url || "#",
-					}));
+			// Filtrar proyectos activos y mapear las propiedades requeridas por el componente Masonry
+			const activeProjects = data
+				.filter((project) => project.is_active)
+				.map((project) => ({
+					...project,
+					img: project.img_url,
+					// Altura aleatoria para efecto Masonry
+					height: Math.floor(Math.random() * (800 - 500 + 1)) + 500,
+					url: project.project_url || "#",
+				}));
 
-				setProjectsData(activeProjects);
-			} catch (error) {
-				console.error("Error al cargar proyectos desde la BD:", error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		fetchProjects();
+			setProjectsData(activeProjects);
+		} catch (error) {
+			console.error("Error al cargar proyectos desde el JSON:", error);
+		} finally {
+			// Quitamos el estado de carga de forma casi inmediata
+			setIsLoading(false);
+		}
 	}, []);
 
 	// Lógica de filtrado y traducción de la categoría

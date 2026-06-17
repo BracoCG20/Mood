@@ -1,0 +1,101 @@
+[
+	{
+		"id": 1,
+		"title": "Proyecto Prueba",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Branding",
+		"client": "Mood",
+		"date": "Enero 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780085384/mood_projects/jzo0b3iqigwgrkjk0plq.webp",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 2,
+		"title": "Proyecto de Ziyaz",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Marketing Digital",
+		"client": "Ziyaz",
+		"date": "Marzo 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780085892/mood_projects/vsoywl4jmbl9ydxvcbcz.png",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 3,
+		"title": "Ziyaz",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Marketing Digital",
+		"client": "Ziyaz",
+		"date": "Noviembre 2023",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780087192/mood_projects/ewa3yxq3rzearzindv0o.png",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 4,
+		"title": "Otro Proyecto Ziyas",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Diseño Web",
+		"client": "Ziyaz",
+		"date": "Febrero 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780087320/mood_projects/pntzccsjq4pd4lx9etsp.png",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 5,
+		"title": "Adex",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Marketing Digital",
+		"client": "Ziyaz",
+		"date": "Febrero 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780087344/mood_projects/e0m2tbx3gur6ephas5r6.jpg",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 6,
+		"title": "Adex",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Marketing Digital",
+		"client": "Ziyaz",
+		"date": "Febrero 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780087371/mood_projects/pphxzxzh5lgzr1gz9swq.jpg",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 7,
+		"title": "Xiaomi",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Marketing Digital",
+		"client": "Xiaomi",
+		"date": "Febrero 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780087407/mood_projects/vkmgyijlf7kdhij4qbzx.png",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 8,
+		"title": "T-Rex",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Diseño Web",
+		"client": "T-Rex",
+		"date": "Febrero 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780087439/mood_projects/sbdbsccehqo9dkr8vyfk.png",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	},
+	{
+		"id": 9,
+		"title": "Proyecto con video",
+		"description": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable ",
+		"category": "Diseño Web",
+		"client": "Ziyaz",
+		"date": "Febrero 2024",
+		"img_url": "https://res.cloudinary.com/djsfjv4wf/video/upload/v1780088608/mood_projects/xvysqk42wa9krvxvcbul.mp4",
+		"project_url": "https://www.mood.pe",
+		"is_active": true
+	}
+]
