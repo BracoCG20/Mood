@@ -5,12 +5,15 @@ import Select from "react-select";
 import { useTranslation } from "react-i18next";
 import "./ContactForm.scss";
 
+// NUEVO: Importamos el archivo JSON local
+import countriesData from "../../data/countries.json";
+
 /**
  * Componente ContactForm.
  * Maneja el formulario de contacto incluyendo validaciones, formateo automático
- * de números telefónicos (prefijos) basado en el país seleccionado, y protección
- * anti-spam (Honeypot).
- * * @param {Object} props
+ * de números telefónicos (prefijos) basado en un JSON de países, y protección
+ * anti-spam (Honeypot). Utiliza FormSubmit para el envío de correos.
+ * @param {Object} props
  * @param {Function} props.onSuccess - Callback ejecutado tras el envío exitoso de los datos.
  */
 const ContactForm = ({ onSuccess }) => {
@@ -30,34 +33,33 @@ const ContactForm = ({ onSuccess }) => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState(null);
 
-	// Obtener lista de países desde la API al montar el componente
+	// Carga de países desde el JSON local
 	useEffect(() => {
-		const fetchCountries = async () => {
-			try {
-				const response = await fetch("http://localhost:5000/api/countries");
-				const data = await response.json();
+		try {
+			const options = [];
+			const prefixes = {};
 
-				if (data.success) {
-					const options = data.data;
-					const prefixes = {};
+			// Mapeamos los datos del JSON al formato que necesita react-select
+			countriesData.forEach((country) => {
+				const prefixStr = `+${country.phonecode}`;
+				options.push({
+					value: country.iso,
+					label: country.nicename,
+					prefix: prefixStr,
+				});
+				prefixes[country.iso] = prefixStr;
+			});
 
-					options.forEach((country) => {
-						prefixes[country.value] = country.prefix;
-					});
+			// Agregamos la opción "Otro"
+			const otroLabel = t("contactHero.form.countries.other") || "Otro";
+			options.push({ value: "Otro", label: otroLabel, prefix: "" });
+			prefixes["Otro"] = "";
 
-					const otroLabel = t("contactHero.form.countries.other") || "Otro";
-					options.push({ value: "Otro", label: otroLabel, prefix: "" });
-					prefixes["Otro"] = "";
-
-					setCountryOptions(options);
-					setCountryPrefixes(prefixes);
-				}
-			} catch (error) {
-				console.error("Error cargando la lista de países:", error);
-			}
-		};
-
-		fetchCountries();
+			setCountryOptions(options);
+			setCountryPrefixes(prefixes);
+		} catch (error) {
+			console.error("Error procesando la lista de países:", error);
+		}
 	}, [t]);
 
 	// Manejo de cambios estándar
@@ -118,17 +120,17 @@ const ContactForm = ({ onSuccess }) => {
 		setFormData((prev) => ({ ...prev, celular: prefix + userTypedPart }));
 	};
 
-	// Envío del formulario
+	// Envío del formulario vía FormSubmit (AJAX)
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setIsSubmitting(true);
 		setSubmitError(null);
 
-		// Protección anti-spam
+		// Protección anti-spam (Honeypot)
 		if (honeypot) {
 			console.warn("Bot bloqueado.");
 			setIsSubmitting(false);
-			onSuccess();
+			onSuccess(); // Simulamos éxito para despistar al bot
 			return;
 		}
 
@@ -139,17 +141,24 @@ const ContactForm = ({ onSuccess }) => {
 			pais: formData.pais ? formData.pais.label : "No especificado",
 			mensaje: formData.mensaje,
 			idioma: i18n.language || "es",
+			// Variables de configuración de FormSubmit
+			_subject: `Nuevo mensaje de ${formData.nombre} desde la web`,
+			_template: "table", // O usa "box" para un diseño diferente en tu correo
 		};
 
 		try {
-			const response = await fetch("http://localhost:5000/api/contacto", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
+			// Reemplaza "tu-correo@dominio.com" con el correo donde recibirás los mensajes
+			const response = await fetch(
+				"https://formsubmit.co/ajax/cbraco@gruposp.pe",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+					},
+					body: JSON.stringify(payload),
 				},
-				body: JSON.stringify(payload),
-			});
+			);
 
 			if (response.ok) {
 				setIsSubmitting(false);

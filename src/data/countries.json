@@ -1,0 +1,74 @@
+[
+	{
+		"id": 1,
+		"iso": "PE",
+		"name": "PERU",
+		"nicename": "Perú",
+		"iso3": "PER",
+		"numcode": 604,
+		"phonecode": 51
+	},
+	{
+		"id": 2,
+		"iso": "CO",
+		"name": "COLOMBIA",
+		"nicename": "Colombia",
+		"iso3": "COL",
+		"numcode": 170,
+		"phonecode": 57
+	},
+	{
+		"id": 3,
+		"iso": "MX",
+		"name": "MEXICO",
+		"nicename": "México",
+		"iso3": "MEX",
+		"numcode": 484,
+		"phonecode": 52
+	},
+	{
+		"id": 4,
+		"iso": "AR",
+		"name": "ARGENTINA",
+		"nicename": "Argentina",
+		"iso3": "ARG",
+		"numcode": 32,
+		"phonecode": 54
+	},
+	{
+		"id": 5,
+		"iso": "CL",
+		"name": "CHILE",
+		"nicename": "Chile",
+		"iso3": "CHL",
+		"numcode": 152,
+		"phonecode": 56
+	},
+	{
+		"id": 6,
+		"iso": "EC",
+		"name": "ECUADOR",
+		"nicename": "Ecuador",
+		"iso3": "ECU",
+		"numcode": 218,
+		"phonecode": 593
+	},
+	{
+		"id": 7,
+		"iso": "ES",
+		"name": "SPAIN",
+		"nicename": "España",
+		"iso3": "ESP",
+		"numcode": 724,
+		"phonecode": 34
+	},
+	{
+		"id": 8,
+		"iso": "US",
+		"name": "UNITED STATES",
+		"nicename": "Estados Unidos",
+		"iso3": "USA",
+		"numcode": 840,
+		"phonecode": 1
+	}
+]
