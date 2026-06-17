@@ -1,0 +1,128 @@
+[
+	{
+		"id": 1,
+		"name": "Vasco Romero",
+		"role_key": "Director y Socio Fundador",
+		"linkedin": "https://www.linkedin.com/in/vascoromerom/",
+		"image_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780688426/mood_team/n9iryokcng8rxu2hduj4.webp",
+		"is_active": true,
+		"created_at": "2023-10-01T10:00:00Z"
+	},
+	{
+		"id": 2,
+		"name": "Matthias Stimman",
+		"role_key": "Director",
+		"linkedin": "https://www.linkedin.com/in/matthiasstimman/",
+		"image_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780689744/mood_team/ggh7wn0aba9kih7cg9va.png",
+		"is_active": true,
+		"created_at": "2023-10-05T14:30:00Z"
+	},
+	{
+		"id": 3,
+		"name": "Jose Franco",
+		"role_key": "Director",
+		"linkedin": "https://www.linkedin.com/in/jose-franco-201a1829/",
+		"image_url": "https://res.cloudinary.com/djsfjv4wf/image/upload/v1780690254/mood_team/vnsyvk8bgp5ez8flnhuq.webp",
+		"is_active": true,
+		"created_at": "2023-11-10T09:15:00Z"
+	},
+	{
+		"id": 4,
+		"name": "Luis Delgado",
+		"role_key": "Gerente General",
+		"linkedin": "https://www.linkedin.com/in/luis-humberto-delgado-zelaya-86788630/",
+		"image_url": null,
+		"is_active": false,
+		"created_at": "2023-11-12T16:45:00Z"
+	},
+	{
+		"id": 5,
+		"name": "Equipo 01",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 7,
+		"name": "Equipo 02",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 6,
+		"name": "Equipo 03",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 8,
+		"name": "Equipo 04",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 9,
+		"name": "Equipo 05",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 10,
+		"name": "Equipo 06",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 11,
+		"name": "Equipo 07",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 12,
+		"name": "Equipo 08",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 13,
+		"name": "Equipo 09",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	},
+	{
+		"id": 14,
+		"name": "Equipo 10",
+		"role_key": "Diseñador",
+		"linkedin": "https://www.linkedin.com/in/tecnologia-mood-6b1510363/",
+		"image_url": null,
+		"is_active": true,
+		"created_at": "2022-01-20T08:00:00Z"
+	}
+]

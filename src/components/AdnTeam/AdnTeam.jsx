@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import Linkedin from "../Icons/Linkedin";
 import FadeContent from "../FadeContent/FadeContent";
 import "./AdnTeam.scss";
+import teamData from "../../data/team.json";
 
 /**
  * Sub-componente para líderes del equipo.
@@ -205,7 +206,7 @@ const MemberCardClipped = ({ member }) => {
 
 /**
  * Componente Principal de Equipo (AdnTeam).
- * Orquesta la carga de datos de la API y renderiza las secciones de líderes y equipo general (carrusel).
+ * Orquesta la carga de datos locales JSON y renderiza las secciones de líderes y equipo general (carrusel).
  */
 const AdnTeam = () => {
 	const { t } = useTranslation();
@@ -216,29 +217,22 @@ const AdnTeam = () => {
 	const [generalTeam, setGeneralTeam] = useState([]);
 
 	useEffect(() => {
-		const fetchTeam = async () => {
-			try {
-				const response = await fetch("http://localhost:5000/api/team");
-				const data = await response.json();
+		try {
+			// Usamos la variable importada directamente desde el JSON
+			const data = teamData;
 
-				// Filtramos miembros activos y separamos por lógica de renderizado
-				const activeMembers = data.filter((member) => member.is_active);
+			// Filtramos miembros activos y separamos por lógica de renderizado
+			const activeMembers = data.filter((member) => member.is_active);
 
-				setTeamMembers(
-					activeMembers.filter(
-						(m) => m.image_url !== null && m.image_url !== "",
-					),
-				);
-				setGeneralTeam(
-					activeMembers.filter(
-						(m) => m.image_url === null || m.image_url === "",
-					),
-				);
-			} catch (error) {
-				console.error("Error al cargar equipo:", error);
-			}
-		};
-		fetchTeam();
+			setTeamMembers(
+				activeMembers.filter((m) => m.image_url !== null && m.image_url !== ""),
+			);
+			setGeneralTeam(
+				activeMembers.filter((m) => m.image_url === null || m.image_url === ""),
+			);
+		} catch (error) {
+			console.error("Error al cargar equipo desde el JSON:", error);
+		}
 	}, []);
 
 	const handleScroll = () => {
