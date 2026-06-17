@@ -1,16 +1,18 @@
 // src/components/Careers/CareersJobs.jsx
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { Briefcase, Calendar, ChevronRight, MapPin } from "lucide-react";
 import "./CareersJobs.scss";
+
+// NUEVO: Importamos el archivo JSON local
+import jobsData from "../../data/jobs.json";
 
 /**
  * Sub-componente JobCardClipped.
  * Renderiza una tarjeta individual de trabajo.
  * Utiliza matemáticas para generar un "clip-path" dinámico que crea un recorte
  * (notch) en la esquina inferior derecha donde se asienta el botón de acción.
- * * @param {Object} props
+ * @param {Object} props
  * @param {Object} props.job - Datos de la vacante de empleo.
  */
 const JobCardClipped = ({ job }) => {
@@ -95,20 +97,23 @@ const JobCardClipped = ({ job }) => {
 				</div>
 			</div>
 
-			<Link
-				to={`/trabaja_con_nosotros/${job.id}`}
+			{/* Ahora lee job.job_url desde el JSON */}
+			<a
+				href={job.job_url || "#"}
 				className='job-card__btn'
 				aria-label={`Ver detalles del puesto ${job.title}`}
+				target='_blank'
+				rel='noopener noreferrer'
 			>
 				<ChevronRight size={22} strokeWidth={2.5} />
-			</Link>
+			</a>
 		</div>
 	);
 };
 
 /**
  * Componente principal CareersJobs.
- * Obtiene las vacantes disponibles desde la API, filtra las activas
+ * Obtiene las vacantes disponibles desde un JSON local, filtra las activas
  * correspondientes a Perú, y las renderiza en una cuadrícula.
  */
 const CareersJobs = () => {
@@ -116,24 +121,18 @@ const CareersJobs = () => {
 	const [jobsList, setJobsList] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
-	// Obtención de datos desde la API
+	// Carga de datos desde el JSON local
 	useEffect(() => {
-		const fetchPublicJobs = async () => {
-			try {
-				const response = await fetch("http://localhost:5000/api/jobs");
-				if (response.ok) {
-					const data = await response.json();
-					const activeJobs = data.filter((job) => job.is_active === true);
-					setJobsList(activeJobs);
-				}
-			} catch (error) {
-				console.error("Error al cargar las vacantes públicas:", error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
-		fetchPublicJobs();
+		try {
+			// Usamos los datos importados directamente
+			const data = jobsData;
+			const activeJobs = data.filter((job) => job.is_active === true);
+			setJobsList(activeJobs);
+		} catch (error) {
+			console.error("Error al cargar las vacantes desde el JSON:", error);
+		} finally {
+			setIsLoading(false);
+		}
 	}, []);
 
 	const visibleJobs = jobsList.filter(
