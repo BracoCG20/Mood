@@ -69,6 +69,11 @@ const preloadImages = async (urls) => {
 	);
 };
 
+/**
+ * Genera la URL de la miniatura si el archivo es un video.
+ * @param {string} url - URL del archivo multimedia.
+ * @returns {string} URL procesada de la imagen o miniatura.
+ */
 const getThumbnailUrl = (url) => {
 	if (!url) return "";
 	if (url.match(/\.(mp4|webm|mov|ogg)$/i)) {
@@ -77,6 +82,11 @@ const getThumbnailUrl = (url) => {
 	return url;
 };
 
+/**
+ * Verifica si la URL proporcionada corresponde a un archivo de video.
+ * @param {string} url - URL del archivo multimedia.
+ * @returns {boolean}
+ */
 const isVideoMedia = (url) => {
 	if (!url) return false;
 	return !!url.match(/\.(mp4|webm|mov|ogg)$/i);
@@ -89,14 +99,14 @@ const isVideoMedia = (url) => {
  *
  * @param {Object} props
  * @param {Array} props.items - Elementos a renderizar.
- * @param {string} props.ease - Curva de animación GSAP.
- * @param {number} props.duration - Duración de entrada.
- * @param {number} props.stagger - Retardo entre elementos.
- * @param {string} props.animateFrom - Dirección de la animación inicial ('top', 'bottom', 'center', 'random').
- * @param {boolean} props.scaleOnHover - Aplica un escalado al pasar el ratón.
- * @param {number} props.hoverScale - Factor de escala al hacer hover.
- * @param {boolean} props.blurToFocus - Aplica un desenfoque inicial que se aclara al hacer scroll.
- * @param {Function} props.onItemClick - Acción personalizada al clickear una tarjeta.
+ * @param {string} [props.ease="power3.out"] - Curva de animación GSAP.
+ * @param {number} [props.duration=0.6] - Duración de entrada.
+ * @param {number} [props.stagger=0.05] - Retardo entre elementos.
+ * @param {string} [props.animateFrom="bottom"] - Dirección de la animación inicial ('top', 'bottom', 'center', 'random').
+ * @param {boolean} [props.scaleOnHover=true] - Aplica un escalado al pasar el ratón.
+ * @param {number} [props.hoverScale=0.95] - Factor de escala al hacer hover.
+ * @param {boolean} [props.blurToFocus=true] - Aplica un desenfoque inicial que se aclara al hacer scroll.
+ * @param {Function} [props.onItemClick=null] - Acción personalizada al clickear una tarjeta.
  */
 const Masonry = ({
 	items,
@@ -184,6 +194,8 @@ const Masonry = ({
 	useLayoutEffect(() => {
 		if (!imagesReady || !grid.length) return;
 
+		let timerId;
+
 		if (!hasMounted.current) {
 			ctxRef.current.add(() => {
 				const tl = gsap.timeline({
@@ -222,7 +234,7 @@ const Masonry = ({
 					);
 				});
 
-				setTimeout(() => {
+				timerId = setTimeout(() => {
 					ScrollTrigger.refresh();
 				}, 150);
 			});
@@ -244,6 +256,10 @@ const Masonry = ({
 				});
 			});
 		}
+
+		return () => {
+			if (timerId) clearTimeout(timerId);
+		};
 	}, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
 
 	useEffect(() => {

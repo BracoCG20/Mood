@@ -1,12 +1,12 @@
 // src/components/BlurText/BlurText.jsx
-import { motion } from "motion/react";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { motion, useInView } from "motion/react";
+import { useRef, useMemo } from "react";
 import "./BlurText.scss";
 
 /**
  * Utilidad para construir los keyframes de la animación combinando
  * el estado inicial y los pasos de la animación.
- * * @param {Object} from - Estado inicial de la animación.
+ * @param {Object} from - Estado inicial de la animación.
  * @param {Array<Object>} steps - Arreglo con los pasos de la animación.
  * @returns {Object} Objeto de keyframes formateado para Framer Motion.
  */
@@ -28,19 +28,19 @@ const buildKeyframes = (from, steps) => {
  * de desenfoque (blur) y traslación cuando entra en el viewport.
  * * @param {Object} props
  * @param {string} props.text - Texto a animar.
- * @param {number} props.delay - Retraso (en ms) entre cada elemento animado.
- * @param {string} props.className - Clases CSS adicionales.
- * @param {('words'|'letters')} props.animateBy - Define si la animación es por palabras o letras.
- * @param {('top'|'bottom')} props.direction - Dirección desde donde entra el texto.
- * @param {number} props.threshold - Porcentaje de visibilidad requerido para disparar la animación.
- * @param {string} props.rootMargin - Margen del IntersectionObserver.
+ * @param {number} [props.delay=200] - Retraso (en ms) entre cada elemento animado.
+ * @param {string} [props.className=""] - Clases CSS adicionales.
+ * @param {('words'|'letters')} [props.animateBy="words"] - Define si la animación es por palabras o letras.
+ * @param {('top'|'bottom')} [props.direction="top"] - Dirección desde donde entra el texto.
+ * @param {number} [props.threshold=0.1] - Porcentaje de visibilidad requerido para disparar la animación.
+ * @param {string} [props.rootMargin="0px"] - Margen del IntersectionObserver.
  * @param {Object} [props.animationFrom] - Sobrescribe el estado inicial de la animación.
  * @param {Array<Object>} [props.animationTo] - Sobrescribe los pasos de la animación.
- * @param {Function} props.easing - Función de aceleración/desaceleración (ease).
+ * @param {Function} [props.easing=(t)=>t] - Función de aceleración/desaceleración (ease).
  * @param {Function} [props.onAnimationComplete] - Callback ejecutado al terminar la animación completa.
- * @param {number} props.stepDuration - Duración (en segundos) de cada paso de la animación.
- * @param {string} props.as - Etiqueta HTML a renderizar (por defecto 'p').
- * @param {Array<string>} props.highlightWords - Palabras específicas a resaltar visualmente.
+ * @param {number} [props.stepDuration=0.35] - Duración (en segundos) de cada paso de la animación.
+ * @param {string} [props.as="p"] - Etiqueta HTML a renderizar (por defecto 'p').
+ * @param {Array<string>} [props.highlightWords=[]] - Palabras específicas a resaltar visualmente.
  */
 const BlurText = ({
 	text = "",
@@ -59,23 +59,13 @@ const BlurText = ({
 	highlightWords = [],
 }) => {
 	const elements = animateBy === "words" ? text.split(" ") : text.split("");
-	const [inView, setInView] = useState(false);
 	const ref = useRef(null);
 
-	useEffect(() => {
-		if (!ref.current) return;
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (entry.isIntersecting) {
-					setInView(true);
-					observer.unobserve(ref.current);
-				}
-			},
-			{ threshold, rootMargin },
-		);
-		observer.observe(ref.current);
-		return () => observer.disconnect();
-	}, [threshold, rootMargin]);
+	const inView = useInView(ref, {
+		once: true,
+		amount: threshold,
+		margin: rootMargin,
+	});
 
 	const defaultFrom = useMemo(
 		() =>
