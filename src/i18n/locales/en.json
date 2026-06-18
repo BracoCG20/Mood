@@ -339,7 +339,8 @@
   "navbar": {
     "adn": "ADN Mood",
     "contact": "Contact",
-    "print": "Mood Print"
+    "print": "Mood Print",
+    "mind": "#MoodMind"
   },
   "projectModal": {
     "btnView": "View Project",
