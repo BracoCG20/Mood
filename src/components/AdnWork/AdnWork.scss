@@ -1,145 +1,145 @@
 // src/components/AdnWork/AdnWork.scss
-@use "../../styles/variables" as *;
+@use '../../styles/variables' as *;
 
 /**
  * Contenedor principal de AdnWork.
  * Utiliza el fondo oscuro global para generar contraste con la sección anterior.
  */
 .adn-work {
-	width: 100%;
-	padding: 5rem 2rem;
-	background-color: $gris-card;
-	background-image:
-		linear-gradient(rgba($gris-card, 0.7), rgba($gris-card, 0.7)),
-		url("../../assets/Fondo_nav.png");
-	background-blend-mode: overlay;
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed;
-	display: flex;
-	justify-content: center;
+  width: 100%;
+  padding: 5rem 2rem;
+  background-color: $gris-card;
+  background-image:
+    linear-gradient(rgba($gris-card, 0.5), rgba($gris-card, 0.5)),
+    url('../../assets/Fondo_nav.png');
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
+  // background-attachment: fixed;
+  display: flex;
+  justify-content: center;
 
-	&__container {
-		max-width: $bp-desktop;
-		width: 100%;
-		display: grid;
-		grid-template-columns: 1fr 1.1fr;
-		gap: 5rem;
-		align-items: flex-start;
+  &__container {
+    max-width: $bp-desktop;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 5rem;
+    align-items: flex-start;
 
-		@media (max-width: $bp-tablet) {
-			grid-template-columns: 1fr;
-			gap: 3rem;
-		}
-	}
+    @media (max-width: $bp-tablet) {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
 
-	/**
+  /**
    * Columna Izquierda: Imagen
    */
-	&__image-col {
-		width: 100%;
-		height: 100%;
-	}
+  &__image-col {
+    width: 100%;
+    height: 100%;
+  }
 
-	&__image {
-		width: 100%;
-		height: 100%;
-		min-height: 400px;
-		object-fit: cover;
-		border-radius: 16px;
-		box-shadow: 0 20px 40px rgba($negro, 0.4);
+  &__image {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba($negro, 0.4);
 
-		@media (max-width: $bp-mobile) {
-			min-height: 300px;
-		}
-	}
+    @media (max-width: $bp-mobile) {
+      min-height: 300px;
+    }
+  }
 
-	/**
+  /**
    * Columna Derecha: Contenido y Textos
    */
-	&__content-col {
-		display: flex;
-		flex-direction: column;
-		gap: 4rem;
-		padding-top: 1rem;
-	}
+  &__content-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding-top: 1rem;
+  }
 
-	&__texts {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 2rem;
+  &__texts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
 
-		p {
-			font-size: 1.05rem;
-			line-height: 1.6;
-			color: rgba($blanco, 0.85);
-			margin: 0;
-			font-weight: 400;
-			letter-spacing: -0.01em;
-		}
+    p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: rgba($blanco, 0.85);
+      margin: 0;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
 
-		@media (max-width: $bp-mobile) {
-			grid-template-columns: 1fr;
-		}
-	}
+    @media (max-width: $bp-mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
 
-	&__actions {
-		display: flex;
-	}
+  &__actions {
+    display: flex;
+  }
 
-	/**
+  /**
    * Botón de Acción (Idéntico a Footer)
    */
-	.btn-jobs {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		text-decoration: none;
-		transition: all 0.3s ease;
+  .btn-jobs {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
 
-		& > span {
-			@include shiny-effect(rgba(255, 255, 255, 0.4));
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			box-sizing: border-box;
-			height: 48px;
-			border-radius: 12px;
-			transition: all 0.4s ease;
+    & > span {
+      @include shiny-effect(rgba(255, 255, 255, 0.4));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      height: 48px;
+      border-radius: 12px;
+      transition: all 0.4s ease;
 
-			span,
-			svg {
-				position: relative;
-				z-index: 2;
-			}
-		}
+      span,
+      svg {
+        position: relative;
+        z-index: 2;
+      }
+    }
 
-		&__text {
-			background-color: rgba($blanco, 0.1);
-			color: $blanco;
-			padding: 0 1.5rem;
-			font-weight: 600;
-			font-size: 0.9rem;
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
-		}
+    &__text {
+      background-color: rgba($blanco, 0.1);
+      color: $blanco;
+      padding: 0 1.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
 
-		&__icon {
-			background-color: $primary;
-			color: $negro;
-			width: 48px;
-		}
+    &__icon {
+      background-color: $primary;
+      color: $negro;
+      width: 48px;
+    }
 
-		&:hover {
-			.btn-jobs__text {
-				background-color: $primary;
-				color: $negro;
-			}
+    &:hover {
+      .btn-jobs__text {
+        background-color: $primary;
+        color: $negro;
+      }
 
-			.btn-jobs__icon {
-				background-color: rgba($blanco, 0.1);
-				color: $blanco;
-			}
-		}
-	}
+      .btn-jobs__icon {
+        background-color: rgba($blanco, 0.1);
+        color: $blanco;
+      }
+    }
+  }
 }
