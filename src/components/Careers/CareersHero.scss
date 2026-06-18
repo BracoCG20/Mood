@@ -41,12 +41,12 @@
 
     @media (max-width: $bp-tablet) {
       padding: 4rem 2rem;
-      height: 100%;
-      height: 100vh;
+      height: auto; // Cambiamos a auto para acomodar la grilla envuelta
+      min-height: 100vh;
     }
 
     @media (max-width: $bp-mobile) {
-      padding: 4rem 0; // Removemos el padding lateral en móvil para dar espacio al carrusel
+      padding: 4rem 1rem;
     }
   }
 
@@ -78,10 +78,6 @@
     @media (max-width: $bp-tablet) {
       align-items: center;
       text-align: center;
-    }
-
-    @media (max-width: $bp-mobile) {
-      padding: 0 1.25rem;
     }
   }
 
@@ -137,7 +133,7 @@
   }
 
   /**
-   * Columna Derecha: Contenedor del Carrusel de Cultura
+   * Columna Derecha: Contenedor de Cultura
    */
   &__right-col {
     background: transparent;
@@ -149,12 +145,7 @@
       flex-direction: column;
       align-items: center;
       padding: 0;
-      width: 100vw;
-      margin-left: -2rem;
-    }
-
-    @media (max-width: $bp-mobile) {
-      margin-left: 0;
+      width: 100%;
     }
   }
 
@@ -168,19 +159,18 @@
     @media (max-width: $bp-tablet) {
       text-align: center;
       font-size: 1.5rem;
-      margin: 0 0 15px 0;
+      margin: 0 0 20px 0;
     }
   }
 
   /**
-   * Grid / Pista del Slide (Marquee Adaptativo)
+   * Grid de Tarjetas
    */
   &__culture-grid {
     position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
   }
 
   &__culture-track {
@@ -190,54 +180,11 @@
     width: 100%;
 
     @media (max-width: $bp-tablet) {
+      // Magia de Flexbox para hacer que las tarjetas fluyan y se centren
       flex-direction: row;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      padding: 0.5rem 2rem;
-
-      scrollbar-width: none;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    @media (max-width: $bp-mobile) {
-      padding: 0.5rem 1.25rem;
-      scroll-padding-left: 1.25rem; // Ayuda al alineamiento de snap
-    }
-  }
-
-  /**
-   * Indicadores de Paginación (Dots)
-   */
-  &__pagination {
-    display: none;
-
-    @media (max-width: $bp-tablet) {
-      display: flex;
+      flex-wrap: wrap;
       justify-content: center;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-  }
-
-  &__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    background-color: rgba($blanco, 0.3);
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-
-    &--active {
-      width: 24px;
-      background-color: $primary;
+      gap: 16px;
     }
   }
 
@@ -266,7 +213,8 @@
   border-radius: 20px;
   padding: 22px 26px;
   display: flex;
-  height: 110px;
+  height: 120px;
+  min-height: 110px;
   align-items: center;
   gap: 20px;
   box-sizing: border-box;
@@ -296,13 +244,19 @@
 
   @media (max-width: $bp-tablet) {
     transform: none !important; // Reseteamos la asimetría de escritorio
-    width: 350px;
+    // Hacemos que cada tarjeta ocupe casi la mitad (2 por fila) menos el gap
+    width: calc(50% - 8px);
+    min-width: 300px;
     max-width: 400px;
-    flex-shrink: 0;
-    scroll-snap-align: start; // Permite un encaje limpio desde el borde izquierdo
     padding: 1.5rem;
     gap: 16px;
     border-radius: 16px;
+  }
+
+  @media (max-width: $bp-mobile) {
+    // En pantallas pequeñas, ocuparán el 100% (1 por fila)
+    width: 100%;
+    min-width: unset;
   }
 
   &__icon {
