@@ -3,36 +3,21 @@
 
 .footer {
   width: 100%;
-  position: relative;
-  // background-attachment: fixed;
-  overflow: hidden;
+  background-color: $gris-card;
+  background-image:
+    linear-gradient(rgba($gris-card, 0.5), rgba($gris-card, 0.5)),
+    url('../../assets/Fondo_nav.png');
+  background-blend-mode: overlay;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
   color: $blanco;
   display: flex;
   justify-content: center;
   padding: 6rem 2rem 2rem;
   box-sizing: border-box;
   margin-top: auto;
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 0;
-    background-color: $gris-card;
-    background-image:
-      linear-gradient(rgba($gris-card, 0.5), rgba($gris-card, 0.5)),
-      url('../../assets/Fondo_nav.png');
-    background-blend-mode: overlay;
-    background-position: center;
-    background-size: cover;
-    will-change: transform;
-  }
-  > * {
-    position: relative;
-    z-index: 1;
-  }
+
   &__container {
     width: 100%;
     max-width: $bp-desktop;
