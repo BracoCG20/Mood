@@ -13,8 +13,6 @@ import MoodPrint from "./pages/MoodPrint/MoodPrint";
 import MoodMind from "./pages/MoodMind/MoodMind";
 import Contact from "./pages/Contact/Contact";
 import Careers from "./pages/Careers/Careers";
-import JobDetail from "./pages/Careers/JobDetail";
-import JobApplication from "./pages/Careers/JobApplication";
 
 const App = () => {
 	const { t } = useTranslation();
@@ -49,11 +47,6 @@ const App = () => {
 				<Route path='/mood-mind' element={<MoodMind />} />
 				<Route path='/contacto' element={<Contact />} />
 				<Route path='/trabaja_con_nosotros' element={<Careers />} />
-				<Route path='/trabaja_con_nosotros/:jobId' element={<JobDetail />} />
-				<Route
-					path='/trabaja_con_nosotros/:jobId/postular'
-					element={<JobApplication />}
-				/>
 			</Routes>
 			<ToastContainer
 				position='top-right'
