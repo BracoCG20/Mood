@@ -12,6 +12,29 @@ import MoodMind from './pages/MoodMind/MoodMind';
 import Contact from './pages/Contact/Contact';
 import Careers from './pages/Careers/Careers';
 
+/**
+ * Componente que sincroniza la URL con el idioma de i18next.
+ * Si el usuario entra a una ruta con /en/, cambia el idioma a inglés automáticamente.
+ */
+const LanguageSync = ({ children }) => {
+  const { i18n } = useTranslation();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Detectamos si la URL actual empieza por /en
+    const isEnglishUrl =
+      location.pathname === '/en' || location.pathname.startsWith('/en/');
+
+    if (isEnglishUrl && i18n.language !== 'en') {
+      i18n.changeLanguage('en');
+    } else if (!isEnglishUrl && i18n.language !== 'es') {
+      i18n.changeLanguage('es');
+    }
+  }, [location.pathname, i18n]);
+
+  return children;
+};
+
 const App = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -19,11 +42,11 @@ const App = () => {
 
   // 1. Efecto para cambiar el título según la página (Ruta)
   useEffect(() => {
+    // Limpiamos el prefijo '/en' para que el switch reconozca la ruta base
+    const cleanPath = location.pathname.replace(/^\/en/, '') || '/';
     let newTitle = 'Mood | Agencia Digital Creativa';
 
-    // Tip: Hemos envuelto los títulos en 't()' por si deseas agregarlos a tu JSON luego.
-    // Si la traducción no existe, usará el texto en español por defecto que está a la derecha.
-    switch (location.pathname) {
+    switch (cleanPath) {
       case '/':
         newTitle = t('titles.home', 'Mood | Agencia Digital Creativa');
         break;
@@ -49,24 +72,17 @@ const App = () => {
         newTitle = t('titles.home', 'Mood | Agencia Digital Creativa');
     }
 
-    // Aplicamos el nuevo título
     document.title = newTitle;
-
-    // Actualizamos la referencia para que el efecto de visibilidad sepa a qué título regresar
     currentTitle.current = newTitle;
-
-    // Escuchamos location.pathname (cambio de página) e i18n.language (cambio de idioma)
   }, [location.pathname, t, i18n.language]);
 
-  // 2. Efecto para cuando el usuario cambia de pestaña en el navegador
+  // 2. Efecto para cuando el usuario cambia de pestaña
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // Muestra el mensaje para captar la atención
         document.title =
           t('tab.hidden') || '¡Vuelve! Las buenas ideas te esperan 💡';
       } else {
-        // SOLUCIÓN: Restaura instantáneamente el título exacto en el que se quedó el usuario
         document.title = currentTitle.current;
       }
     };
@@ -78,11 +94,11 @@ const App = () => {
   }, [t]);
 
   return (
-    <>
+    <LanguageSync>
       <ScrollToTop />
       <Routes>
         {/* =========================================
-            RUTAS PÚBLICAS (ACCESIBLES PARA TODOS)
+            RUTAS EN ESPAÑOL (Por defecto)
             ========================================= */}
         <Route
           path='/'
@@ -108,8 +124,36 @@ const App = () => {
           path='/trabaja_con_nosotros'
           element={<Careers />}
         />
+
+        {/* =========================================
+            RUTAS EN INGLÉS (Prefijo /en)
+            ========================================= */}
+        <Route
+          path='/en'
+          element={<Home />}
+        />
+        <Route
+          path='/en/adn-mood'
+          element={<AdnMood />}
+        />
+        <Route
+          path='/en/mood-print'
+          element={<MoodPrint />}
+        />
+        <Route
+          path='/en/mood-mind'
+          element={<MoodMind />}
+        />
+        <Route
+          path='/en/contacto'
+          element={<Contact />}
+        />
+        <Route
+          path='/en/trabaja_con_nosotros'
+          element={<Careers />}
+        />
       </Routes>
-    </>
+    </LanguageSync>
   );
 };
 

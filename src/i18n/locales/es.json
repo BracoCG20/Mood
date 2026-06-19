@@ -172,20 +172,20 @@
     "slogan": "Make things happen. No matter what."
   },
   "hero": {
-    "buttons": {
-      "projects": "Ver Proyectos",
-      "talk": "Hablemos"
-    },
+    "title": "Diseñamos experiencias con proposito",
     "highlight": "experiencias",
     "paragraph": "La agencia de comunicación que revoluciona el marketing. Especialistas en ATL, Digital, PR y BTL, ofrecemos soluciones para potenciar tu marca.",
     "skills": {
-      "av": "Contenido AudioVisual",
       "branding": "Branding",
+      "web": "Diseño Web",
       "marketing": "Marketing Digital",
       "social": "Social Media",
-      "web": "Diseño Web"
+      "av": "Contenido AudioVisual"
     },
-    "title": "Diseñamos experiencias con proposito"
+    "buttons": {
+      "talk": "Hablemos",
+      "projects": "Ver Proyectos"
+    }
   },
   "moodApproach": {
     "badge": "NUESTRO ENFOQUE",
