@@ -11,6 +11,7 @@ import MoodPrint from './pages/MoodPrint/MoodPrint';
 import MoodMind from './pages/MoodMind/MoodMind';
 import Contact from './pages/Contact/Contact';
 import Careers from './pages/Careers/Careers';
+import NotFound from './pages/NotFound/NotFound';
 
 /**
  * Componente que sincroniza la URL con el idioma de i18next.
@@ -151,6 +152,17 @@ const App = () => {
         <Route
           path='/en/trabaja_con_nosotros'
           element={<Careers />}
+        />
+        {/* =========================================
+            RUTAS EN INGLÉS (Prefijo /en)
+            ========================================= */}
+        <Route
+          path='/en/*'
+          element={<NotFound />}
+        />
+        <Route
+          path='*'
+          element={<NotFound />}
         />
       </Routes>
     </LanguageSync>

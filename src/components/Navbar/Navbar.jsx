@@ -23,11 +23,25 @@ const Navbar = () => {
   // Obtenemos la ruta limpia (sin el /en) para hacer comprobaciones consistentes
   const cleanPath = location.pathname.replace(/^\/en/, '') || '/';
 
-  // Define las rutas que requieren la versión oscura del Navbar (texto blanco)
+  // 1. Lista de todas las rutas válidas en tu aplicación (sin el prefijo /en)
+  const validPaths = [
+    '/',
+    '/adn-mood',
+    '/mood-print',
+    '/mood-mind',
+    '/contacto',
+    '/trabaja_con_nosotros',
+  ];
+
+  // 2. Si la ruta limpia actual NO está en esa lista, significa que es un Error 404
+  const isNotFoundPage = !validPaths.includes(cleanPath);
+
+  // 3. Define qué vistas requieren la versión oscura del Navbar (texto blanco)
   const isDarkMode =
     cleanPath === '/' ||
     cleanPath === '/mood-print' ||
-    cleanPath === '/trabaja_con_nosotros';
+    cleanPath === '/trabaja_con_nosotros' ||
+    isNotFoundPage; // 🌟 Aquí aplicamos el Navbar oscuro para cualquier 404
 
   // Detección de scroll para contraer el Navbar
   useEffect(() => {

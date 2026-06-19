@@ -342,6 +342,11 @@
     "print": "Mood Print",
     "mind": "#MoodMind"
   },
+  "notfound": {
+    "title": "Página no encontrada",
+    "message": "Lo sentimos, la página que estás buscando no existe, ha sido movida o cambió de nombre.",
+    "button": "Volver al Inicio"
+  },
   "projectModal": {
     "btnView": "Ver Proyecto",
     "client": "Cliente:",

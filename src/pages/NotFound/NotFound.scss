@@ -1,0 +1,82 @@
+// src/pages/NotFound/NotFound.scss
+@use '../../styles/variables' as *;
+
+.not-found {
+  background-color: $bg-dark;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  &__container {
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  // Contenedor extra para el canvas para asegurar el centrado
+  &__fuzzy-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: -1rem; // Reduce el espacio vacío que deja el canvas por defecto
+  }
+
+  // Estilos aplicados al canvas generado por FuzzyText
+  &__code {
+    display: block;
+    filter: drop-shadow(0 0 30px rgba($primary, 0.3));
+    max-width: 100%;
+  }
+
+  &__title {
+    width: 100%;
+    color: $blanco;
+    margin: 0;
+  }
+
+  &__message {
+    font-size: 1.1rem;
+    color: rgba($blanco, 0.7);
+    line-height: 1.6;
+    margin: 0 max(2rem, 5vw);
+    font-weight: 400;
+
+    @media (max-width: $bp-mobile) {
+      font-size: 0.95rem;
+    }
+  }
+
+  &__actions {
+    margin-top: 1rem;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    background-color: $primary;
+    color: $negro;
+    padding: 14px 28px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba($primary, 0.3);
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba($primary, 0.4);
+    }
+  }
+}

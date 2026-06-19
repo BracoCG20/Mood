@@ -342,6 +342,11 @@
     "print": "Mood Print",
     "mind": "#MoodMind"
   },
+  "notfound": {
+    "title": "Page not found",
+    "message": "Sorry, the page you are looking for does not exist, has been moved or its name changed.",
+    "button": "Back to Home"
+  },
   "projectModal": {
     "btnView": "View Project",
     "client": "Client:",
