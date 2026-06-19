@@ -39,8 +39,9 @@ const NotFound = () => {
 
         {/* Título de la página */}
         <FuzzyText
-          baseIntensity={0.2}
-          hoverIntensity={0.5}
+          baseIntensity={0.1}
+          hoverIntensity={0.2}
+          fontSize={20}
           enableHover
           className='not-found__title'
         >
