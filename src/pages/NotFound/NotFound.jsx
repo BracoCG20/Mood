@@ -27,9 +27,10 @@ const NotFound = () => {
         {/* Código de error con efecto Fuzzy (Estática) */}
         <div className='not-found__fuzzy-wrapper'>
           <FuzzyText
-            baseIntensity={0.15}
-            hoverIntensity={0.6}
-            enableHover={true}
+            baseIntensity={0.2}
+            hoverIntensity={0.5}
+            fontSize={180}
+            enableHover
             className='not-found__code'
           >
             404
@@ -38,9 +39,9 @@ const NotFound = () => {
 
         {/* Título de la página */}
         <FuzzyText
-          baseIntensity={0.4}
-          hoverIntensity={0.6}
-          enableHover={true}
+          baseIntensity={0.2}
+          hoverIntensity={0.5}
+          enableHover
           className='not-found__title'
         >
           {t('notfound.title', 'Página no encontrada')}
